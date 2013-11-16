@@ -5,7 +5,7 @@
 		<div class="comment_style">
 			<div>
 				<div class="comment_avatar">
-					<img src='/image/<ue:url value="${message.author.smallImgPath}" />' width="32" alt='<c:out value="${message.author.displayName}"/>'>
+					<img src='/image/${message.author.smallImgPath}' width="32" alt='<c:out value="${message.author.displayName}"/>'>
 				</div>
 
 				<div class="comment_content">

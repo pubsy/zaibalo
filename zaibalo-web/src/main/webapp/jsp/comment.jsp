@@ -2,7 +2,7 @@
 <div class="comment_style">
 	<div id="comment_${comment.id}">
 		<div class="comment_avatar">
-			<img src='/image/<ue:url value="${comment.author.smallImgPath}" />' width="32" alt="${comment.author.displayName}">
+			<img src='/image/${comment.author.smallImgPath}' width="32" alt="${comment.author.displayName}">
 		</div>
 		
 		<div class="comment_content">

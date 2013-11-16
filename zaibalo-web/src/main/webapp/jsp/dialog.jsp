@@ -5,7 +5,6 @@
 <%@taglib prefix="cat" uri="CategoryChecker"  %>
 <%@taglib prefix="t" uri="Trimer"  %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
-<%@taglib prefix="ue" uri="UrlEncode" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -44,7 +43,7 @@
 					<br>
 					<div class="comment_style">
 						<div class="comment_avatar">
-							<img src='/image/<ue:url value="${sessionScope.user.smallImgPath}" />' width="32">
+							<img src='/image/${sessionScope.user.smallImgPath}' width="32">
 						</div>
 						<div class="comment_content">
 								<textarea placeholder="<fmt:message key="message_text_three_dots"/>" rows="1" id="text"></textarea>

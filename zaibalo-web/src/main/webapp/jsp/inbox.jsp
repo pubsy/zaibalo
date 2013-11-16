@@ -5,7 +5,6 @@
 <%@taglib prefix="cat" uri="CategoryChecker"  %>
 <%@taglib prefix="t" uri="Trimer"  %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
-<%@taglib prefix="ue" uri="UrlEncode" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -41,12 +40,12 @@
 										<c:choose>
 											<c:when test="${discussion.author.id eq sessionScope.user.id}">
 												<a href='<c:url value="/user?id=${discussion.recipient.id}"/>'>
-													<img src='/image/<ue:url value="${discussion.recipient.smallImgPath}" />' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
+													<img src='/image/${discussion.recipient.smallImgPath}' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
 												</a>
 											</c:when>
 											<c:otherwise>
 												<a href='<c:url value="/user?id=${discussion.author.id}"/>'>
-													<img src='/image/<ue:url value="${discussion.author.smallImgPath}" />' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
+													<img src='/image/${discussion.author.smallImgPath}' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
 												</a>
 											</c:otherwise>
 										</c:choose>

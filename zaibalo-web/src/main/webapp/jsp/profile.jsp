@@ -5,7 +5,6 @@
 <%@taglib prefix="cat" uri="CategoryChecker"  %>
 <%@taglib prefix="t" uri="Trimer"  %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
-<%@taglib prefix="ue" uri="UrlEncode" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -19,7 +18,7 @@
 				<%@ include file="banner.jsp"%>
 				<div class="content">
 					<div class="profile_user_name"><c:out value="${user.displayName}" /></div>
-					<div class="profile_user_avatar"><img src='/image/<ue:url value="${user.bigImgPath}"/>' /></div>
+					<div class="profile_user_avatar"><img src='/image/${user.bigImgPath}' /></div>
 			
 					<div class="profile_info_entry">
 						<span class="profile_info_field"><fmt:message key="who_where"/></span> <span class="profile_info_value"><c:out value="${user.about}"/></span>
