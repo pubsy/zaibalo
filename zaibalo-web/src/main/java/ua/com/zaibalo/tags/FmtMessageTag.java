@@ -17,6 +17,7 @@ public class FmtMessageTag extends TagSupport{
 	private List<String> params = new ArrayList<String>();
 	
 	public int doStartTag() {
+		params.clear();
 		return EVAL_BODY_INCLUDE;
 	}
 	
