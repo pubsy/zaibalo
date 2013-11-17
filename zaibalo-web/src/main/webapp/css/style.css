@@ -26,7 +26,7 @@ body{
     border: 1px solid #B3B3B3;
     float: left;
     width: 648px;
-    background: url("../img/icons/bg_content.gif") no-repeat scroll right top #FFFFFF;
+    background-color: #FFFFFF;
 }
 
 a {

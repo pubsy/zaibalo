@@ -78,6 +78,6 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<fmt:message key="of_total_colon" /> ${results_size}
+	<zmt:message key="of_total_colon" /> ${results_size}
 </div>
 </c:if>

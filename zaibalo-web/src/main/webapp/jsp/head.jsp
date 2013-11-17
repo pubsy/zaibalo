@@ -27,7 +27,7 @@
 		
 			$(document).ready(function() {
 		
-				var emptyText = '<fmt:message key="please_select"/>';
+				var emptyText = '<zmt:message key="please_select"/>';
 				if ($("#category_select").length > 0) {
 					$("#category_select").dropdownchecklist({
 						emptyText : emptyText,

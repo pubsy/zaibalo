@@ -23,12 +23,12 @@
 					<div id="ratingDown_${post.id}" class="ratingDown" onclick="javascript:ratePost(${post.id}, 'down');"></div>
 					<div id="ratingUp_${post.id}" class="ratingUp" onclick="javascript:ratePost(${post.id}, 'up');"></div>
 				</c:if>
-				<fmt:message key="rating_colon"/> <span id="rating_sum_${post.id}">${post.ratingSum}</span> 
-				<fmt:message key="votes_colon"/> <span id="rating_count_${post.id}">${post.ratingCount}</span>
+				<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}">${post.ratingSum}</span> 
+				<zmt:message key="votes_colon"/> <span id="rating_count_${post.id}">${post.ratingCount}</span>
 				<div style="clear: both;"></div>
 			</div>
 			<div>
-				<fmt:message key="categories_colon"/>
+				<zmt:message key="categories_colon"/>
 				<span class="post_category">
 					<c:forEach items="${post.categories}" var="category">
 					 	<c:set var="cat_name" value="${category.name}"/>
@@ -37,11 +37,11 @@
 				</span>
 			</div>
 			<c:if test="${sessionScope.user.id == post.authorId || sessionScope.user.role < 2}">
-				<span id="remove_post_${post.id}"><a href="javascript:removePost(${post.id});"><fmt:message key="delete"/></a></span>
+				<span id="remove_post_${post.id}"><a href="javascript:removePost(${post.id});"><zmt:message key="delete"/></a></span>
 			</c:if>
 			<br>
 			<c:if test="${(sessionScope.user.id == post.authorId && (empty post.comments)) || sessionScope.user.role < 2}">
-				<a href="javascript:editPostShow(${post.id});"><fmt:message key="edit.post"/></a>
+				<a href="javascript:editPostShow(${post.id});"><zmt:message key="edit.post"/></a>
 			</c:if>
 		</div>
 
@@ -68,9 +68,9 @@
 			<c:if test="${comments_count > 2 && hideComments == true}">
 				<div class="comment_style">
 					<a href="javascript:toggleComments(${post.id});">
-						<fmt:message key="show_all_comments">
-							<fmt:param value="<span id='comment_count_${post.id}'>${comments_count}</span>"/>
-						</fmt:message>
+						<zmt:message key="show_all_comments">
+							<zmt:param value="<span id='comment_count_${post.id}'>${comments_count}</span>"/>
+						</zmt:message>
 					</a>
 				</div>
 			</c:if>

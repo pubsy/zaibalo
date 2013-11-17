@@ -14,7 +14,7 @@
 			</c:if>
 			
 			<c:if test="${profileAuthorStyle}">
-				<fmt:message key="commented_on" /><a href='<c:url value="/post.do?id=${comment.postId}"/>'>"<c:out value="${comment.postTitle}"/>"</a>
+				<zmt:message key="commented_on" /><a href='<c:url value="/post.do?id=${comment.postId}"/>'>"<c:out value="${comment.postTitle}"/>"</a>
 			</c:if>
 			
 			<c:if test="${sessionScope.user.id == comment.author.id || sessionScope.user.role < 2}">
@@ -36,9 +36,9 @@
 						</a>
 					</span>
 				</c:if>
-				<fmt:message key="rating_colon"/>
+				<zmt:message key="rating_colon"/>
 				<span id="comment_rating_sum_${comment.id}" class="rating_text">${comment.ratingSum}</span>
-				<fmt:message key="votes_colon"/>
+				<zmt:message key="votes_colon"/>
 				<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>
 			</div>
 			<div class="comment_date">

@@ -1,5 +1,6 @@
 <%@page import="java.util.*, ua.com.zaibalo.model.*" contentType="text/html; charset=UTF-8" %>
 
+<%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@taglib prefix="cat" uri="CategoryChecker"  %>
@@ -20,14 +21,14 @@
 					<c:choose>
 						<c:when test="${empty discussions}">
 							<div class="inbox_try_writing">
-							<fmt:message key="no_messages_yet_try_writing">
-								<fmt:param>/secure/dialog.do</fmt:param>
-							</fmt:message>
+							<zmt:message key="no_messages_yet_try_writing">
+								<zmt:param value="/secure/dialog.do" />
+							</zmt:message>
 							</div>
 						</c:when>
 						<c:otherwise>
 							
-							<div class="new_message_write_a_message"><a href="/secure/dialog.do"><fmt:message key="write_a_message" /></a></div>
+							<div class="new_message_write_a_message"><a href="/secure/dialog.do"><zmt:message key="write_a_message" /></a></div>
 						
 							<table id="mail">
 							  	<col width="5%">

@@ -7,7 +7,7 @@
 				<textarea rows=6 style="width: 100%; overflow-y: scroll;" id="edit_post_content"></textarea>
 				<br><br>
 				<div class="edit_post_cat_title">
-					<fmt:message key="categories_colon"/>&nbsp;<span id="edit_post_category"></span>
+					<zmt:message key="categories_colon"/>&nbsp;<span id="edit_post_category"></span>
 				</div>
 				<div>
 					<select id="edit_category_select">
@@ -15,16 +15,16 @@
 							<option><c:out value="${category.name}"/></option>
 						</c:forEach>
 					</select>
-					<input type="button" value="Додати" onclick="javascript:addSelectedCategoryToEditPost();">
-					<input type="text" id="edit_post_tags_input" placeholder='<fmt:message key="write_tags_separated"/>' />
-					<input type="button" value="Додати" onclick="javascript:addTagToEditPost();">
+					<input type="button" value='<zmt:message key="add"/>' onclick="javascript:addSelectedCategoryToEditPost();">
+					<input type="text" id="edit_post_tags_input" placeholder='<zmt:message key="write_tags_separated"/>' />
+					<input type="button" value='<zmt:message key="add"/>' onclick="javascript:addTagToEditPost();">
 				</div>
 				<div id="edit_post_validation"></div>
 			</div>
 		
 			<div id="left_body">
 				<div class="sidebar_block">
-					<div class="sidebar_block_title"><fmt:message key="search" /></div>
+					<div class="sidebar_block_title"><zmt:message key="search" /></div>
 					<div class="sidebar_block_body">
 						<form action="http://www.google.com.ua" id="cse-search-box">
 						  <div>
@@ -50,7 +50,7 @@
 				</div>
 
 				<div class="sidebar_block">
-					<div class="sidebar_block_title"><fmt:message key="categories_colon" /></div>
+					<div class="sidebar_block_title"><zmt:message key="categories_colon" /></div>
 					<div class="sidebar_block_body">
 						<c:forEach var="category" items="${applicationScope.categories}">
 							<input type="checkbox" class="category_checkbox" value="${category.id}" <cat:checker id="${category.id}" queryString="${pageContext.request.queryString}" url="${pageContext.request.servletPath}"/> >
@@ -61,12 +61,12 @@
 				</div>
 				
 				<div class="sidebar_block">
-					<div class="sidebar_block_title"><fmt:message key="recent_comments" /></div>
+					<div class="sidebar_block_title"><zmt:message key="recent_comments" /></div>
 					<div class="sidebar_block_body">
 						<c:forEach var="comment" items="${recentComments}">
 							<div class="recent_comment">
 								<a href='<c:url value="/user?id=${comment.authorId}" />'><t:trimer text="${comment.author.displayName}" maxWords="12"/></a>
-								<fmt:message key="on" />
+								<zmt:message key="on" />
 								<a href="<c:url value="/post.do?id=${comment.postId}" />"><c:out value="${comment.postTitle}"/></a>
 							</div>
 						</c:forEach>

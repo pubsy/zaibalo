@@ -1,6 +1,6 @@
 				<div id="header">
 					<div id="header_menu">
-						<span><a href='<c:url value="/" />'><fmt:message key="main"/></a></span>
+						<span><a href='<c:url value="/" />'><zmt:message key="main"/></a></span>
 						<span><a href='<c:url value="/feed" />'><span class="rss-icon"></span>RSS</a></span>
 					</div>
 					<div id="header_banner">

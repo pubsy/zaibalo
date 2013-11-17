@@ -1,17 +1,34 @@
 package ua.com.zaibalo.helper;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.MessageFormat;
-import java.util.Locale;
+import java.util.Properties;
 import java.util.Random;
-import java.util.ResourceBundle;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ua.com.zaibalo.i18n.I18nResources;
+
 public class StringHelper {
+	private static final String UTF_8 = "utf-8";
+	private static final String RESOURCE_BUNDLE_UK_UA_PROPERTIES = "ResourceBundle_uk_UA.properties";
 	private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	private static final Properties ukUAproperties = new Properties();
+	static{
+		try {
+			Reader reader = new BufferedReader(new InputStreamReader(
+					I18nResources.class.getResourceAsStream(RESOURCE_BUNDLE_UK_UA_PROPERTIES), UTF_8));
+			ukUAproperties.load(reader);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static String generateString(int length)
 	{
@@ -43,16 +60,12 @@ public class StringHelper {
 		return escaped.replaceAll("\n", "<\\br>");
 	}
 	
-	public static String getLocalString(String key){
-		ResourceBundle bundle = ResourceBundle.getBundle("ua.com.zaibalo.i18n.ResourceBundle", new Locale("uk", "UA"));
-		return bundle.getString(key);
-	}
-	
 	public static String getLocalString(String key, Object... params){
-		ResourceBundle bundle = ResourceBundle.getBundle("ua.com.zaibalo.i18n.ResourceBundle", new Locale("uk", "UA"));
-		String pattern = bundle.getString(key);
-		String formatted = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
-		return formatted;
+		String pattern = ukUAproperties.getProperty(key);
+		if(params != null && params.length > 0){
+			pattern = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
+		}
+		return pattern;
 	}
 	
 	public static boolean isNotBlank(String str){
