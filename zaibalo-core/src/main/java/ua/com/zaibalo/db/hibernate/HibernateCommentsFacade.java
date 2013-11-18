@@ -79,4 +79,8 @@ public class HibernateCommentsFacade extends HibernateFacade implements Comments
 		
 	}
 
+	@Override
+	public void update(Comment comment) {
+		session.update(comment);
+	}
 }

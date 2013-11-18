@@ -13,6 +13,7 @@ import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.DataAccessFactory;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Category;
+import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 
@@ -81,8 +82,12 @@ public class EditPostAction implements Action {
 		post.setTitle(title);
 		post.setContent(text);
 		
-		//factory.getCategorysAccessInstance().deleteAllPostCaegories(post.getId());
 		factory.getPostsAccessInstance().update(post);
+		
+		for(Comment comment: post.getComments()){
+			comment.setPostTitle(title);
+			factory.getCommentsAccessInstance().update(comment);
+		}
 		
 		request.setAttribute("post", post);
 		

@@ -3,7 +3,7 @@
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		
-		<link rel="stylesheet" type="text/css"  href="/css/style.css?19"/>
+		<link rel="stylesheet" type="text/css"  href="/css/style.css?20"/>
 		<link rel="stylesheet" type="text/css"  href="/css/combobox.css?7"/>
 		
 		<script type="text/javascript" src="/scripts/login.js?7"></script>

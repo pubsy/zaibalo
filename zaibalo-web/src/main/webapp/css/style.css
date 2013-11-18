@@ -11,12 +11,12 @@ body{
 
 #body {
 	margin: 0 auto;
-	width: 900px;
+	width: 920px;
 }
 
 #left_body{
 	float:left;
-	width:230px;
+	width: 250px;
 	text-align:left;
 	padding: 10px 10px 10px 10px;
 	background-color: #555555;
@@ -632,7 +632,8 @@ pre {
 
 .recent_comment{
 	overflow: hidden;
-	height: 18px;
+	height: 15px;
+	padding-bottom: 5px;
 }
 
 #vk_icon{
@@ -645,4 +646,11 @@ pre {
 	position: absolute;
 	top: 10px;
 	right: 52px;
+}
+
+.recent_comment a img {
+	width: 16px;
+	height: 16px;
+	float: left;
+	padding-right: 5px;
 }

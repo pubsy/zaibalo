@@ -8,6 +8,7 @@ public interface CommentsAccessInterface{
 	List<Comment> getAllPostComments(int postId);
 	int insert(Comment object);
 	void delete(int id);
+	void update(Comment comment);
 	List<Comment> getRecentComments(int count);
 	int getUserCommentCount(int userId);
 	Comment getObjectById(int commentId);
