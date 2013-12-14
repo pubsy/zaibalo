@@ -4,7 +4,7 @@ import java.util.List;
 
 import ua.com.zaibalo.model.User;
 
-public interface UsersAccessInterface{
+public interface UsersDAO{
 	User getUserByEmail(String email);
 	User getUserByName(String name);
 	void updateUserPassword(int userId, String newPassword);

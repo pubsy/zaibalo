@@ -4,7 +4,7 @@ import java.util.List;
 
 import ua.com.zaibalo.model.Comment;
 
-public interface CommentsAccessInterface{
+public interface CommentsDAO{
 	List<Comment> getAllPostComments(int postId);
 	int insert(Comment object);
 	void delete(int id);

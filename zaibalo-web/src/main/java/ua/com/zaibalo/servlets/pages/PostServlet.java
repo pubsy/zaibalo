@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.com.zaibalo.db.DataAccessFactory;
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Post;
 
@@ -26,7 +26,7 @@ public class PostServlet extends ServletPage {
 		
 		if(StringHelper.isBlank(id) || !StringHelper.isDecimal(id)){
 			response.sendRedirect("/");
-			ServletHelper.logMessage("Post Id is not passed as a parameter.", request);
+			ServletHelperService.logMessage("Post Id is not passed as a parameter.", request);
 			return null;
 		}
 		
@@ -37,7 +37,7 @@ public class PostServlet extends ServletPage {
 
 		if(post == null){
 			response.sendRedirect("/");
-			ServletHelper.logShortErrorMessage("Post not found: " + id);
+			ServletHelperService.logShortErrorMessage("Post not found: " + id);
 			return null;
 		}
 		

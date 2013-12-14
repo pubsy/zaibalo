@@ -7,6 +7,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>zaibalo-web</name>
 	<url>http://maven.apache.org</url>
+	<properties>  
+      <spring.version>3.1.1.RELEASE</spring.version>  
+    </properties> 
 	<build>
 		<finalName>zaibalo-web</finalName>
 		<plugins>
@@ -94,6 +97,16 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 			<version>1.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
 </project>

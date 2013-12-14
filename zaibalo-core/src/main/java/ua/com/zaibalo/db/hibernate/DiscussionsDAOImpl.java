@@ -3,29 +3,34 @@ package ua.com.zaibalo.db.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.classic.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.zaibalo.db.api.DiscussionsAccessInterface;
+import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.Message;
 
-public class HibernateDiscussionsFacade extends HibernateFacade implements DiscussionsAccessInterface {
+@Transactional
+@Repository
+public class DiscussionsDAOImpl implements DiscussionsDAO {
 
-	public HibernateDiscussionsFacade(Session session) {
-		this.session = session;
-	}
+	@Autowired
+    private SessionFactory sessionFactory;
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Discussion> getAllDiscussions(int id) {
 		SimpleExpression authorE =  Restrictions.eq("authorId", id);
 		SimpleExpression recipientE =  Restrictions.eq("recipientId", id);
 		
 
-		Criteria criteria = session.createCriteria(Discussion.class).add(Restrictions.or(authorE, recipientE));
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Discussion.class).add(Restrictions.or(authorE, recipientE));
 		criteria.addOrder(Order.desc("latestMessageDate"));
 		List<Discussion> list =  criteria.list();
 		
@@ -33,6 +38,7 @@ public class HibernateDiscussionsFacade extends HibernateFacade implements Discu
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public int getDisscussionIdForUsers(int firstId, int secondId) {
 		SimpleExpression authorE =  Restrictions.eq("authorId", firstId);
 		SimpleExpression recipientE =  Restrictions.eq("recipientId", secondId);
@@ -43,7 +49,7 @@ public class HibernateDiscussionsFacade extends HibernateFacade implements Discu
 		LogicalExpression second = Restrictions.and(authorES, recipientES);
 		
 
-		Criteria criteria = session.createCriteria(Discussion.class).add(Restrictions.or(first, second));
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Discussion.class).add(Restrictions.or(first, second));
 		criteria.setMaxResults(1);
 		List<Discussion> list = criteria.list();
 		
@@ -58,7 +64,7 @@ public class HibernateDiscussionsFacade extends HibernateFacade implements Discu
 	@Override
 	public int insert(Discussion discussion) {
 
-		session.save(discussion);
+		this.sessionFactory.getCurrentSession().save(discussion);
 		int id = discussion.getId();
 		
 		return id;
@@ -67,7 +73,7 @@ public class HibernateDiscussionsFacade extends HibernateFacade implements Discu
 	@Override
 	public boolean isDiscussionAccessible(int discussionId, int userId) {
 
-		Discussion discussion = (Discussion)session.get(Discussion.class, discussionId);
+		Discussion discussion = (Discussion)this.sessionFactory.getCurrentSession().get(Discussion.class, discussionId);
 		
 
 		if(discussion == null){
@@ -82,13 +88,13 @@ public class HibernateDiscussionsFacade extends HibernateFacade implements Discu
 	@Override
 	public void updateExistingDiscussion(int discussionId, Message message) {
 
-		Discussion discussion = (Discussion)session.get(Discussion.class, discussionId);
+		Discussion discussion = (Discussion)this.sessionFactory.getCurrentSession().get(Discussion.class, discussionId);
 		discussion.setLatestMessageDate(message.getDate());
 		discussion.setExtract(message.getText());
 		discussion.setAuthorId(message.getAuthorId());
 		discussion.setRecipientId(message.getRecipientId());
 		discussion.setHasUnreadMessages(true);
-		session.update(discussion);
+		this.sessionFactory.getCurrentSession().update(discussion);
 		
 	}
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.com.zaibalo.db.DataAccessFactory;
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
@@ -36,7 +36,7 @@ public class UserProfileServlet extends ServletPage {
 		
 		if(StringHelper.isBlank(userParam) || !StringHelper.isDecimal(userParam)){
 			response.sendRedirect("/");
-			ServletHelper.logMessage("User Id is not passed as a parameter.", request);
+			ServletHelperService.logMessage("User Id is not passed as a parameter.", request);
 			return null;
 		}
 		
@@ -46,7 +46,7 @@ public class UserProfileServlet extends ServletPage {
 		User user = factory.getUsersAccessInstance().getUserById(userId);
 		if(user == null){
 			response.sendRedirect("/");
-			ServletHelper.logMessage("User with id: " + userId + " doesn't exist", request);
+			ServletHelperService.logMessage("User with id: " + userId + " doesn't exist", request);
 			return null;
 		}
 		

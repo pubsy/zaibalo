@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.DataAccessFactory;
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.Message;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.servlets.pages.ServletPage;
@@ -40,7 +41,7 @@ public class DialogPage extends ServletPage {
 			boolean accessible  = factory.getDiscussionsAccessInstance().isDiscussionAccessible(discussionId, user.getId());
 		
 			if(!accessible){
-				ServletHelper.logMessage("Unauthorise access.", request);
+				ServletHelperService.logMessage("Unauthorise access.", request);
 				response.sendRedirect("/secure/dialog.do");
 				return null;
 			}
@@ -59,7 +60,7 @@ public class DialogPage extends ServletPage {
 			
 			factory.getMessageAccessInstance().setDialogMessagesRead(discussionId, user.getId());
 			
-			ServletHelper.updateUnreadMessagesStatus(request);
+			ZAppContext.getServletHelperService().updateUnreadMessagesStatus(request);
 			
 		}
 		

@@ -2,55 +2,52 @@ package ua.com.zaibalo.db;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.classic.Session;
-
-import ua.com.zaibalo.db.hibernate.HibernateCategorysFacade;
-import ua.com.zaibalo.db.hibernate.HibernateCommentRatingsFacade;
-import ua.com.zaibalo.db.hibernate.HibernateCommentsFacade;
-import ua.com.zaibalo.db.hibernate.HibernateDiscussionsFacade;
-import ua.com.zaibalo.db.hibernate.HibernateMessagesFacade;
-import ua.com.zaibalo.db.hibernate.HibernatePostRatingsFacade;
-import ua.com.zaibalo.db.hibernate.HibernatePostsFacade;
-import ua.com.zaibalo.db.hibernate.HibernateUsersFacade;
+import ua.com.zaibalo.db.api.CategoriesDAO;
+import ua.com.zaibalo.db.api.CommentRatingsDAO;
+import ua.com.zaibalo.db.api.CommentsDAO;
+import ua.com.zaibalo.db.api.DiscussionsDAO;
+import ua.com.zaibalo.db.api.MessagesDAO;
+import ua.com.zaibalo.db.api.PostRatingsDAO;
+import ua.com.zaibalo.db.api.PostsDAO;
+import ua.com.zaibalo.db.api.UsersDAO;
+import ua.com.zaibalo.helper.ZAppContext;
 
 public class DataAccessFactory {
 
-	private Session session;
-	
 	public DataAccessFactory(HttpServletRequest request) {
-		this.session = (Session) request.getAttribute("hibernateSession");
+		// TODO Auto-generated constructor stub
 	}
 
-	public HibernateUsersFacade getUsersAccessInstance() {
-		return new HibernateUsersFacade(session);
+	public UsersDAO getUsersAccessInstance() {
+		return ZAppContext.getUsersDAO();
 	}
 
-	public HibernateCommentsFacade getCommentsAccessInstance() {
-		return new HibernateCommentsFacade(session);
+	public CommentsDAO getCommentsAccessInstance() {
+		return ZAppContext.getCommentsDAO();
 	}
 
-	public HibernatePostsFacade getPostsAccessInstance() {
-		return new HibernatePostsFacade(session);
+	public PostsDAO getPostsAccessInstance() {
+		return ZAppContext.getPostsDAO();
 	}
 
-	public HibernateCategorysFacade getCategorysAccessInstance() {
-		return new HibernateCategorysFacade(session);
+	public CategoriesDAO getCategorysAccessInstance() {
+		return ZAppContext.getCategoriesDao();
 	}
 
-	public HibernateCommentRatingsFacade getCommentRatingAccessInstance() {
-		return new HibernateCommentRatingsFacade(session);
+	public CommentRatingsDAO getCommentRatingAccessInstance() {
+		return ZAppContext.getCommentRatingsDAO();
 	}
 
-	public HibernatePostRatingsFacade getPostRatingsAccessInstance() {
-		return new HibernatePostRatingsFacade(session);
+	public PostRatingsDAO getPostRatingsAccessInstance() {
+		return ZAppContext.getPostRatingsDAO();
 	}
 
-	public HibernateDiscussionsFacade getDiscussionsAccessInstance() {
-		return new HibernateDiscussionsFacade(session);
+	public DiscussionsDAO getDiscussionsAccessInstance() {
+		return ZAppContext.getDiscussionsDAO();
 	}
 
-	public HibernateMessagesFacade getMessageAccessInstance() {
-		return new HibernateMessagesFacade(session);
+	public MessagesDAO getMessageAccessInstance() {
+		return ZAppContext.getMessagesDAO();
 	}
 
 }

@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.com.zaibalo.db.DataAccessFactory;
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ZAppContext;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Comment;
 
-public abstract class ServletPage extends HttpServlet {
-
+public abstract class ServletPage extends HttpServlet{
+	
 	public static final long serialVersionUID = 1L;
 	
 	public abstract String run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws ServletException, IOException;
@@ -28,19 +28,18 @@ public abstract class ServletPage extends HttpServlet {
 		String page = null;
 		
 		try {
-			DataAccessFactory factory = new DataAccessFactory(request);
-			commentsList = factory.getCommentsAccessInstance().getRecentComments(20);
+			commentsList = ZAppContext.getCommentsDAO().getRecentComments(20);
 			request.setAttribute("recentComments", commentsList);
-			
+
 			if(request.getAttribute("pageTitle") == null){
 				request.setAttribute("pageTitle", getPageTitle(null));
 			}
 			
-			request.setAttribute("visitorIP", ServletHelper.getClientIpAddr(request));
+			request.setAttribute("visitorIP", ServletHelperService.getClientIpAddr(request));
 			
-			ServletHelper.checkUserAuthorised(request, response);
+			ZAppContext.getServletHelperService().checkUserAuthorised(request, response);
 
-			ServletHelper.updateUnreadMessagesStatus(request);
+			ZAppContext.getServletHelperService().updateUnreadMessagesStatus(request);
 			
 			page = this.run(request, response, out);
 			if(page == null){
@@ -49,7 +48,7 @@ public abstract class ServletPage extends HttpServlet {
 			request.getRequestDispatcher(page).forward(request, response);
 
 		} catch (Exception e) {
-			ServletHelper.logException(e, request);
+			ServletHelperService.logException(e, request);
 			try {
 				response.sendError(500, e.getMessage());
 			} catch (IOException e1) {

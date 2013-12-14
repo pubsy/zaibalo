@@ -3,9 +3,9 @@ package ua.com.zaibalo.db;
 import java.util.Properties;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.classic.Session;
 
 import ua.com.zaibalo.model.Category;
 import ua.com.zaibalo.model.Comment;
@@ -16,10 +16,8 @@ import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.PostRating;
 import ua.com.zaibalo.model.User;
 
-
 public class HibernateUtils {
-
-
+	
     private static SessionFactory sessionFactory;
     private static String url;
     private static String username;
@@ -38,7 +36,7 @@ public class HibernateUtils {
     	
     	extraProperties.setProperty("hibernate.c3p0.min_size", "5");
     	extraProperties.setProperty("hibernate.c3p0.max_size", "20");
-    	extraProperties.setProperty("hibernate.c3p0.timeout", "1800");
+		extraProperties.setProperty("hibernate.c3p0.timeout", "1800");
     	extraProperties.setProperty("hibernate.c3p0.max_statements", "50");
     	extraProperties.setProperty("hibernate.c3p0.idle_test_period", "10");
     	extraProperties.setProperty("hibernate.c3p0.acquire_increment", "5");

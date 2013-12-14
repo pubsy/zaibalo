@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 
 import ua.com.zaibalo.db.HibernateUtils;
 

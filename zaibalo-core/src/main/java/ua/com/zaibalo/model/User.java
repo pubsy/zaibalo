@@ -11,9 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="users")
+@JsonIgnoreProperties({"comments", "password", "loginName", "token", "email", "partlyHiddenEmail", "role", "notifyOnPM"})
 public class User{
 	
 	@Id

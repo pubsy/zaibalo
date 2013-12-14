@@ -11,8 +11,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.User;
 
 public class SecureFilter implements Filter{
@@ -29,7 +30,7 @@ public class SecureFilter implements Filter{
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse)response;
 		
-		User user = ServletHelper.checkUserAuthorised(httpRequest, httpResponse);
+		User user = ZAppContext.getServletHelperService().checkUserAuthorised(httpRequest, httpResponse);
 	
 		if(user == null){
 			throw new ServletException(StringHelper.getLocalString("please_authorise"));

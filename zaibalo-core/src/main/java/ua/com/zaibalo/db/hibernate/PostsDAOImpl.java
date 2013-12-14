@@ -4,26 +4,30 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.classic.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.zaibalo.db.api.PostsAccessInterface;
+import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.Post.PostOrder;
 
-public class HibernatePostsFacade extends HibernateFacade implements PostsAccessInterface {
+@Transactional
+@Repository
+public class PostsDAOImpl implements PostsDAO {
 
-	public HibernatePostsFacade(Session session) {
-		this.session = session;
-	}
+	@Autowired
+    private SessionFactory sessionFactory;
 
 	@Override
 	public int insert(Post object) {
 
-		session.save(object);
+		this.sessionFactory.getCurrentSession().save(object);
 		int id = object.getId();
 		
 		return id;
@@ -34,16 +38,17 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 
 		List<Comment> list = post.getComments();
 		for(Comment c: list){
-			session.delete(c);
+			this.sessionFactory.getCurrentSession().delete(c);
 		}
-		session.delete(post);
+		this.sessionFactory.getCurrentSession().delete(post);
 		
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Post> getOrderedList(int from, int count, PostOrder order) {
 
-		List<Post> list = session.createCriteria(Post.class)
+		List<Post> list = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
 		.setFirstResult(from)
 		.setMaxResults(count)
 		.addOrder(Order.desc(order.getPropertyName()))
@@ -58,7 +63,7 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 	@Override
 	public Post getObjectById(int id) {
 
-		Post post = (Post)session.get(Post.class, id);
+		Post post = (Post)this.sessionFactory.getCurrentSession().get(Post.class, id);
 		if (post == null){
 			return null;
 		}
@@ -70,9 +75,10 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Post> getLatestUserPosts(int userId, int count) {
 
-		List<Post> postsList = session.createCriteria(Post.class)
+		List<Post> postsList = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
 		.setMaxResults(count)
 		.addOrder(Order.desc("id"))
 		.add(Restrictions.eq("authorId", userId))
@@ -90,7 +96,7 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 	@Override
 	public int getUserPostCount(int userId) {
 
-		int size = session.createCriteria(Post.class)
+		int size = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
 		.add(Restrictions.eq("authorId", userId))
 		.list().size();
 		
@@ -100,18 +106,17 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 	@Override
 	public void update(Post post) {
 
-		session.update(post);
+		this.sessionFactory.getCurrentSession().update(post);
 		
 	}
 
+	@Transactional
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Post> getPostsList(List<Integer> ids, Date fromDate, PostOrder order, int from, int count) {
-
-
-
 		List<Post> postsList = null;
 		try{
-			Criteria parent = session.createCriteria(Post.class);
+			Criteria parent = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
 			if(ids != null && ids.size() > 0){
 				parent.createCriteria("categories").add(Restrictions.in("id", ids));
 			}
@@ -143,7 +148,7 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 
 		int size = 0;
 		try{
-			Criteria parent = session.createCriteria(Post.class);
+			Criteria parent = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
 			if(ids != null && ids.size() > 0){
 				parent.createCriteria("categories").add(Restrictions.in("id", ids));
 			}
@@ -163,37 +168,12 @@ public class HibernatePostsFacade extends HibernateFacade implements PostsAccess
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Post> getAllPostsList() {
 
-		List<Post> list = session.createCriteria(Post.class).list();
+		List<Post> list = this.sessionFactory.getCurrentSession().createCriteria(Post.class).list();
 		
 		return list;
-	}
-
-	@Override
-	public List<Post> searchByPosts(String term, int from, int count) {
-		String hqlSelect = "from Post post where post.content like :term or post.title like :term";
-		
-
-		List<Post> list = session.createQuery(hqlSelect) 
-		.setString("term", "%" + term + "%")
-		.setMaxResults(count)
-		.setFirstResult(from)
-		.list(); 
-		
-		return list;
-	}
-
-	@Override
-	public int getSearchPostsListSize(String term) {
-		String hqlSelect = "from Post post where post.content like :term or post.title like :term"; 
-		
-
-		int size = session.createQuery(hqlSelect) 
-		.setString("term", "%" + term + "%")
-		.list().size();
-		
-		return size;
 	}
 
 }

@@ -16,10 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="posts")
+@JsonIgnoreProperties({"ratings", "categories", "author_id"})
 public class Post{
 
 	@Id

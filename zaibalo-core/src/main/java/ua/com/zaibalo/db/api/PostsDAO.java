@@ -5,7 +5,7 @@ import java.util.List;
 
 import ua.com.zaibalo.model.Post;
 
-public interface PostsAccessInterface{
+public interface PostsDAO{
 	int insert(Post object);
 	void delete(Post post);
 	List<Post> getOrderedList(int from, int count, Post.PostOrder order);
@@ -20,8 +20,5 @@ public interface PostsAccessInterface{
 	List<Post> getPostsList(List<Integer> ids, Date fromDate, Post.PostOrder order, int from, int count);
 	int getPostsListSize(List<Integer> ids, Date fromDate);
 	List<Post> getAllPostsList();
-	
-	List<Post> searchByPosts(String term, int from, int count);
-	int getSearchPostsListSize(String searchTerm);
 
 }

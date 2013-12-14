@@ -1,55 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-        id="WebApp_ID" version="3.0">
-  
-  	<filter>
-		<filter-name>Encoding</filter-name>
-		<filter-class>ua.com.zaibalo.filters.EncodingFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>Encoding</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	id="zaibalo-web" version="3.0">
 
-	<filter>
-		<filter-name>DBFilter</filter-name>
-		<filter-class>ua.com.zaibalo.filters.DBFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>DBFilter</filter-name>
-		<servlet-name>IndexPage</servlet-name>
-		<servlet-name>PostPage</servlet-name>
-		<servlet-name>UserProfilePage</servlet-name>
-		<servlet-name>RSS</servlet-name>
-		<servlet-name>Action</servlet-name>
-		<servlet-name>MessageDialogPage</servlet-name>
-		<servlet-name>SecureAction</servlet-name>
-		<servlet-name>ProfileSettingsPage</servlet-name>
-		<servlet-name>InboxPage</servlet-name>
-	</filter-mapping>
-
-	<filter>
-		<filter-name>SecureActionFilter</filter-name>
-		<filter-class>ua.com.zaibalo.filters.SecureActionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>SecureActionFilter</filter-name>
-		<url-pattern>/secure_action/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
-		<filter-name>SecureFilter</filter-name>
-		<filter-class>ua.com.zaibalo.filters.SecureFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>SecureFilter</filter-name>
-		<url-pattern>/secure/*</url-pattern>
-	</filter-mapping>
-  
-  	<context-param>
+	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>ua.com.zaibalo.i18n.ResourceBundle</param-value>
 	</context-param>
@@ -73,5 +29,36 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		<param-name>SessionTrackerSleepTime</param-name>
 		<param-value>3000</param-value>
 	</context-param>
-  
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<filter>
+		<filter-name>Encoding</filter-name>
+		<filter-class>ua.com.zaibalo.filters.EncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>SecureActionFilter</filter-name>
+		<filter-class>ua.com.zaibalo.filters.SecureActionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecureActionFilter</filter-name>
+		<url-pattern>/secure_action/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>SecureFilter</filter-name>
+		<filter-class>ua.com.zaibalo.filters.SecureFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecureFilter</filter-name>
+		<url-pattern>/secure/*</url-pattern>
+	</filter-mapping>
+
 </web-app>

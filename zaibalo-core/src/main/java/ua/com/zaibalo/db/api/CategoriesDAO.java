@@ -4,7 +4,7 @@ import java.util.List;
 
 import ua.com.zaibalo.model.Category;
 
-public interface CategorysAccessInterface {
+public interface CategoriesDAO {
 	
 	List<Category> getCategoriesList();
 	Category getCategoryByName( Category.CategoryType type, String name);

@@ -14,10 +14,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="comments")
+@JsonIgnoreProperties({"post", "ratings", "postId", "postTitle", "authorId"})
 public class Comment{
 	
 	@Id
@@ -68,6 +70,7 @@ public class Comment{
 	public void setContent(String content){
 		this.content = content;
 	}
+	
 	public int getAuthorId() {
 		return authorId;
 	}

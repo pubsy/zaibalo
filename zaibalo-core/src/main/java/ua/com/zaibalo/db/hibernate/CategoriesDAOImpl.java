@@ -4,24 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.classic.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.zaibalo.db.api.CategorysAccessInterface;
+import ua.com.zaibalo.db.api.CategoriesDAO;
 import ua.com.zaibalo.model.Category;
-import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 
-public class HibernateCategorysFacade extends HibernateFacade implements CategorysAccessInterface{
+@Transactional
+@Repository
+public class CategoriesDAOImpl implements CategoriesDAO{
 
-	public HibernateCategorysFacade(Session session) {
-		this.session = session;
-	}
-
+	@Autowired
+    private SessionFactory sessionFactory;
+	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Category> getCategoriesList() {
-		List<Category> list = session.createCriteria(Category.class).list();
+		List<Category> list = this.sessionFactory.getCurrentSession().createCriteria(Category.class).list();
 		return list;
 	}
 
@@ -30,7 +34,7 @@ public class HibernateCategorysFacade extends HibernateFacade implements Categor
 		Criterion a = Restrictions.eq("name", name);
 		Criterion b = Restrictions.like("type", type.getType());
 
-		Criteria base = session.createCriteria(Category.class);
+		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(Category.class);
 			
 		if(type != Category.CategoryType.BOTH){
 			base.add(Restrictions.and(a, b));
@@ -45,14 +49,14 @@ public class HibernateCategorysFacade extends HibernateFacade implements Categor
 	
 	@Override
 	public Category getCategoryById( int id) {		
-		Category category = (Category) session.get(Category.class, id);
+		Category category = (Category) this.sessionFactory.getCurrentSession().get(Category.class, id);
 		return category; 
 	}
 
 	@Override
 	public int insert(Category category){
 
-		session.save(category);
+		this.sessionFactory.getCurrentSession().save(category);
 		int id = category.getId();
 		
 		return id;
@@ -61,7 +65,7 @@ public class HibernateCategorysFacade extends HibernateFacade implements Categor
 	@Override
 	public List<Category> getPostCategories(int postId){
 
-		Post post = (Post)session.createCriteria(Post.class).add(Restrictions.eq("id", postId)).uniqueResult();
+		Post post = (Post)this.sessionFactory.getCurrentSession().createCriteria(Post.class).add(Restrictions.eq("id", postId)).uniqueResult();
 		List<Category> list =  post.getCategories();
 		
 		return list;
@@ -69,19 +73,20 @@ public class HibernateCategorysFacade extends HibernateFacade implements Categor
 
 	@Override
 	public void deleteAllPostCaegories(int postId){
-		Post post = (Post)session.createCriteria(Post.class).add(Restrictions.eq("id", postId)).uniqueResult();
+		Post post = (Post)this.sessionFactory.getCurrentSession().createCriteria(Post.class).add(Restrictions.eq("id", postId)).uniqueResult();
 		post.setCategories(new ArrayList<Category>());
-		session.update(post);
+		this.sessionFactory.getCurrentSession().update(post);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Category> getCategoriesList(Category.CategoryType catType){
 
 		if(catType == Category.CategoryType.BOTH){
 			return getCategoriesList();
 		}
 
-		List<Category> list = session.createCriteria(Category.class).add(Restrictions.eq("type", catType.getType())).list();
+		List<Category> list = this.sessionFactory.getCurrentSession().createCriteria(Category.class).add(Restrictions.eq("type", catType.getType())).list();
 		
 		
 		return list;

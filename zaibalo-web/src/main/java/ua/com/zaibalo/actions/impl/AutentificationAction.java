@@ -13,8 +13,9 @@ import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.DataAccessFactory;
 import ua.com.zaibalo.helper.MD5Helper;
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.User;
 
 public class AutentificationAction implements Action{
@@ -58,7 +59,7 @@ public class AutentificationAction implements Action{
 			
 			request.getSession().setAttribute(ZaibaloConstants.USER_PARAM_NAME, user);
 			
-			ServletHelper.updateUnreadMessagesStatus(request);
+			ZAppContext.getServletHelperService().updateUnreadMessagesStatus(request);
 			
 			if(remember != null && remember.equals("true")){
 				String value = user.getLoginName() + ":" + user.getToken();

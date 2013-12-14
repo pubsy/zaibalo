@@ -4,7 +4,7 @@ import java.util.List;
 
 import ua.com.zaibalo.model.Message;
 
-public interface MessageAccessInterface {
+public interface MessagesDAO {
 	int insert(Message message);
 	List<Message> getAllUserDiscussionMessages(int discussionId, int userId);
 	int getUnreadMessagesCount(int recipientId);

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 
 public abstract class GenericActionServlet extends HttpServlet{
 
@@ -39,7 +39,7 @@ public abstract class GenericActionServlet extends HttpServlet{
 		try {
 			action.run(request, response, out);
 		} catch (Exception e) {
-			ServletHelper.logException(e, request);
+			ServletHelperService.logException(e, request);
 
 			out.write("{\"status\":\"fail\", \"message\":\"" + e.getMessage() + "\"}");
 			out.close();

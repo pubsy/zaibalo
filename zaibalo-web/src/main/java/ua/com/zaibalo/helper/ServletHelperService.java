@@ -10,15 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.classic.Session;
+import org.springframework.stereotype.Service;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.db.DataAccessFactory;
-import ua.com.zaibalo.db.HibernateUtils;
-import ua.com.zaibalo.db.hibernate.HibernateUsersFacade;
 import ua.com.zaibalo.model.User;
 
-public class ServletHelper {
+@Service
+public class ServletHelperService {
+	
 	public static String getClientIpAddr(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -39,7 +38,7 @@ public class ServletHelper {
 		return ip;
 	}
 
-	private static User getCookieUser(HttpServletRequest request, HttpServletResponse response){
+	private User getCookieUser(HttpServletRequest request, HttpServletResponse response){
 
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
@@ -71,14 +70,9 @@ public class ServletHelper {
 		String userToken = userCookie.substring(colonIndex + 1);
 
 		User cookieUser = null;
-	
-		Session sess = HibernateUtils.getSession();
-		sess.beginTransaction();
 
-		cookieUser = new HibernateUsersFacade(sess).getUserByName(userName);
-		
-		sess.getTransaction().commit();
-		sess.close();
+		cookieUser = ZAppContext.getUsersDAO().getUserByName(userName);
+
 
 		if (cookieUser != null && cookieUser.getToken().equals(userToken)) {
 			return cookieUser;
@@ -88,7 +82,7 @@ public class ServletHelper {
 		return null;
 	}
 
-	public static User checkUserAuthorised(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	public User checkUserAuthorised(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		HttpSession session = request.getSession();
 
 		User user = (User)session.getAttribute(ZaibaloConstants.USER_PARAM_NAME);
@@ -96,7 +90,7 @@ public class ServletHelper {
 			return user;
 		}
 
-		User cookieUser = ServletHelper.getCookieUser(request, response);
+		User cookieUser = getCookieUser(request, response);
 
 		if (cookieUser != null) {
 			session.setAttribute(ZaibaloConstants.USER_PARAM_NAME, cookieUser);
@@ -117,7 +111,7 @@ public class ServletHelper {
 		System.out.println();
 		System.out.println("ERROR: " + message);
 		System.out.println("Requested URL: " + request.getRequestURL() + ((request.getQueryString() == null) ? "" : "?" + request.getQueryString()));
-		System.out.println("From IP: " + ServletHelper.getClientIpAddr(request));
+		System.out.println("From IP: " + ServletHelperService.getClientIpAddr(request));
 		System.out.println("Parameters:");
 		for(String paramKey : request.getParameterMap().keySet()){
 			System.out.print(paramKey);
@@ -140,15 +134,14 @@ public class ServletHelper {
 		System.out.println("ERROR: " + message);
 	}
 	
-	public static void updateUnreadMessagesStatus(HttpServletRequest request){
+	public void updateUnreadMessagesStatus(HttpServletRequest request){
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
 		if(user == null){
 			return;
 		}
 		
-		DataAccessFactory factory = new DataAccessFactory(request);
-		int count = factory.getMessageAccessInstance().getUnreadMessagesCount(user.getId());
+		int count = ZAppContext.getMessagesDAO().getUnreadMessagesCount(user.getId());
 		if(count != 0){			
 			request.getSession().setAttribute("unreadMailCount", " [" + count + "]");
 		}else{

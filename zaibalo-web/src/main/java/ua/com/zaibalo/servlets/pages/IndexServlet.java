@@ -12,10 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
+
 import ua.com.zaibalo.db.DataAccessFactory;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.Post;
 
+@Component
 @WebServlet(urlPatterns={"/index.html","/index", "/category"}, loadOnStartup=1, name="IndexPage")
 public class IndexServlet extends ServletPage{
 
@@ -74,13 +78,11 @@ public class IndexServlet extends ServletPage{
 			from = (Integer.parseInt(pageParam) - 1) * count;
 		}
 		
-		DataAccessFactory factory = new DataAccessFactory(request);
-		
-		List<Post> postList = factory.getPostsAccessInstance().getPostsList(catIdsParam, fromDate, order, from, count);
+		List<Post> postList = ZAppContext.getPostsDAO().getPostsList(catIdsParam, fromDate, order, from, count);
 
 		request.setAttribute("posts", postList);
 		
-		int pagingResultsSize = factory.getPostsAccessInstance().getPostsListSize(catIdsParam, fromDate);
+		int pagingResultsSize = ZAppContext.getPostsDAO().getPostsListSize(catIdsParam, fromDate);
 
 		request.setAttribute("results_size", pagingResultsSize);
 		

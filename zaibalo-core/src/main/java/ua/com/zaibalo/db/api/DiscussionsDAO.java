@@ -5,7 +5,7 @@ import java.util.List;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.Message;
 
-public interface DiscussionsAccessInterface {
+public interface DiscussionsDAO {
 
 	List<Discussion> getAllDiscussions(int id);
 

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.com.zaibalo.actions.Action;
-import ua.com.zaibalo.helper.ServletHelper;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Post;
 
@@ -34,7 +34,7 @@ public class GetMorePostsAction implements Action{
 		}else{
 			out.print("Error! Bad request parameters. Please notify administration.");
 			out.close();
-			ServletHelper.logMessage("Error! While getting more posts. Bad request parameters.", request);
+			ServletHelperService.logMessage("Error! While getting more posts. Bad request parameters.", request);
 			return;
 		}
 
