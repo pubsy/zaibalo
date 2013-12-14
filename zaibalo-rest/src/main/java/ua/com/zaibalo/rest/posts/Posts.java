@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ua.com.zaibalo.db.api.PostsAccessInterface;
+import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.Post.PostOrder;
 
@@ -20,7 +20,7 @@ import ua.com.zaibalo.model.Post.PostOrder;
 public class Posts {
 	
 	@Autowired
-	private PostsAccessInterface postsFacade;
+	private PostsDAO postsFacade;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody

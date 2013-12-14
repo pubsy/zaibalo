@@ -7,5 +7,6 @@
   <modules>
   	<module>../zaibalo-core</module>
   	<module>../zaibalo-web</module>
+  	<module>../zaibalo-rest</module>
   </modules>
 </project>

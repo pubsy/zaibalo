@@ -5,7 +5,7 @@
 	<artifactId>zaibalo-rest</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>zaibalo-rest Maven Webapp</name>
+	<name>zaibalo-rest</name>
 	<url>http://maven.apache.org</url>
     <properties>  
       <releaseCandidate>1</releaseCandidate>  
