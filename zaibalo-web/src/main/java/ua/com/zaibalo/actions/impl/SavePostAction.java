@@ -94,13 +94,13 @@ public class SavePostAction implements Action{
 		String extr = post.getContent();
 		final String text = extr + "\n\n" + post.getAuthor().getDisplayName() + "\n\n" + "http://www.zaibalo.com.ua/post.do?id=" + post.getId();
 			
-//		new Thread(new Runnable(){
-//			@Override
-//			public void run() {
-//				VKPostToGroup.postToVKGroup(text);
-//				FBPostToGroup.postToFBGroup(text);
-//			}
-//		}).start();
+		new Thread(new Runnable(){
+			@Override
+			public void run() {
+				VKPostToGroup.postToVKGroup(text);
+				FBPostToGroup.postToFBGroup(text);
+			}
+		}).start();
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
 	    request.getRequestDispatcher("/jsp/post_wrapper.jsp").forward(request, customResponse);
