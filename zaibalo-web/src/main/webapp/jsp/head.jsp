@@ -4,18 +4,18 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		
-		<link rel="stylesheet" type="text/css"  href="/css/combobox.css?7"/>
+		<link rel="stylesheet" type="text/css"  href="/css/combobox.css?8"/>
 		
-		<script type="text/javascript" src="/scripts/login.js?7"></script>
-		<script type="text/javascript" src="/scripts/scripts.js?9"></script>
-		<script type="text/javascript" src="/scripts/ajax.js?8"></script>
-		<script type="text/javascript" src="/scripts/textarea.js?7"></script>
+		<script type="text/javascript" src="/scripts/login.js?8"></script>
+		<script type="text/javascript" src="/scripts/scripts.js?10"></script>
+		<script type="text/javascript" src="/scripts/ajax.js?9"></script>
+		<script type="text/javascript" src="/scripts/textarea.js?8"></script>
 		<script type="text/javascript" src="/scripts/jquery.js"></script>
-		<script type="text/javascript" src="/scripts/editpost.js?7"></script>
-		<script type="text/javascript" src="/scripts/combobox.js?7"></script>
-		<script type="text/javascript" src="/scripts/message.js?7"></script>
-		<script type="text/javascript" src="/scripts/category_checkoxes.js?7"></script>
-		<script type="text/javascript" src="/scripts/posts_sorting.js?7"></script>
+		<script type="text/javascript" src="/scripts/editpost.js?8"></script>
+		<script type="text/javascript" src="/scripts/combobox.js?8"></script>
+		<script type="text/javascript" src="/scripts/message.js?8"></script>
+		<script type="text/javascript" src="/scripts/category_checkoxes.js?8"></script>
+		<script type="text/javascript" src="/scripts/posts_sorting.js?8"></script>
 		<script type="text/javascript" src="/scripts/register.js?1"></script>
 		<script type="text/javascript" src="/scripts/remind_password.js?1"></script>
 		
@@ -28,7 +28,7 @@
 		<script type="text/javascript" src="/scripts/dropdown/jquery-ui-1.8.13.custom.min.js"></script>
 		<script type="text/javascript" src="/scripts/dropdown/ui.dropdownchecklist.js"></script>
 		
-		<link rel="stylesheet" type="text/css"  href="/css/style.css?20"/>
+		<link rel="stylesheet" type="text/css"  href="/css/style.css?21"/>
 		
 		<script type="text/javascript">
 		
