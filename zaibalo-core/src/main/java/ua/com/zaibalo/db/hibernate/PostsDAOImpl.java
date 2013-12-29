@@ -175,5 +175,15 @@ public class PostsDAOImpl implements PostsDAO {
 		
 		return list;
 	}
+	
+	@Override
+	public void updatePostRatingSum(int value, int count, int postId) {
+
+		Post post = (Post)this.sessionFactory.getCurrentSession().get(Post.class, postId);
+		post.setRatingSum(post.getRatingSum() + value);
+		post.setRatingCount(post.getRatingCount() + count);
+		this.sessionFactory.getCurrentSession().update(post);
+		
+	}
 
 }

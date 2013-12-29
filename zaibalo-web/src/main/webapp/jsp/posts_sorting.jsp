@@ -1,6 +1,6 @@
 <div class="posts_sorting">
 	<div class="posts_order_block">
-		<zmt:message key="sort_by_colon"/>
+		<span class="hide-on-mobile"><zmt:message key="sort_by_colon"/></span>
 		<select id="posts_sorting_combobox">
 			<option value="latest" <c:if test="${param.order_by eq 'latest'}">selected</c:if>><zmt:message key="last_added"/></option>
 			<option value="week" <c:if test="${param.order_by eq 'week'}">selected</c:if>><zmt:message key="the_best_in_a_week"/></option>
@@ -11,7 +11,7 @@
 		</select>
 	</div>
 	<div class="show_count_block">
-		<zmt:message key="show_count_colon"/>
+		<span class="hide-on-mobile"><zmt:message key="show_count_colon"/></span>
 			<select id="posts_count_combobox">
 				<option value="10" <c:if test="${param.count eq 10}">selected</c:if>>10</option>
 				<option value="25" <c:if test="${param.count eq 25}">selected</c:if>>25</option>

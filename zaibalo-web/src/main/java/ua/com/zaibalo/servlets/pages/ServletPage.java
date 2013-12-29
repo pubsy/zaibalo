@@ -28,7 +28,7 @@ public abstract class ServletPage extends HttpServlet{
 		String page = null;
 		
 		try {
-			commentsList = ZAppContext.getCommentsDAO().getRecentComments(20);
+			commentsList = ZAppContext.getCommentsDAO().getRecentComments(15);
 			request.setAttribute("recentComments", commentsList);
 
 			if(request.getAttribute("pageTitle") == null){

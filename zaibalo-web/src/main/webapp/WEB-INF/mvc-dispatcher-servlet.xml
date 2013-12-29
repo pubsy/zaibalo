@@ -15,6 +15,37 @@
 
 	<import resource="classpath:/zaibalo-core-context.xml" />
 	
-	<context:component-scan base-package="ua.com.zaibalo" />
+	<mvc:annotation-driven />
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	  <property name="order" value="1" />
+	  <property name="mediaTypes">
+		<map>
+		   <entry key="json" value="application/json" />
+		</map>
+	  </property>
+ 
+	  <property name="defaultViews">
+		<list>
+		  <!-- JSON View -->
+		  <bean
+			class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+		  </bean>
+		 </list>
+	  </property>
+	  <property name="ignoreAcceptHeader" value="true" />
+	</bean>
+ 
+	<!-- If no extension matched, use JSP view -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="2" />
+		<property name="prefix">
+			<value>/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
 	
 </beans>

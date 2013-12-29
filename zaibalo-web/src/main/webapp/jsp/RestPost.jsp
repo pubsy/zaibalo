@@ -1,3 +1,11 @@
+<%@ page import="java.util.*, ua.com.zaibalo.model.*" contentType="text/html; charset=UTF-8" %>
+
+<%@taglib prefix="zmt" uri="ZMT" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="cat" uri="CategoryChecker"  %>
+<%@taglib prefix="t" uri="Trimer"  %>
+<%@taglib prefix="xe" uri="XmlEscape"  %>
 
 <c:set var="comments_count" value="${post.getComments().size()}" />
 <c:set var="comments" value="${post.comments}" />
@@ -7,12 +15,9 @@
 	<div class="post_header">
 		<div class="post_header_title">
 			<a href='<c:url value="/post?id=${post.id}" />'><c:out value="${post.title}"/></a>
-			<c:if test="${(sessionScope.user.id == post.authorId && (empty post.comments)) || sessionScope.user.role < 2}">
-				<a href="javascript:editPostShow(${post.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
-			</c:if>
 		</div>
 		<div class="post_header_date">
-			<fmt:formatDate type="date" dateStyle="SHORT" value="${post.date}" timeZone="EET"/>
+			<fmt:formatDate type="both" dateStyle="MEDIUM" timeStyle="SHORT" value="${post.date}" timeZone="EET"/>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -21,14 +26,14 @@
 		<div class="post_content_text"><xe:escape text="${post.content}" /></div>
 		<div class="post_cat_rat">
 			<div class="post_rating">
+				<br/> 
 				<c:if test="${sessionScope.user != null}">
-					<img src="../img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
+					<div id="ratingDown_${post.id}" class="ratingDown" onclick="javascript:ratePost(${post.id}, 'down');"></div>
+					<div id="ratingUp_${post.id}" class="ratingUp" onclick="javascript:ratePost(${post.id}, 'up');"></div>
 				</c:if>
-				<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
-				(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
-				<c:if test="${sessionScope.user != null}">
-					<img src="../img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
-				</c:if>
+				<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}">${post.ratingSum}</span> 
+				<zmt:message key="votes_colon"/> <span id="rating_count_${post.id}">${post.ratingCount}</span>
+				<div style="clear: both;"></div>
 			</div>
 			<div>
 				<zmt:message key="categories_colon"/>
@@ -39,8 +44,12 @@
 					</c:forEach>
 				</span>
 			</div>
-			<c:if test="${sessionScope.user.role < 2}">
+			<c:if test="${sessionScope.user.id == post.authorId || sessionScope.user.role < 2}">
 				<span id="remove_post_${post.id}"><a href="javascript:removePost(${post.id});"><zmt:message key="delete"/></a></span>
+			</c:if>
+			<br>
+			<c:if test="${(sessionScope.user.id == post.authorId && (empty post.comments)) || sessionScope.user.role < 2}">
+				<a href="javascript:editPostShow(${post.id});"><zmt:message key="edit.post"/></a>
 			</c:if>
 		</div>
 
@@ -95,5 +104,4 @@
 			<%@ include file="add_comment_block.jsp"%>
 		</div>
 	</div>
-</div>
 </div>

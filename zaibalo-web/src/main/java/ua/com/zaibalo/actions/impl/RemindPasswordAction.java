@@ -21,8 +21,6 @@ import ua.com.zaibalo.model.User;
 
 public class RemindPasswordAction implements Action {
 
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public void run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws Exception {
 		String userName = request.getParameter("userName");
@@ -30,7 +28,7 @@ public class RemindPasswordAction implements Action {
 		DataAccessFactory factory = new DataAccessFactory(request);
 		User user = factory.getUsersAccessInstance().getUserByName(userName);
 		if (user == null) {
-			out.write("{\"status\":\"success\", \"message\":\"" + StringHelper.getLocalString("user_doesnt_exist") + "\"}");
+			out.write("{\"status\":\"fail\", \"message\":\"" + StringHelper.getLocalString("user_doesnt_exist") + "\"}");
 			out.close();
 			return;
 		}

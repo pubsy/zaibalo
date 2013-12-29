@@ -59,7 +59,7 @@ public class RateCommentAction implements Action{
 			}
 			
 			if(value == -rate.getValue()){
-				factory.getCommentRatingAccessInstance().deleteCommentRate(rate.getId());
+				factory.getCommentRatingAccessInstance().deleteCommentRate(rate);
 				factory.getCommentsAccessInstance().updateCommentRatingSum(- rate.getValue(), -1, rate.getCommentId());
 			}
 		}

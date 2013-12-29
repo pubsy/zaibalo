@@ -3,15 +3,16 @@ body{
 	padding: 0;
 	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 	background: url("../img/icons/bg_body.gif") repeat-x scroll 0 0 #444444;
-	color: #CCCCCC;
+	/* color: #CCCCCC; */
 	line-height: 1.28;
-	font-size: 11px;
+	font-size: 12px;
 	text-align: left;
 }
 
 #body {
-	margin: 0 auto;
-	width: 920px;
+ 	margin: 0 auto;
+	
+ 	max-width: 900px;
 }
 
 #left_body{
@@ -23,9 +24,6 @@ body{
 }
 
 #right_body{
-    border: 1px solid #B3B3B3;
-    float: left;
-    width: 648px;
     background-color: #FFFFFF;
 }
 
@@ -59,8 +57,8 @@ a {
 }
 
 .login_avatar{
-	float:left;
 	padding-right: 5px;
+	width: 24px;
 }
 .login_text{
 	padding-left: 5px;
@@ -68,7 +66,8 @@ a {
 
 #header{
 	margin: 0px;
-	padding: 0 10px 10px;
+	padding: 0 10px 5px 10px;
+	/* text-align: center; */
 }
 
 #header img{
@@ -76,6 +75,7 @@ a {
 }
 
 .content{
+	clear: both;
 	margin: 0;
 	min-height:300px;
 	text-align:left;
@@ -87,12 +87,13 @@ a {
     color: #000000;
 }
 
-#header_menu a{
+ul.nav>li>a{
 	color: #000000;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;	
-    margin-left: 5px;
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;	
+	margin-left: 0px;
+	text-decoration: none;
 }
 
 .post{
@@ -122,17 +123,12 @@ a {
 	float:right;
 	padding: 5px;
 	font-weight: bold; 
+	text-align: center;
 }
 
 .post_cat_rat{
 	float:left;
 	padding: 5px;
-}
-
-.post_author_info{
-	float:right;
-	padding:5px;
-	text-align: center;
 }
 
 .comments_block{
@@ -173,21 +169,19 @@ textarea{
 }
 
 .comment_content textarea{
-	width: 515px;
-	max-width: 515px;	
-	min-width: 515px;
+	width: 100%;
+	/* max-width: 515px; */	
+	/* min-width: 515px; */
 }
 
 #add_post_form textarea{
-	width: 627px;
-	max-width: 627px;	
-	min-width: 627px;	
+	width: 100%;
 }
 
 .comment_content #text{
-	width: 570px;
-	max-width: 570px;
-	min-width: 570px;
+	width: 100%;
+	/* max-width: 570px; */
+	/* min-width: 570px; */
 }
 
 #comment_input{
@@ -206,6 +200,7 @@ textarea{
 }
 #add_post_button{
 	float:right; 
+	text-align: right;
 	margin: 5px 0px 5px 10px;
 }
 
@@ -222,8 +217,7 @@ textarea{
 }
 
 .category_block{
-	position: absolute;
-	z-index:100;
+	float: left;
 }
 
 #categories_checkboxes{
@@ -244,43 +238,20 @@ textarea{
 }
 
 .post_rating{
-	margin:0px 2px 0px 2px;
+	margin: 5px 2px 0px 2px;
 }
 
-.ratingUp{
-	background-image: url("../img/icons/rating_2_off.gif");
-	height:16px;
-	width:16px;
-	float:left;
-	margin-right: 2px;
+.rating-button:hover {
+	opacity: 1;
+}
+
+.rating-button {
+	opacity: 0.8;
 	cursor: pointer;
 }
 
-.ratingUp:hover{
-	background-image: url("../img/icons/rating_2_over.gif");
-	height:16px;
-	width:16px;
-	float:left;
-	margin-right: 2px;
-	cursor: pointer;
-}
-
-.ratingDown{
-	background-image: url("../img/icons/rating_1_off.gif");
-	height:16px;
-	width:16px;
-	float:left;
-	margin-right: 2px;
-	cursor: pointer;
-}
-
-.ratingDown:hover{
-	background-image: url("../img/icons/rating_1_over.gif");
-	height:16px;
-	width:16px;
-	float:left;
-	margin-right: 2px;
-	cursor: pointer;
+.rating_sum {
+	font-weight: bold;
 }
 
 .delete_link{
@@ -300,12 +271,11 @@ textarea{
 }
 
 #loadingScreen{
-	float:right;
 	display: none;
 }
 
 #apButton{
-    float: left;
+    /* float: right; */
 }
 
 .form_input {
@@ -382,29 +352,6 @@ input[type=password] {
     font-size: 8px;
     margin: 3px;	
 }
-	
-.comment_rating_img{
-	background-image: url("../img/icons/comment-hands.png");
-	float: left;
-    height: 16px;
-    width: 16px;
-}
-
-.comment_rating_up{
-	background-position: 0px 16px;
-}
-
-.comment_rating_up:hover{
-	background-position: 0px 0px;
-}
-
-.comment_rating_down{
-	background-position: 16px 16px;
-}
-
-.comment_rating_down:hover{
-	background-position: 16px 0px;
-}
 
 .post_content_text{
 	font-size: 13px;
@@ -455,13 +402,8 @@ background-image: url("../img/icons/feed.png");
 	min-height: 32px;
 }
 
-.rating_thumbs{
-	padding-right: 5px;
-	float: left;
-}
-
-.rating_text{
-	padding-right: 5px;
+.comment-rating{
+	cursor: pointer;
 }
 
 #mail{
@@ -591,7 +533,6 @@ pre {
 }
 
 #header_banner{
-	width: 630px;
 	height: 157px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -630,10 +571,29 @@ pre {
 	padding: 25px;
 }
 
-.recent_comment{
+#header_menu li.recent_comment{
 	overflow: hidden;
-	height: 15px;
-	padding-bottom: 5px;
+	height: 20px;
+	/* padding-bottom: 5px; */
+	/* padding-left: 5px; */
+}
+
+#header_menu li.recent_comment a img {
+	width: 16px;
+	height: 16px;
+	float: left;
+	padding-right: 5px;
+}
+
+#header_menu li.recent_comment a{
+	display: inline;
+	text-transform: none;
+	text-decoration: underline;
+}
+
+#header_menu ul.recent-comments{
+	min-width: 230px;
+	font-size: 11px;
 }
 
 #vk_icon{
@@ -648,9 +608,119 @@ pre {
 	right: 52px;
 }
 
-.recent_comment a img {
-	width: 16px;
-	height: 16px;
-	float: left;
-	padding-right: 5px;
+
+.category_box {
+	display: inline-block;
+	padding: 9px;
+	/* border-width: 0px; */
+	/* border-style: solid; */
+	background-color: #555555;
+	margin-top: 5px;
+	color: white;
+	border-radius: 5px;
+}
+
+.centered{
+	text-align: justify;
+	/* overflow: hidden; */
+	width: 100%;
+}
+
+.dropdown-menu>li>a{
+	/* padding: 4px 0px; */
+	font-size: 11px;
+	color: #000000;
+}
+
+#header_menu ul.dropdown-menu>li{
+	color: #000000;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+#header_menu ul.dropdown-menu>li>label{
+	cursor: pointer;
+}
+
+ul.login-menu{
+	left: auto;
+	right: 0;
+	min-width: 180px;
+}
+
+li.login-dropdown{
+	float: right;
+}
+
+.dropdown-menu{
+	font-size: 12px;
+}
+
+.login-form-element{
+	margin: 5px;
+	/* margin-right: 5px; */
+	/* margin-top: 5px; */
+	/* margin-left: 5px; */
+}
+
+span.glyphicon{
+	color: #000000;
+	font-size: 11px; 
+	top: 0px;
+	margin-right: 4px;
+}
+
+li.active>a>span.glyphicon{
+	color: #FFFFFF;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+	background-color: #555555;
+}
+
+div.login-form-element input[type="checkbox"]{
+	margin-right: 5px;	
+}
+
+.dialog-row {
+	cursor: pointer;
+}
+
+.dialog-row:hover {
+	font-weight: bold;
+}
+
+.edit-post-icon{
+	padding-left: 5px;
+}
+
+input[type="checkbox"] {
+	margin: 0px 3px 0px 0px;
+}
+
+.register-forgot-block{
+	clear: both;
+}
+
+.register-forgot-block a{
+	display: block;	
+	padding-top: 5px;
+	color: #000000;
+}
+
+.dialog-validation{
+	padding-bottom: 10px;
+	color: red;
+}
+
+@media all and (max-width: 620px) {
+	.hide-on-mobile {
+		display: none;
+	}
+	#body {
+		margin: 0 auto;
+		max-width: none;
+		/* font-size: 14px; */
+	}
 }

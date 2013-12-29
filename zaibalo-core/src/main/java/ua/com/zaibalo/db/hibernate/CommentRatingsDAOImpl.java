@@ -62,11 +62,8 @@ public class CommentRatingsDAOImpl implements CommentRatingsDAO {
 	}
 
 	@Override
-	public void deleteCommentRate(int id) {
-
-		CommentRating cr = (CommentRating)this.sessionFactory.getCurrentSession().get(CommentRating.class, id);
-		this.sessionFactory.getCurrentSession().delete(cr);
-		
+	public void deleteCommentRate(CommentRating rating) {
+		this.sessionFactory.getCurrentSession().delete(rating);
 	}
 
 }

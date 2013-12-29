@@ -8,6 +8,6 @@ public interface CommentRatingsDAO {
 	void createCommentRating(CommentRating rating);
 	UserRating getUserCommentRatingSum(int userId);
 	CommentRating getUserVote(int userId, int commentId);
-	void deleteCommentRate(int id);
+	void deleteCommentRate(CommentRating rating);
 	
 }

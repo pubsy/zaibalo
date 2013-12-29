@@ -2,8 +2,8 @@
 		<title>${pageTitle}</title>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		
-		<link rel="stylesheet" type="text/css"  href="/css/style.css?20"/>
 		<link rel="stylesheet" type="text/css"  href="/css/combobox.css?7"/>
 		
 		<script type="text/javascript" src="/scripts/login.js?7"></script>
@@ -16,12 +16,19 @@
 		<script type="text/javascript" src="/scripts/message.js?7"></script>
 		<script type="text/javascript" src="/scripts/category_checkoxes.js?7"></script>
 		<script type="text/javascript" src="/scripts/posts_sorting.js?7"></script>
+		<script type="text/javascript" src="/scripts/register.js?1"></script>
+		<script type="text/javascript" src="/scripts/remind_password.js?1"></script>
 		
 		<link rel="stylesheet" type="text/css" href="/css/dropdown/jquery-ui-1.8.13.custom.css">
 		<link rel="stylesheet" type="text/css" href="/css/dropdown/ui.dropdownchecklist.themeroller.css">
+		
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src="/scripts/bootstrap.min.js"></script>
+		
 		<script type="text/javascript" src="/scripts/dropdown/jquery-ui-1.8.13.custom.min.js"></script>
 		<script type="text/javascript" src="/scripts/dropdown/ui.dropdownchecklist.js"></script>
 		
+		<link rel="stylesheet" type="text/css"  href="/css/style.css?20"/>
 		
 		<script type="text/javascript">
 		

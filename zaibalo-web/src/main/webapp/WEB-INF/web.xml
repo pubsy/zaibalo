@@ -6,6 +6,13 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="zaibalo-web" version="3.0">
 
 	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/mvc-dispatcher-servlet.xml
+		</param-value>
+	</context-param>
+	
+	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>ua.com.zaibalo.i18n.ResourceBundle</param-value>
 	</context-param>
@@ -60,5 +67,19 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		<filter-name>SecureFilter</filter-name>
 		<url-pattern>/secure/*</url-pattern>
 	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>

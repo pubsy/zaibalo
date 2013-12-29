@@ -14,7 +14,8 @@
 	</head>
 	<body>
 		<div id="body">
-			<%@ include file="left_menu.jsp"%>
+			<jsp:useBean id="now" class="java.util.Date"/>
+
 			<div id="right_body">
 				<%@ include file="banner.jsp"%>
 				<div class="content">
@@ -28,7 +29,7 @@
 						</c:when>
 						<c:otherwise>
 							
-							<div class="new_message_write_a_message"><a href="/secure/dialog.do"><zmt:message key="write_a_message" /></a></div>
+							<div class="new_message_write_a_message"><a href="/secure/dialog.do"><span class="glyphicon glyphicon-pencil"></span><zmt:message key="write_a_message" /></a></div>
 						
 							<table id="mail">
 							  	<col width="5%">
@@ -36,49 +37,47 @@
 					  			<col width="60%">
 					  			<col width="15%">
 								<c:forEach var="discussion" items="${discussions}">
-								<tr <c:if test="${discussion.hasUnreadMessages}">class="unread"</c:if>>
-									<td>
-										<c:choose>
-											<c:when test="${discussion.author.id eq sessionScope.user.id}">
-												<a href='<c:url value="/user?id=${discussion.recipient.id}"/>'>
-													<img src='/image/${discussion.recipient.smallImgPath}' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a href='<c:url value="/user?id=${discussion.author.id}"/>'>
-													<img src='/image/${discussion.author.smallImgPath}' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
-												</a>
-											</c:otherwise>
-										</c:choose>
-									</td>
-									<td>
-										<c:choose>
-											<c:when test="${discussion.author.id eq sessionScope.user.id}">
-												<a href='<c:url value="/user?id=${discussion.recipient.id}"/>'>
-													<c:out value="${discussion.recipient.displayName}"/>
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a href='<c:url value="/user?id=${discussion.author.id}"/>'>
-													<c:out value="${discussion.author.displayName}"/>
-												</a>
-											</c:otherwise>
-										</c:choose>	
-									</td>
-									<td>
-										<a href="/secure/dialog.do?discussion_id=${discussion.id}"><xe:escape text="${discussion.extract}" /></a>
-									</td>
-									<td>
-										<c:choose>
-							 				<c:when test="${discussion.latestMessageDate.time gt now.time - 86400000}">
-												<fmt:formatDate type="time" timeStyle="SHORT" value="${discussion.latestMessageDate}" timeZone="EET"/>
-											</c:when> 
-											<c:otherwise>
-												<fmt:formatDate type="date" dateStyle="SHORT" value="${discussion.latestMessageDate}" timeZone="EET"/>
-											</c:otherwise>
-										</c:choose>
-									</td>
-								</tr>
+										<div class="comment_style dialog-row" onclick="javascript:location.href='/secure/dialog.do?discussion_id=${discussion.id}'">
+												<div class="comment_avatar">
+													<c:choose>
+														<c:when test="${discussion.author.id eq sessionScope.user.id}">
+																<img src='/image/${discussion.recipient.smallImgPath}' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
+														</c:when>
+														<c:otherwise>
+																<img src='/image/${discussion.author.smallImgPath}' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
+														</c:otherwise>
+													</c:choose>
+												</div>
+								
+												<div class="comment_content">
+													<div class="comment_author">
+														<c:choose>
+															<c:when test="${discussion.author.id eq sessionScope.user.id}">
+																	<c:out value="${discussion.recipient.displayName}"/>
+															</c:when>
+															<c:otherwise>
+																	<c:out value="${discussion.author.displayName}"/>
+															</c:otherwise>
+														</c:choose>
+													</div>
+								
+													<xe:escape text="${discussion.extract}" />
+								
+													<div class="comment_date">
+														<c:choose>
+											 				<c:when test="${discussion.latestMessageDate.time gt now.time - 86400000}">
+																<fmt:formatDate type="time" timeStyle="SHORT" value="${discussion.latestMessageDate}" timeZone="EET"/>
+															</c:when> 
+															<c:otherwise>
+																<fmt:formatDate type="date" dateStyle="SHORT" value="${discussion.latestMessageDate}" timeZone="EET"/>
+															</c:otherwise>
+														</c:choose>
+													</div>
+													<div style="clear: both;"></div>
+								
+												</div>
+												<div style="clear: both;"></div>
+										</div>
 								</c:forEach>
 							</table>
 						</c:otherwise>

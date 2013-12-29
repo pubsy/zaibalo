@@ -22,11 +22,6 @@ import ua.com.zaibalo.model.User;
 
 public class RegisterAction  implements Action{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public void run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws Exception {
 		
@@ -34,7 +29,7 @@ public class RegisterAction  implements Action{
 		String login = request.getParameter("register_login");
 		
 		if(!StringHelper.isValidEmailAddress(email)){
-			out.write("{\"status\":\"fail\", \"message\":\"Invalid email!\"}");
+			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("invalid_email")  +"\"}");
 			return;
 		}
 		
@@ -42,19 +37,19 @@ public class RegisterAction  implements Action{
 		User user = factory.getUsersAccessInstance().getUserByEmail(email);
 		
 		if(user != null){
-			out.write("{\"status\":\"fail\", \"message\":\"Email already registered. Try password reminder!\"}");
+			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("email_already_registered")  +"\"}");
 			return;
 		}
 		
 		if(login == null || "".equals(login)){
-			out.write("{\"status\":\"fail\", \"message\":\"Login field is blank! Please fill in login field.\"}");
+			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("login_is_blank")  +"\"}");
 			return;
 		}
 		
 		user = factory.getUsersAccessInstance().getUserByName(login);
 		
 		if(user != null){
-			out.write("{\"status\":\"fail\", \"message\":\"User name already taken. Please pick another one.\"}");
+			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("user_name_taken")  +"\"}");
 			return;
 		}
 		

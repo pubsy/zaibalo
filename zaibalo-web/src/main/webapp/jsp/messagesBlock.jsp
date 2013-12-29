@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="zmt" uri="ZMT" %>
+<%@taglib prefix="xe" uri="XmlEscape"  %>
 
 	<c:forEach var="message" items="${messages}">
 		<div class="comment_style">
@@ -10,11 +11,11 @@
 				</div>
 
 				<div class="comment_content">
-					<div class="comment_author" onclick="location.href='/user?id=${message.author.id}';">
+					<a href='<c:url value="/user?id=${message.author.id}"/>'>
 						<c:out value="${message.author.displayName}"/>
-					</div>
+					</a>
 
-					<div>${message.text}</div>
+					<div><xe:escape text="${message.text}" /></div>
 
 					<div class="comment_date">
 						<c:choose>

@@ -124,52 +124,7 @@ function add_post() {
 	$('#loadingScreen').show("slow");
 	sendJQueryAjaxRequest(url, method, params, s, dataType);
 	
-} 
-
-function sendForgotPasswordRequest(){
-	   var s = function success(obj){
-		   if(obj.status == "success"){
-				showLoginForm();
-				showMessageDialog({title: "Thanks", message: obj.message});
-	   		}else if(obj.status == "fail"){
-	   			showLoginForm();
-	   			showMessageDialog({title: "Ooops...", message: obj.message});
-	   		}
-	   }
-	   
-	   var params = {
-			   	userName 	: $("#userName").val(),
-			   	action		: 'remind_password'
-	   		}
-	   var url = "/action.do";
-	   var method = "POST";	
-	   var dataType = "json";
-
-	   sendJQueryAjaxRequest(url, method, params, s, dataType);
 }
-
-function register(){
-	var s = function success(obj){
-		   if(obj.status == "success"){
-				showLoginForm();
-				showMessageDialog({title: "Thanks", message: obj.message});
-	   		}else if(obj.status == "fail"){
-	   			showLoginForm();
-	   			showMessageDialog({title: "Ooops...", message: obj.message});
-	   		}
-	   }
-	   
-	   var params = {
-			   	email			: $("#register_email").val(),
-	   			register_login	: $("#register_login").val(),
-	   			action			: 'register'
-	   		}
-	   var url = "/action.do";
-	   var method = "POST";	
-	   var dataType = "json";
-
-	   sendJQueryAjaxRequest(url, method, params, s, dataType);
-} 
 
 function showAddCommentField(id){
 	$("#add_comment_text_" + id).hide();
@@ -219,19 +174,12 @@ function deleteComment(id){
 function ratePost(id, how){
 	var s = function success(obj){
 		   if(obj.status == "success"){
-
+			   
 			   var sumObj = document.getElementById("rating_sum_" + id);
-			   var sumVal = parseInt(sumObj.innerHTML);
-			   if(how == 'up'){
-				   sumVal += 1;
-			   }else if(how == 'down'){
-				   sumVal -= 1;
-			   }
-			   sumObj.innerHTML = sumVal;
+			   sumObj.innerHTML = obj.sum;
 			   
 			   var countObj = document.getElementById("rating_count_" + id);
-			   var countVal = parseInt(countObj.innerHTML) + 1;
-			   countObj.innerHTML = countVal;
+			   countObj.innerHTML = obj.count;
 			   
 			}else if(obj.status == "fail"){
 				showMessageDialog({title: "Ooops...", message: obj.message});

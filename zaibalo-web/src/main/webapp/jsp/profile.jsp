@@ -14,7 +14,8 @@
 	</head>
 	<body>
 		<div id="body">
-			<%@ include file="left_menu.jsp"%>
+			<jsp:useBean id="now" class="java.util.Date"/>
+			<%@ include file="edit_post_dialog.jsp"%>
 			<div id="right_body">
 				<%@ include file="banner.jsp"%>
 				<div class="content">

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.PostRatingsDAO;
+import ua.com.zaibalo.model.CommentRating;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.PostRating;
 import ua.com.zaibalo.model.UserRating;
@@ -71,6 +73,29 @@ public class PostRatingsDAOImpl implements PostRatingsDAO {
 		}
 		
 		return new UserRating(sum, count);
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public PostRating getUserVote(int userId, int postId) {
+		Criterion a = Restrictions.eq("postId", postId);
+		Criterion b = Restrictions.eq("userId", userId);
+		
+		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(PostRating.class).add(Restrictions.and(a, b));
+		base.setMaxResults(1);
+		
+		List<PostRating> list  = base.list();
+		
+		if(list.size() == 1){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	public void deletePostRating(PostRating postRating) {
+		this.sessionFactory.getCurrentSession().delete(postRating);	
 	}
 
 }

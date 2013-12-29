@@ -1,12 +1,16 @@
 $(document).ready(function() {
 	$("#edit_post_dialog").dialog({
+		width: 'auto', // overcomes width:'auto' and maxWidth bug
+		maxWidth: 600,
+		height: 'auto',
+		modal: true,
+		fluid: true, // new option
+		resizable: false,
 		autoOpen: false,
 		dialogClass: "editPost",
 		closeOnEscape: false,
 		draggable: false,
-		width: 600,
 		minHeight: 50,
-		modal: true,
 		buttons: {
 			"Зберегти": function() {
 				if (validateFields()){
@@ -17,7 +21,6 @@ $(document).ready(function() {
 				$(this).dialog("close"); 
 			}
 		},
-		resizable: false,
 		open: function() {},
 		close: function() {}
 	});
@@ -99,7 +102,7 @@ function update_post() {
 		}
 		
 		
-		$("#post_" + postId).html(response);
+		$("#post_" + postId).html($(response).contents());
 		
 		$("#edit_post_dialog").dialog("close");
 	}
@@ -148,6 +151,7 @@ function addTagToEditPost(){
 				"</span>");
 		}
 	}
+	$('#edit_post_tags_input').val('');
 }
 
 function contains(a, obj) {

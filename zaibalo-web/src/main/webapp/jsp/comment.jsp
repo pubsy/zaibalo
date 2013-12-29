@@ -27,19 +27,14 @@
 			
 			<div class="comment_rating">
 				<c:if test="${sessionScope.user != null}">
-					<span class="rating_thumbs">	
-						<a href="javascript:rateComment(${comment.id}, '-1');"> 
-							<span class="comment_rating_down comment_rating_img" id="commentRatingDown_${comment.id}"></span>
-						</a>
-						<a href="javascript:rateComment(${comment.id}, '1');">
-							<span class="comment_rating_up comment_rating_img" id="commentRatingUp_${comment.id}"></span>
-						</a>
-					</span>
+					<img src="img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
 				</c:if>
 				<zmt:message key="rating_colon"/>
-				<span id="comment_rating_sum_${comment.id}" class="rating_text">${comment.ratingSum}</span>
-				<zmt:message key="votes_colon"/>
-				<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>
+				<span id="comment_rating_sum_${comment.id}" class="rating_sum">${comment.ratingSum}</span>
+				(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
+				<c:if test="${sessionScope.user != null}">
+					<img src="img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
+				</c:if>
 			</div>
 			<div class="comment_date">
 				<c:choose>

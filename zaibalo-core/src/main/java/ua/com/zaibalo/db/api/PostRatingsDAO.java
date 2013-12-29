@@ -7,4 +7,6 @@ public interface PostRatingsDAO {
 	void savePostRating(PostRating rating);
 	boolean isPostRatedByUser(int postId, int userId);
 	UserRating getUserPostRatingSum(int userId);
+	PostRating getUserVote(int userId, int postId);
+	void deletePostRating(PostRating postRating);
 }

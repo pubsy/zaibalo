@@ -14,13 +14,14 @@
 	</head>
 	<body>
 		<div id="body">
-			<%@ include file="left_menu.jsp"%>
+			<jsp:useBean id="now" class="java.util.Date"/>
+			<%@ include file="edit_post_dialog.jsp"%>
 			<div id="right_body">
 				<%@ include file="banner.jsp"%>
 				<div class="content">
 					<div class="dialog_messaging_with" <c:if test="${names != null}">style="display:none;"</c:if> >
 						<zmt:message key="messaging_with" />
-						<span class="dialog_messaging_with_name">${other_user_name}...</span>
+						<span class="dialog_messaging_with_name"><c:out value="${other_user_name}"/>...</span>
 					</div>
 					
 					<c:if test="${names == null}">

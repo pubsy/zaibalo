@@ -15,7 +15,6 @@ import ua.com.zaibalo.model.PostRating;
 import ua.com.zaibalo.model.User;
 
 public class RatePostAction implements Action {
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws Exception {
@@ -39,14 +38,6 @@ public class RatePostAction implements Action {
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
 		DataAccessFactory factory = new DataAccessFactory(request);
-		boolean	isRated = factory.getPostRatingsAccessInstance().isPostRatedByUser(postId, user.getId());
-
-		
-		if(isRated){
-			out.write("{\"status\":\"fail\", \"message\":\"" + StringHelper.getLocalString("you_already_rated") + "\"}");
-			out.close();
-			return;
-		}
 		
 		Post post = factory.getPostsAccessInstance().getObjectById(postId);
 
@@ -55,18 +46,34 @@ public class RatePostAction implements Action {
 			out.close();
 			return;
 		}
-
-		PostRating rating = new PostRating();
-		rating.setPostId(post.getId());
-		rating.setUserId(user.getId());
-		rating.setDate(new Date());
-		rating.setValue(value);
-		rating.setPostTitle(post.getTitle());
-		rating.setUserDisplayName(user.getDisplayName());
-
-		factory.getPostRatingsAccessInstance().savePostRating(rating);
 		
-		out.write("{\"status\":\"success\"}");
+		PostRating postRating = factory.getPostRatingsAccessInstance().getUserVote(user.getId(), post.getId());
+
+		if( postRating == null ) {
+			PostRating rating = new PostRating();
+			rating.setPostId(post.getId());
+			rating.setUserId(user.getId());
+			rating.setDate(new Date());
+			rating.setValue(value);
+			rating.setPostTitle(post.getTitle());
+			rating.setUserDisplayName(user.getDisplayName());
+			
+			factory.getPostRatingsAccessInstance().savePostRating(rating);
+		} else {
+			if(value == postRating.getValue()){
+				out.write("{\"status\":\"fail\", \"message\":\"" + StringHelper.getLocalString("you_already_rated") + "\"}");
+				out.close();
+				return;
+			}
+			
+			if(value == -postRating.getValue()){
+				factory.getPostRatingsAccessInstance().deletePostRating(postRating);
+				factory.getPostsAccessInstance().updatePostRatingSum(- postRating.getValue(), -1, postRating.getPostId());
+			}
+		}
+		
+		post = factory.getPostsAccessInstance().getObjectById(postId);
+		out.write("{\"status\":\"success\", \"sum\":\"" + post.getRatingSum() +  "\", \"count\":\"" + post.getRatingCount() + "\"}");
 		out.close();
 		
 	}
