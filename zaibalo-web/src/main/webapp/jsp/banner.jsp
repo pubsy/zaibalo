@@ -85,3 +85,4 @@
 				</div>
 				
 				<div id="message"></div>
+				<div id="show_rating"></div>

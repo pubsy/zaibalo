@@ -198,29 +198,6 @@ function ratePost(id, how){
 	sendJQueryAjaxRequest(url, method, params, s, dataType);
 }
 
-function getMorePosts(count, categories){
-	var s = function success(response){
-		var newPosts = document.createElement("div");
-		newPosts.innerHTML = response;
-		$(newPosts).children('.post').each(function () {
-			$(this).css("display", "none");
-			$('#posts').append($(this));
-			$(this).show('slow');
-		});
-	}
-	var url = "/action.do";
-	var method = "GET";
-	var params = "action=more_posts&from=" + post_count + "&count=" + count;
-	var dataType = "html";
-	
-	if(categories != null){
-		params += "&categoryIds=" + categories;
-	}
-	post_count += 10;
-	
-	sendJQueryAjaxRequest(url, method, params, s, dataType);
-}
-
 function rateComment(id, how){
 	var s = function success(obj){
 		   if(obj.status == "success"){

@@ -37,7 +37,7 @@ public class RateCommentAction implements Action{
 			return;
 		}
 		
-		CommentRating rate = factory.getCommentRatingAccessInstance().getUserVote(user.getId(), commentId);
+		CommentRating rate = factory.getCommentRatingsAccessInstance().getUserVote(user.getId(), commentId);
 		if(rate == null){
 			rate = new CommentRating();
 			rate.setCommentId(comment.getId());
@@ -48,7 +48,7 @@ public class RateCommentAction implements Action{
 			rate.setPostId(comment.getPostId());
 			rate.setUserDisplayName(user.getDisplayName());
 			
-			factory.getCommentRatingAccessInstance().createCommentRating(rate);
+			factory.getCommentRatingsAccessInstance().createCommentRating(rate);
 			factory.getCommentsAccessInstance().updateCommentRatingSum(value, 1, rate.getCommentId());
 
 		}else{
@@ -59,7 +59,7 @@ public class RateCommentAction implements Action{
 			}
 			
 			if(value == -rate.getValue()){
-				factory.getCommentRatingAccessInstance().deleteCommentRate(rate);
+				factory.getCommentRatingsAccessInstance().deleteCommentRate(rate);
 				factory.getCommentsAccessInstance().updateCommentRatingSum(- rate.getValue(), -1, rate.getCommentId());
 			}
 		}

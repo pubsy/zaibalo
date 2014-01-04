@@ -75,10 +75,21 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ShowRatingAction</display-name>
+		<servlet-name>ShowRatingAction</servlet-name>
+		<servlet-class>ua.com.zaibalo.actions.impl.ShowRatingAction</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowRatingAction</servlet-name>
+		<url-pattern>/ShowRatingAction</url-pattern>
 	</servlet-mapping>
 	
 

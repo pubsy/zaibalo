@@ -24,8 +24,10 @@
 				<c:if test="${sessionScope.user != null}">
 					<img src="../img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
 				</c:if>
-				<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
-				(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
+				<span class="rating-text">
+					<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
+					(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
+				</span>
 				<c:if test="${sessionScope.user != null}">
 					<img src="../img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
 				</c:if>
@@ -82,7 +84,6 @@
 						<div id="hidden_comments_${post.id}" style="display: none;">
 					</c:if>
 						<%@ include file="comment.jsp" %>
-						<div style="clear: both;"></div>
 
 					<c:if test="${comments_count > 2 && i == comments_count -3 && hideComments == true}">
 						</div>

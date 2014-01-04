@@ -66,4 +66,14 @@ public class CommentRatingsDAOImpl implements CommentRatingsDAO {
 		this.sessionFactory.getCurrentSession().delete(rating);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CommentRating> getUserCommentRatings(int commentId) {
+		Criterion a = Restrictions.eq("commentId", commentId);
+
+		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(CommentRating.class).add(a);
+		
+		return base.list();
+	}
+
 }

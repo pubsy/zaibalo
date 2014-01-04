@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.PostRatingsDAO;
-import ua.com.zaibalo.model.CommentRating;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.PostRating;
 import ua.com.zaibalo.model.UserRating;
@@ -96,6 +95,16 @@ public class PostRatingsDAOImpl implements PostRatingsDAO {
 	@Override
 	public void deletePostRating(PostRating postRating) {
 		this.sessionFactory.getCurrentSession().delete(postRating);	
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PostRating> getPostRatings(int postId) {
+		Criterion a = Restrictions.eq("postId", postId);
+		
+		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(PostRating.class).add(a);
+		
+		return base.list();
 	}
 
 }

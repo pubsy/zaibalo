@@ -65,7 +65,7 @@ public class UserProfileServlet extends ServletPage {
 		int postCount = factory.getPostsAccessInstance().getUserPostCount(userId);
 		int commentCount = factory.getCommentsAccessInstance().getUserCommentCount(userId);
 		UserRating postRating = factory.getPostRatingsAccessInstance().getUserPostRatingSum(userId);
-		UserRating commentRating = factory.getCommentRatingAccessInstance().getUserCommentRatingSum(userId);
+		UserRating commentRating = factory.getCommentRatingsAccessInstance().getUserCommentRatingSum(userId);
 		
 		request.setAttribute("post_count", postCount);
 		request.setAttribute("comment_count", commentCount);

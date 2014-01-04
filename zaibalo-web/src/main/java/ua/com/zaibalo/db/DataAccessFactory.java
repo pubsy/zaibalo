@@ -34,7 +34,7 @@ public class DataAccessFactory {
 		return ZAppContext.getCategoriesDao();
 	}
 
-	public CommentRatingsDAO getCommentRatingAccessInstance() {
+	public CommentRatingsDAO getCommentRatingsAccessInstance() {
 		return ZAppContext.getCommentRatingsDAO();
 	}
 

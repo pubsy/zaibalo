@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css"  href="/css/combobox.css?8"/>
 		
 		<script type="text/javascript" src="/scripts/login.js?8"></script>
-		<script type="text/javascript" src="/scripts/scripts.js?10"></script>
+		<script type="text/javascript" src="/scripts/scripts.js?11"></script>
 		<script type="text/javascript" src="/scripts/ajax.js?9"></script>
 		<script type="text/javascript" src="/scripts/textarea.js?8"></script>
 		<script type="text/javascript" src="/scripts/jquery.js"></script>
@@ -18,6 +18,7 @@
 		<script type="text/javascript" src="/scripts/posts_sorting.js?8"></script>
 		<script type="text/javascript" src="/scripts/register.js?1"></script>
 		<script type="text/javascript" src="/scripts/remind_password.js?1"></script>
+		<script type="text/javascript" src="/scripts/show_rating.js?1"></script>
 		
 		<link rel="stylesheet" type="text/css" href="/css/dropdown/jquery-ui-1.8.13.custom.css">
 		<link rel="stylesheet" type="text/css" href="/css/dropdown/ui.dropdownchecklist.themeroller.css">
@@ -28,7 +29,7 @@
 		<script type="text/javascript" src="/scripts/dropdown/jquery-ui-1.8.13.custom.min.js"></script>
 		<script type="text/javascript" src="/scripts/dropdown/ui.dropdownchecklist.js"></script>
 		
-		<link rel="stylesheet" type="text/css"  href="/css/style.css?21"/>
+		<link rel="stylesheet" type="text/css"  href="/css/style.css?22"/>
 		
 		<script type="text/javascript">
 		
@@ -45,7 +46,6 @@
 				$('#edit_post_dialog').on('click', '.edit-cat-del', function() {
 					onClickToCatName($(this).parent());
 				});
-		
 			});
 		</script>
 		

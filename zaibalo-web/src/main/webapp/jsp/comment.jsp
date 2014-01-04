@@ -1,6 +1,5 @@
 
-<div class="comment_style">
-	<div id="comment_${comment.id}">
+	<div id="comment_${comment.id}" class="comment_style">
 		<div class="comment_avatar">
 			<img src='/image/${comment.author.smallImgPath}' width="32" alt="${comment.author.displayName}">
 		</div>
@@ -23,15 +22,15 @@
 			
 			<div class="comment_context"><xe:escape text="${comment.content}" /></div>
 			
-			<div style="clear:both;"></div>
-			
 			<div class="comment_rating">
 				<c:if test="${sessionScope.user != null}">
 					<img src="img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
 				</c:if>
-				<zmt:message key="rating_colon"/>
-				<span id="comment_rating_sum_${comment.id}" class="rating_sum">${comment.ratingSum}</span>
-				(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
+				<span class="rating-text">
+					<zmt:message key="rating_colon"/>
+					<span id="comment_rating_sum_${comment.id}" class="rating_sum">${comment.ratingSum}</span>
+					(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
+				</span>
 				<c:if test="${sessionScope.user != null}">
 					<img src="img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
 				</c:if>
@@ -48,6 +47,4 @@
 			</div>
 			<div style="clear:both;"></div>
 		</div>
-		<div style="clear:both;"></div>
 	</div>
-</div>
