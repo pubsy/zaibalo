@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="/scripts/ajax.js?9"></script>
 		<script type="text/javascript" src="/scripts/textarea.js?8"></script>
 		<script type="text/javascript" src="/scripts/jquery.js"></script>
-		<script type="text/javascript" src="/scripts/editpost.js?8"></script>
+		<script type="text/javascript" src="/scripts/editpost.js?9"></script>
 		<script type="text/javascript" src="/scripts/combobox.js?8"></script>
 		<script type="text/javascript" src="/scripts/message.js?8"></script>
 		<script type="text/javascript" src="/scripts/category_checkoxes.js?8"></script>

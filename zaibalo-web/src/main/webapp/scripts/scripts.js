@@ -30,7 +30,7 @@ function addComment(postId){
 		return;
 	}
 
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			post_id : postId,
@@ -111,7 +111,7 @@ function add_post() {
 		$(post_text).trigger('keydown');
 	}
 
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			post_title	: post_title.value,
@@ -140,7 +140,7 @@ function removePost(id){
 				//alert(obj.message);
 			}
 	}
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			postId: id,
@@ -160,7 +160,7 @@ function deleteComment(id){
 				//alert(obj.message);
 			}
 	}
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			commentId: id,
@@ -185,7 +185,7 @@ function ratePost(id, how){
 				showMessageDialog({title: "Ooops...", message: obj.message});
 			}
 	}
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			postId: id,
@@ -212,7 +212,7 @@ function rateComment(id, how){
 				showMessageDialog({title: "Ooops...", message: obj.message});
 			}
 	}
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			action: "rate_comment",
@@ -229,11 +229,7 @@ function sendMessage(){
 	otherUserName = $('#cb_identifier').val();
 	
 	var s = function sendSuccess(response){
-		var errorSign = "ERROR:";
-		if(response.substring(0, errorSign.length) === errorSign){
-			var message = response.substring(errorSign.length);
-			showMessageDialog({title: "Ooops...", message: message});
-		}else{
+		if(response.status == "success"){
 			$('#cb_identifier').remove();
 			var inputHTML = '<input type="hidden" id="cb_identifier" value="' + otherUserName + '">';
 			$(".content").append($(inputHTML));
@@ -242,7 +238,9 @@ function sendMessage(){
 			$(".dialog_messaging_with").show();
 			$("#text").val("");
 			$("#text").trigger('keydown');
-			$("#dialog_messages").html(response);
+			$("#dialog_messages").html(response.object);
+		}else{
+			showMessageDialog({title: "Ooops...", message: response.message});
 		}
 	}
 		
@@ -251,9 +249,9 @@ function sendMessage(){
 		recipient_name : otherUserName,
 		text : $("#text").val()
 	}
-	var url = "/secure_action/action.do";
-	var method = "GET";
-	var dataType = "html";
+	var url = "/secure/action.do";
+	var method = "POST";
+	var dataType = "json";
 
 	sendJQueryAjaxRequest(url, method, params, s, dataType);
 }

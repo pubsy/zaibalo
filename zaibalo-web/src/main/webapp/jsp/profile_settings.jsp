@@ -23,7 +23,7 @@
 						<div class="update_status">${update_status}</div>
 					</c:if>
 					
-					<form action="/secure_action/action.do?action=update_profile" method="post" 
+					<form action="/secure/update_profile.do" method="post" 
 					   			enctype="multipart/form-data" 
 					   			name="profileSettingsForm" id="profileSettingsForm">	
 					   			

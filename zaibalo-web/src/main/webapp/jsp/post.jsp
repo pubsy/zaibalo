@@ -48,7 +48,7 @@
 
 		<div class="post_author_info">
 			<div>
-				<img src='/image/${post.author.smallImgPath}' alt="${post.author.displayName}">
+				<img src="/image/${post.author.smallImgPath}" alt="${post.author.displayName}">
 			</div>
 			<c:if test="${post.author.id != 2}">
 				<div>

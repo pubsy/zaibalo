@@ -1,7 +1,6 @@
 package ua.com.zaibalo.actions.impl;
 
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
@@ -11,52 +10,55 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.business.UserBusinessLogic;
-import ua.com.zaibalo.db.DataAccessFactory;
+import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.MD5Helper;
 import ua.com.zaibalo.helper.SendEmailHelper;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ajax.AjaxResponse;
+import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.User;
 
+@Component
 public class RegisterAction  implements Action{
 
+	@Autowired
+	private UsersDAO usersDAO;
+	
 	@Override
-	public void run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String email = request.getParameter("email");
-		String login = request.getParameter("register_login");
+		final String email = request.getParameter("email");
+		final String login = request.getParameter("register_login");
 		
 		if(!StringHelper.isValidEmailAddress(email)){
-			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("invalid_email")  +"\"}");
-			return;
+			return new FailResponse(StringHelper.getLocalString("invalid_email"));
 		}
 		
-		DataAccessFactory factory = new DataAccessFactory(request);
-		User user = factory.getUsersAccessInstance().getUserByEmail(email);
+		User user = usersDAO.getUserByEmail(email);
 		
 		if(user != null){
-			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("email_already_registered")  +"\"}");
-			return;
+			return new FailResponse(StringHelper.getLocalString("email_already_registered"));
 		}
 		
 		if(login == null || "".equals(login)){
-			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("login_is_blank")  +"\"}");
-			return;
+			return new FailResponse(StringHelper.getLocalString("login_is_blank"));
 		}
 		
-		user = factory.getUsersAccessInstance().getUserByName(login);
+		user = usersDAO.getUserByName(login);
 		
 		if(user != null){
-			out.write("{\"status\":\"fail\", \"message\":\""+ StringHelper.getLocalString("user_name_taken")  +"\"}");
-			return;
+			return new FailResponse(StringHelper.getLocalString("user_name_taken"));
 		}
 		
 		String newPassword = StringHelper.generateString(10);
-		new UserBusinessLogic().addUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null, factory);
+		new UserBusinessLogic().addUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
 
-		SendEmailHelper helper = new SendEmailHelper();
+		final SendEmailHelper helper = new SendEmailHelper();
 
 		InputStream is = request.getServletContext().getResourceAsStream("html/register.html");
 
@@ -69,17 +71,38 @@ public class RegisterAction  implements Action{
 				StringHelper.getLocalString("your_password_is", newPassword) };
 		String body = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
 
-		out.write("{\"status\":\"success\", \"message\":\"" + StringHelper.getLocalString("check_your_mail_box") + "\"}");
-		out.close();
+		final MimeMessage message = helper.createMessage(email, StringHelper.getLocalString("zaibalo_registration"), body);
+		new Thread(new Runnable(){
+			@Override
+			public void run() {
+				try {
+					helper.send(message);
+				} catch (MessagingException ex) {
+					System.out.println("ERROR: Sending registration message failed.");
+					System.out.println("ERROR: Email: " + email);
+					System.out.println("ERROR: Login: " + login);
+					throw new RuntimeException("Sending registration message failed.");
+				}
+			}
+		});
 
-		MimeMessage message = helper.createMessage(email, StringHelper.getLocalString("zaibalo_registration"), body);
-		try {
-			helper.send(message);
-		} catch (MessagingException ex) {
-			System.out.println("ERROR: Sending registration message failed.");
-			System.out.println("ERROR: Email: " + email);
-			System.out.println("ERROR: Login: " + login);
-			throw new Exception("Sending registration message failed.");
+		return new SuccessMessageResponse(StringHelper.getLocalString("check_your_mail_box"));
+	}
+	
+	class SuccessMessageResponse extends AjaxResponse{
+
+		private String message;
+		
+		public SuccessMessageResponse(String message) {
+			super(true);
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
 		}
 		
 	}

@@ -16,9 +16,6 @@ import ua.com.zaibalo.servlets.listener.ContextInitListener;
 public class EncodingFilter implements Filter {
 
 	@Override
-	public void destroy() {}
-
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
 				throws UnsupportedEncodingException, ServletException, IOException {
 
@@ -37,5 +34,7 @@ public class EncodingFilter implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {}
 
+	@Override
+	public void destroy() {}
 
 }

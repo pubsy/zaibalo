@@ -20,7 +20,7 @@
 				<%@ include file="banner.jsp"%>
 				<div class="content">
 					<div class="profile_user_name"><c:out value="${user.displayName}" /></div>
-					<div class="profile_user_avatar"><img src='/image/${user.bigImgPath}' /></div>
+					<div class="profile_user_avatar"><img src="/image/${user.bigImgPath}" /></div>
 			
 					<div class="profile_info_entry">
 						<span class="profile_info_field"><zmt:message key="who_where"/></span> <span class="profile_info_value"><c:out value="${user.about}"/></span>

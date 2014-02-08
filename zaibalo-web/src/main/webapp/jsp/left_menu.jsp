@@ -46,7 +46,7 @@
 								<img src="/image/${comment.author.smallImgPath}" >
 								<t:trimer text="${comment.author.displayName}" maxWords="12"/></a>
 								<zmt:message key="on" />
-								<a href="<c:url value="/post.do?id=${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
+								<a href="<c:url value="/post?id=${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
 							</div>
 						</c:forEach>
 					</div>

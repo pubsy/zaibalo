@@ -2,14 +2,19 @@ package ua.com.zaibalo.business;
 
 import java.util.Date;
 
-import ua.com.zaibalo.db.DataAccessFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
 
 public class UserBusinessLogic {
 	
+	@Autowired
+	private UsersDAO usersDAO;
+	
 	public int addUser(String loginName, String email, String password,
-								String displayName, String smallImagePath, String bigImagePath, DataAccessFactory factory){
+								String displayName, String smallImagePath, String bigImagePath){
 		User user = new User();
 		user.setLoginName(loginName);
 		user.setEmail(email);
@@ -37,6 +42,6 @@ public class UserBusinessLogic {
 			user.setSmallImgPath(null);
 		}
 
-		return factory.getUsersAccessInstance().insert(user);
+		return usersDAO.insert(user);
 	}
 }

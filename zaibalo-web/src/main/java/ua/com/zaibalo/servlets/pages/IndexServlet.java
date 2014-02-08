@@ -1,32 +1,28 @@
 package ua.com.zaibalo.servlets.pages;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ua.com.zaibalo.db.DataAccessFactory;
+import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.helper.StringHelper;
-import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.Post;
 
 @Component
-@WebServlet(urlPatterns={"/index.html","/index", "/category"}, loadOnStartup=1, name="IndexPage")
 public class IndexServlet extends ServletPage{
-
-	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private PostsDAO postsDAO;
 
 	@Override
-	public String run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws ServletException, IOException{
+	public String runInternal(HttpServletRequest request, HttpServletResponse response) {
 		String categoryIdsParam = request.getParameter("categoryId");
 		String orderByParam = request.getParameter("order_by");
 		String countParam = request.getParameter("count");
@@ -78,15 +74,15 @@ public class IndexServlet extends ServletPage{
 			from = (Integer.parseInt(pageParam) - 1) * count;
 		}
 		
-		List<Post> postList = ZAppContext.getPostsDAO().getPostsList(catIdsParam, fromDate, order, from, count);
+		List<Post> postList = postsDAO.getPostsList(catIdsParam, fromDate, order, from, count);
 
 		request.setAttribute("posts", postList);
 		
-		int pagingResultsSize = ZAppContext.getPostsDAO().getPostsListSize(catIdsParam, fromDate);
+		int pagingResultsSize = postsDAO.getPostsListSize(catIdsParam, fromDate);
 
 		request.setAttribute("results_size", pagingResultsSize);
 		
-		return "/jsp/index.jsp";
+		return "index";
 	}
 	
 }

@@ -1,7 +1,6 @@
 package ua.com.zaibalo.actions.impl;
 
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
@@ -11,30 +10,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
-import ua.com.zaibalo.db.DataAccessFactory;
+import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.AppProperties;
 import ua.com.zaibalo.helper.SendEmailHelper;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ajax.AjaxResponse;
+import ua.com.zaibalo.helper.ajax.FailResponse;
+import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.User;
 
+@Component
 public class RemindPasswordAction implements Action {
 
+	@Autowired
+	private UsersDAO usersDAO;
+	
 	@Override
-	public void run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userName = request.getParameter("userName");
 
-		DataAccessFactory factory = new DataAccessFactory(request);
-		User user = factory.getUsersAccessInstance().getUserByName(userName);
+		User user = usersDAO.getUserByName(userName);
 		if (user == null) {
-			out.write("{\"status\":\"fail\", \"message\":\"" + StringHelper.getLocalString("user_doesnt_exist") + "\"}");
-			out.close();
-			return;
+			return new FailResponse(StringHelper.getLocalString("user_doesnt_exist"));
 		}
 
 		String newPassword = StringHelper.generateString(10);
-		factory.getUsersAccessInstance().updateUserPassword(user.getId(), newPassword);
+		usersDAO.updateUserPassword(user.getId(), newPassword);
 
 		
 		InputStream is = request.getServletContext().getResourceAsStream("html/password_reminder.html");
@@ -55,8 +60,7 @@ public class RemindPasswordAction implements Action {
 				StringHelper.getLocalString("zaibalo_pass_remind_subj"), body
 			);
 
-		out.write("{\"status\":\"success\", \"message\":\"" + StringHelper.getLocalString("reminder_mess_sent", user.getPartlyHiddenEmail()) + "\"}");
-		out.close();
+		new FailResponse(StringHelper.getLocalString("reminder_mess_sent", user.getPartlyHiddenEmail()));
 
 		try {
 			helper.send(message);
@@ -66,7 +70,7 @@ public class RemindPasswordAction implements Action {
 			System.out.println("ERROR: Login: " + user.getLoginName());
 			throw new Exception("Sending reminder message failed.");
 		}
-
+		return new SuccessResponse();
 	}
 
 }

@@ -94,20 +94,15 @@ function update_post() {
 	postId = $('#edit_post_id').val();
 
 	var s = function editPostSuccess(response) {
-		var errorSign = "ERROR:";
-		if(response.substring(0, errorSign.length) === errorSign){
-			var message = response.substring(errorSign.length);
-			showMessageDialog({title: "Ooops...", message: message});
-			return;
+		if(obj.status == "success"){
+			$("#post_" + postId).html(response.object);
+		}else if(obj.status == "fail"){
+			showMessageDialog({title: "Ooops...", message: obj.message});
 		}
-		
-		
-		$("#post_" + postId).html($(response).contents());
-		
 		$("#edit_post_dialog").dialog("close");
 	}
 
-	var url = "/secure_action/action.do";
+	var url = "/secure/action.do";
 	var method = "POST";
 	var params = {
 			post_title	: post_title,
@@ -116,7 +111,7 @@ function update_post() {
 			post_id		: $('#edit_post_id').val(),
 			action		: 'update_post'
 	}
-	var dataType = "html";
+	var dataType = "json";
 	
 	//$('#loadingScreen').show("slow");
 	sendJQueryAjaxRequest(url, method, params, s, dataType);

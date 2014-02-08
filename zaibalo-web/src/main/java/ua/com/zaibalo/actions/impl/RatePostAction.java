@@ -1,23 +1,36 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.io.PrintWriter;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.db.DataAccessFactory;
+import ua.com.zaibalo.db.api.PostRatingsDAO;
+import ua.com.zaibalo.db.api.PostsDAO;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
+import ua.com.zaibalo.helper.ajax.AjaxResponse;
+import ua.com.zaibalo.helper.ajax.FailResponse;
+import ua.com.zaibalo.helper.ajax.RateCommentResponse;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.PostRating;
 import ua.com.zaibalo.model.User;
 
+@Component
 public class RatePostAction implements Action {
 
+	@Autowired
+	private PostsDAO postsDAO;
+	@Autowired
+	private PostRatingsDAO postRatingsDAO;
+	
 	@Override
-	public void run(HttpServletRequest request, HttpServletResponse response, PrintWriter out) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String action = request.getParameter("how");
 		int value;
@@ -26,9 +39,9 @@ public class RatePostAction implements Action {
 		}else if (action.equals("down")){
 			value = -1;
 		}else{
-			out.write("{\"status\":\"fail\", \"message\":\"Wrong 'how' parameter sent\"}");
-			out.close();
-			return;
+			String message = "Wrong 'how' parameter sent";
+			ServletHelperService.logException(new Exception(message), request);
+			return new FailResponse(message);
 		}
 		
 		String id = request.getParameter("postId");
@@ -37,18 +50,17 @@ public class RatePostAction implements Action {
 		
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
-		DataAccessFactory factory = new DataAccessFactory(request);
-		
-		Post post = factory.getPostsAccessInstance().getObjectById(postId);
+		Post post = postsDAO.getObjectById(postId);
 
 		if (user.getId() == post.getAuthorId()) {
-			out.write("{\"status\":\"fail\", \"message\":\"" + StringHelper.getLocalString("you_cant_rate_own_posts") + "\"}");
-			out.close();
-			return;
+			return new FailResponse(StringHelper.getLocalString("you_cant_rate_own_posts"));
 		}
 		
-		PostRating postRating = factory.getPostRatingsAccessInstance().getUserVote(user.getId(), post.getId());
+		PostRating postRating = postRatingsDAO.getUserVote(user.getId(), post.getId());
 
+		int returnSum;
+		int returnCount;
+		
 		if( postRating == null ) {
 			PostRating rating = new PostRating();
 			rating.setPostId(post.getId());
@@ -58,23 +70,22 @@ public class RatePostAction implements Action {
 			rating.setPostTitle(post.getTitle());
 			rating.setUserDisplayName(user.getDisplayName());
 			
-			factory.getPostRatingsAccessInstance().savePostRating(rating);
+			postRatingsDAO.savePostRating(rating);
+			
+			returnCount = post.getRatingCount() + 1;
+			returnSum = post.getRatingSum() + value;
 		} else {
 			if(value == postRating.getValue()){
-				out.write("{\"status\":\"fail\", \"message\":\"" + StringHelper.getLocalString("you_already_rated") + "\"}");
-				out.close();
-				return;
+				return new FailResponse(StringHelper.getLocalString("you_already_rated"));
 			}
 			
-			if(value == -postRating.getValue()){
-				factory.getPostRatingsAccessInstance().deletePostRating(postRating);
-				factory.getPostsAccessInstance().updatePostRatingSum(- postRating.getValue(), -1, postRating.getPostId());
-			}
+			returnCount = post.getRatingCount() - 1;
+			returnSum = post.getRatingSum() - postRating.getValue();
+
+			postRatingsDAO.deletePostRating(postRating);
+			postsDAO.updatePostRatingSum(-postRating.getValue(), -1, postRating.getPostId());
 		}
 		
-		post = factory.getPostsAccessInstance().getObjectById(postId);
-		out.write("{\"status\":\"success\", \"sum\":\"" + post.getRatingSum() +  "\", \"count\":\"" + post.getRatingCount() + "\"}");
-		out.close();
-		
+		return new RateCommentResponse(returnSum, returnCount);
 	}
 }

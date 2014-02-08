@@ -1,48 +1,45 @@
 package ua.com.zaibalo.filters;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
-import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.User;
 
-public class SecureFilter implements Filter{
+@Transactional
+public class SecureFilter implements HandlerInterceptor{
+
+	@Autowired
+	private ServletHelperService servletHelperService;
 
 	@Override
-	public void destroy() {
+	public boolean preHandle(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+			Object arg2) throws Exception {
+		User user = servletHelperService.checkUserAuthorised(httpRequest, httpResponse);
 		
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-			ServletException {
-		
-		HttpServletRequest httpRequest = (HttpServletRequest)request;
-		HttpServletResponse httpResponse = (HttpServletResponse)response;
-		
-		User user = ZAppContext.getServletHelperService().checkUserAuthorised(httpRequest, httpResponse);
-	
 		if(user == null){
 			throw new ServletException(StringHelper.getLocalString("please_authorise"));
 		}
 		
-		chain.doFilter(httpRequest, httpResponse);
-		
+		return true;
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		
+	public void afterCompletion(HttpServletRequest arg0,
+			HttpServletResponse arg1, Object arg2, Exception arg3)
+			throws Exception {
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
+			Object arg2, ModelAndView arg3) throws Exception {
 	}
 
 }

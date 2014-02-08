@@ -1,7 +1,7 @@
 
 	<div id="comment_${comment.id}" class="comment_style">
 		<div class="comment_avatar">
-			<img src='/image/${comment.author.smallImgPath}' width="32" alt="${comment.author.displayName}">
+			<img src="/image/${comment.author.smallImgPath}" width="32" alt="${comment.author.displayName}">
 		</div>
 		
 		<div class="comment_content">
@@ -13,7 +13,7 @@
 			</c:if>
 			
 			<c:if test="${profileAuthorStyle}">
-				<zmt:message key="commented_on" /><a href='<c:url value="/post.do?id=${comment.postId}"/>'>"<c:out value="${comment.postTitle}"/>"</a>
+				<zmt:message key="commented_on" /><a href='<c:url value="/post?id=${comment.postId}"/>'>"<c:out value="${comment.postTitle}"/>"</a>
 			</c:if>
 			
 			<c:if test="${sessionScope.user.id == comment.author.id || sessionScope.user.role < 2}">

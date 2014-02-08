@@ -41,10 +41,10 @@
 												<div class="comment_avatar">
 													<c:choose>
 														<c:when test="${discussion.author.id eq sessionScope.user.id}">
-																<img src='/image/${discussion.recipient.smallImgPath}' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
+																<img src='/image/<c:out value="${discussion.recipient.smallImgPath}" />' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
 														</c:when>
 														<c:otherwise>
-																<img src='/image/${discussion.author.smallImgPath}' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
+																<img src='/image/<c:out value="${discussion.author.smallImgPath}" />' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
 														</c:otherwise>
 													</c:choose>
 												</div>

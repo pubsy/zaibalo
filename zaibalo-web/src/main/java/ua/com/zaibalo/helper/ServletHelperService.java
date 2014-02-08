@@ -10,13 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
+import ua.com.zaibalo.db.api.MessagesDAO;
+import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.model.User;
 
 @Service
 public class ServletHelperService {
+	
+	@Autowired
+	private UsersDAO usersDAO;
+	@Autowired
+	private MessagesDAO messagesDAO;
 	
 	public static String getClientIpAddr(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");
@@ -71,7 +79,7 @@ public class ServletHelperService {
 
 		User cookieUser = null;
 
-		cookieUser = ZAppContext.getUsersDAO().getUserByName(userName);
+		cookieUser = usersDAO.getUserByName(userName);
 
 
 		if (cookieUser != null && cookieUser.getToken().equals(userToken)) {
@@ -141,12 +149,21 @@ public class ServletHelperService {
 			return;
 		}
 		
-		int count = ZAppContext.getMessagesDAO().getUnreadMessagesCount(user.getId());
+		int count = messagesDAO.getUnreadMessagesCount(user.getId());
 		if(count != 0){			
 			request.getSession().setAttribute("unreadMailCount", " [" + count + "]");
 		}else{
 			request.getSession().setAttribute("unreadMailCount", "");
 		}
 			
+	}
+	
+	public static void redirectHome(HttpServletResponse response){
+		try {
+			response.sendRedirect("/");
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Internal system error.");
+		}
 	}
 }

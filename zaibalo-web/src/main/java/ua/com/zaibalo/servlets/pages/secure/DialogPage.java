@@ -1,44 +1,50 @@
 package ua.com.zaibalo.servlets.pages.secure;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.db.DataAccessFactory;
+import ua.com.zaibalo.db.api.DiscussionsDAO;
+import ua.com.zaibalo.db.api.MessagesDAO;
+import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
-import ua.com.zaibalo.helper.ZAppContext;
 import ua.com.zaibalo.model.Message;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.servlets.pages.ServletPage;
 
-@WebServlet(urlPatterns = { "/secure/dialog.do" }, name = "MessageDialogPage")
+@Controller
 public class DialogPage extends ServletPage {
 
-	private static final long serialVersionUID = 1L;
-	
-	
+	@Autowired
+	private UsersDAO usersDAO;
+	@Autowired
+	private MessagesDAO messagesDAO;
+	@Autowired
+	private DiscussionsDAO discussionsDAO;
+	@Autowired
+	private ServletHelperService servletHelperService;
 	
 	@Override
-	public String run(HttpServletRequest request, HttpServletResponse response, PrintWriter out)
+	public String runInternal(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
 		
 		String discussionIdVal = request.getParameter("discussion_id");
 		
-		DataAccessFactory factory = new DataAccessFactory(request);
 		if(StringHelper.isBlank(discussionIdVal)){
-			List<String> names = factory.getUsersAccessInstance().getAllUserNamesList();
+			List<String> names = usersDAO.getAllUserNamesList();
 			request.setAttribute("names", names);
 		}else{
 			User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 			int discussionId = Integer.parseInt(discussionIdVal);
-			boolean accessible  = factory.getDiscussionsAccessInstance().isDiscussionAccessible(discussionId, user.getId());
+			boolean accessible  = discussionsDAO.isDiscussionAccessible(discussionId, user.getId());
 		
 			if(!accessible){
 				ServletHelperService.logMessage("Unauthorise access.", request);
@@ -46,7 +52,7 @@ public class DialogPage extends ServletPage {
 				return null;
 			}
 		
-			List<Message> messages = factory.getMessageAccessInstance().getAllUserDiscussionMessages(discussionId, user.getId());
+			List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussionId, user.getId());
 			request.setAttribute("messages", messages);		
 			
 			Message m = messages.get(0);
@@ -58,13 +64,13 @@ public class DialogPage extends ServletPage {
 			}
 			request.setAttribute("other_user_name", otherUserName);
 			
-			factory.getMessageAccessInstance().setDialogMessagesRead(discussionId, user.getId());
+			messagesDAO.setDialogMessagesRead(discussionId, user.getId());
 			
-			ZAppContext.getServletHelperService().updateUnreadMessagesStatus(request);
+			servletHelperService.updateUnreadMessagesStatus(request);
 			
 		}
 		
-		return "/jsp/dialog.jsp";
+		return "dialog";
 	}
 
 }

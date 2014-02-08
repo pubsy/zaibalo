@@ -4,13 +4,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="zaibalo-web" version="3.0">
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			/WEB-INF/mvc-dispatcher-servlet.xml
-		</param-value>
-	</context-param>
 	
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
@@ -36,61 +29,21 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		<param-name>SessionTrackerSleepTime</param-name>
 		<param-value>3000</param-value>
 	</context-param>
-
+	
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>ua.com.zaibalo.servlets.listener.ContextInitListener</listener-class>
 	</listener>
 	
-	<filter>
-		<filter-name>Encoding</filter-name>
-		<filter-class>ua.com.zaibalo.filters.EncodingFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>Encoding</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
-		<filter-name>SecureActionFilter</filter-name>
-		<filter-class>ua.com.zaibalo.filters.SecureActionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>SecureActionFilter</filter-name>
-		<url-pattern>/secure_action/*</url-pattern>
-	</filter-mapping>
-
-	<filter>
-		<filter-name>SecureFilter</filter-name>
-		<filter-class>ua.com.zaibalo.filters.SecureFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>SecureFilter</filter-name>
-		<url-pattern>/secure/*</url-pattern>
-	</filter-mapping>
-	
-	<servlet>
+ 	<servlet>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<servlet-class>
 			org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<servlet>
-		<description>
-		</description>
-		<display-name>ShowRatingAction</display-name>
-		<servlet-name>ShowRatingAction</servlet-name>
-		<servlet-class>ua.com.zaibalo.actions.impl.ShowRatingAction</servlet-class>
-	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ShowRatingAction</servlet-name>
-		<url-pattern>/ShowRatingAction</url-pattern>
-	</servlet-mapping>
-	
 
 </web-app>
