@@ -62,6 +62,11 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="ua.com.zaibalo.filters.EncodingFilter" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/secure_action/**" />
 			<mvc:mapping path="/secure/**"/>
 			<bean class="ua.com.zaibalo.filters.SecureFilter" />
 		</mvc:interceptor>

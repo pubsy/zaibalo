@@ -1,7 +1,9 @@
 package ua.com.zaibalo.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.zaibalo.actions.AuthorisedActionServlet;
 import ua.com.zaibalo.actions.UnauthorisedActionServlet;
 import ua.com.zaibalo.db.api.PostsDAO;
+import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.servlets.pages.IndexServlet;
@@ -53,12 +56,15 @@ public class Pages {
 	private ProfileSettingsServlet profileSettingsServlet;
 	@Autowired
 	private UpdateProfileRedirect updateProfileRedirect;
+	@Autowired
+	private ServletHelperService servletHelperService;
 	
 	@RequestMapping(value={"/", "/category"}, method = RequestMethod.GET)
 	public String latestPosts(HttpServletRequest request, HttpServletResponse response) {
+		checkAutenticated(request, response);
 		return indexServlet.run(request, response);
 	}
-	
+
 	@RequestMapping(value={"/logout.do"}, method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		return logoutRedirect.run(request, response);
@@ -66,11 +72,13 @@ public class Pages {
 	
 	@RequestMapping(value={"/post", "/post.do"}, method = RequestMethod.GET)
 	public String singlePosts(HttpServletRequest request, HttpServletResponse response) {
+		checkAutenticated(request, response);
 		return singlePostServlet.run(request, response);
 	}
 	
 	@RequestMapping(value={"/userProfile.do", "/user"}, method = RequestMethod.GET)
 	public String user(HttpServletRequest request, HttpServletResponse response) {
+		checkAutenticated(request, response);
 		return userProfileServlet.run(request, response);
 	}
 
@@ -108,6 +116,7 @@ public class Pages {
 	@RequestMapping(value={"/action.do"}, method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResponse action(HttpServletRequest request, HttpServletResponse response) {
+		checkAutenticated(request, response);
 		return unauthorisedActionServlet.doPost(request, response);
 	}
 	
@@ -115,6 +124,16 @@ public class Pages {
 	@ResponseBody
 	public AjaxResponse secureAction(HttpServletRequest request, HttpServletResponse response) {
 		return authorisedActionServlet.doPost(request, response);
+	}
+	
+
+	private void checkAutenticated(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			servletHelperService.checkUserAuthorised(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

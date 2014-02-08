@@ -94,10 +94,10 @@ function update_post() {
 	postId = $('#edit_post_id').val();
 
 	var s = function editPostSuccess(response) {
-		if(obj.status == "success"){
+		if(response.status == "success"){
 			$("#post_" + postId).html(response.object);
 		}else if(obj.status == "fail"){
-			showMessageDialog({title: "Ooops...", message: obj.message});
+			showMessageDialog({title: "Ooops...", message: response.message});
 		}
 		$("#edit_post_dialog").dialog("close");
 	}

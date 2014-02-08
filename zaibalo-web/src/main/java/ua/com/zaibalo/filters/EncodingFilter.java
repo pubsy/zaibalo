@@ -1,40 +1,39 @@
 package ua.com.zaibalo.filters;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.servlets.listener.ContextInitListener;
 
-public class EncodingFilter implements Filter {
+public class EncodingFilter implements HandlerInterceptor {
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
-				throws UnsupportedEncodingException, ServletException, IOException {
+	public void afterCompletion(HttpServletRequest arg0,
+			HttpServletResponse arg1, Object arg2, Exception arg3)
+			throws Exception {
+	}
 
+	@Override
+	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
+			Object arg2, ModelAndView arg3) throws Exception {
+	}
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+			Object arg2) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
 		String ip = request.getRemoteHost();
 		if(ContextInitListener.blackSet.contains(ip)){
 			((HttpServletResponse)response).sendError(403);
-			return;
+			return false;
 		}
 		
-		chain.doFilter(request, response);
+		return true;
 	}
-
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {}
-
-	@Override
-	public void destroy() {}
 
 }
