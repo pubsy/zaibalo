@@ -3,11 +3,13 @@ package ua.com.zaibalo.business;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
 
+@Component
 public class UserBusinessLogic {
 	
 	@Autowired

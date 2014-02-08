@@ -29,6 +29,9 @@ public class RegisterAction  implements Action{
 	@Autowired
 	private UsersDAO usersDAO;
 	
+	@Autowired
+	private UserBusinessLogic userBusinessLogic;
+	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -56,7 +59,7 @@ public class RegisterAction  implements Action{
 		}
 		
 		String newPassword = StringHelper.generateString(10);
-		new UserBusinessLogic().addUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
+		userBusinessLogic.addUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
 
 		final SendEmailHelper helper = new SendEmailHelper();
 
