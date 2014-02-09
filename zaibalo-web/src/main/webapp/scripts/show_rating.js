@@ -33,9 +33,14 @@ function showRatingDialog(){
 }
 
 function sendShowRatingRequest(type, id){
-	   var s = function success(obj){
-		   $("#show_rating").html(obj);
-		   showRatingDialog();
+	   var s = function success(response) {
+		   if (response.status == "success") {
+			   $("#show_rating").html(response.object);
+			   showRatingDialog();
+		   } else if (response.status == "fail") {
+			   //TODO do something
+			   $("#register-dialog-validation").html("FAIL");
+		   }
 	   }
 	   
 	   var params = {
@@ -45,7 +50,7 @@ function sendShowRatingRequest(type, id){
 	   		}
 	   var url = "/action.do";
 	   var method = "POST";	
-	   var dataType = "html";
+	   var dataType = "json";
 
 	   sendJQueryAjaxRequest(url, method, params, s, dataType);
 }

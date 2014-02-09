@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="/scripts/posts_sorting.js?8"></script>
 		<script type="text/javascript" src="/scripts/register.js?2"></script>
 		<script type="text/javascript" src="/scripts/remind_password.js?1"></script>
-		<script type="text/javascript" src="/scripts/show_rating.js?1"></script>
+		<script type="text/javascript" src="/scripts/show_rating.js?2"></script>
 		
 		<link rel="stylesheet" type="text/css" href="/css/dropdown/jquery-ui-1.8.13.custom.css">
 		<link rel="stylesheet" type="text/css" href="/css/dropdown/ui.dropdownchecklist.themeroller.css">
