@@ -63,7 +63,7 @@ function addComment(postId){
 			textarea.val("");
 			textarea.trigger('keydown');
 		}else{
-			showMessageDialog({title: "Ooops...", message: response.message});
+			showMessageDialog({title: "Хай йому грець!", message: response.message});
 			return;
 		}
 
@@ -92,7 +92,7 @@ function add_post() {
 	var s = function addPostSuccess(response) {
 		if(response.status == "fail"){
 			$('#loadingScreen').hide("slow");
-			showMessageDialog({title: "Ooops...", message: response.message});
+			showMessageDialog({title: "Хай йому грець!", message: response.message});
 			return;
 		}
 		
@@ -136,7 +136,7 @@ function removePost(id){
 		   if(obj.status == "success"){
 			   $("#post_" + id).hide("slow");
 			}else if(obj.status == "fail"){
-				showMessageDialog({title: "Ooops...", message: obj.message});
+				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 				//alert(obj.message);
 			}
 	}
@@ -156,7 +156,7 @@ function deleteComment(id){
 		   if(obj.status == "success"){
 			   $("#comment_" + id).hide("slow");
 			}else if(obj.status == "fail"){
-				showMessageDialog({title: "Ooops...", message: obj.message});
+				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 				//alert(obj.message);
 			}
 	}
@@ -182,7 +182,7 @@ function ratePost(id, how){
 			   countObj.innerHTML = obj.count;
 			   
 			}else if(obj.status == "fail"){
-				showMessageDialog({title: "Ooops...", message: obj.message});
+				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 			}
 	}
 	var url = "/secure/action.do";
@@ -209,7 +209,7 @@ function rateComment(id, how){
 			   countObj.innerHTML = obj.count;
 			   
 			}else if(obj.status == "fail"){
-				showMessageDialog({title: "Ooops...", message: obj.message});
+				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 			}
 	}
 	var url = "/secure/action.do";
@@ -240,7 +240,7 @@ function sendMessage(){
 			$("#text").trigger('keydown');
 			$("#dialog_messages").html(response.object);
 		}else{
-			showMessageDialog({title: "Ooops...", message: response.message});
+			showMessageDialog({title: "Хай йому грець!", message: response.message});
 		}
 	}
 		

@@ -97,7 +97,7 @@ function update_post() {
 		if(response.status == "success"){
 			$("#post_" + postId).html(response.object);
 		}else if(obj.status == "fail"){
-			showMessageDialog({title: "Ooops...", message: response.message});
+			showMessageDialog({title: "Хай йому грець!", message: response.message});
 		}
 		$("#edit_post_dialog").dialog("close");
 	}

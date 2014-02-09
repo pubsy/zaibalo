@@ -35,7 +35,7 @@ function register(){
 	var s = function success(obj){
 		   if(obj.status == "success"){
 			   	$("#register").dialog('close');
-				showMessageDialog({title: "Thanks", message: obj.message});
+				showMessageDialog({title: "Дякую", message: obj.message});
 	   		}else if(obj.status == "fail"){
 	   			$("#register-dialog-validation").html(obj.message);
 	   		}

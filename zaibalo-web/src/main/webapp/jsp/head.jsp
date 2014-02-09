@@ -7,16 +7,16 @@
 		<link rel="stylesheet" type="text/css"  href="/css/combobox.css?8"/>
 		
 		<script type="text/javascript" src="/scripts/login.js?8"></script>
-		<script type="text/javascript" src="/scripts/scripts.js?11"></script>
+		<script type="text/javascript" src="/scripts/scripts.js?12"></script>
 		<script type="text/javascript" src="/scripts/ajax.js?9"></script>
 		<script type="text/javascript" src="/scripts/textarea.js?8"></script>
 		<script type="text/javascript" src="/scripts/jquery.js"></script>
-		<script type="text/javascript" src="/scripts/editpost.js?10"></script>
+		<script type="text/javascript" src="/scripts/editpost.js?11"></script>
 		<script type="text/javascript" src="/scripts/combobox.js?8"></script>
 		<script type="text/javascript" src="/scripts/message.js?8"></script>
 		<script type="text/javascript" src="/scripts/category_checkoxes.js?8"></script>
 		<script type="text/javascript" src="/scripts/posts_sorting.js?8"></script>
-		<script type="text/javascript" src="/scripts/register.js?1"></script>
+		<script type="text/javascript" src="/scripts/register.js?2"></script>
 		<script type="text/javascript" src="/scripts/remind_password.js?1"></script>
 		<script type="text/javascript" src="/scripts/show_rating.js?1"></script>
 		

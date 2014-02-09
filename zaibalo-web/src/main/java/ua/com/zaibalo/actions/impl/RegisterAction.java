@@ -98,6 +98,7 @@ public class RegisterAction  implements Action{
 		
 		public SuccessMessageResponse(String message) {
 			super(true);
+			this.message = message;
 		}
 
 		public String getMessage() {
