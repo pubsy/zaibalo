@@ -11,11 +11,11 @@
 								<ul class="dropdown-menu recent-comments">
 									<c:forEach var="comment" items="${recentComments}">
 										<li class="recent_comment">
-											<a href='<c:url value="/user?id=${comment.authorId}" />'>
+											<a href='<c:url value="/user/${comment.authorId}" />'>
 											<img src="/image/${comment.author.smallImgPath}" width="16px" >
 											<t:trimer text="${comment.author.displayName}" maxWords="12"/></a>
 											<zmt:message key="on" />
-											<a href="<c:url value="/post?id=${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
+											<a href="<c:url value="/post/${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -28,12 +28,10 @@
 								<ul class="dropdown-menu">
 									<c:forEach var="category" items="${applicationScope.categories}">
 										<li>
-											<%-- <a href='<c:url value="/category?categoryId=${category.id}" />'> --%>
-												<label>
-													<input type="checkbox" class="category_checkbox" id="${category.id}" value="${category.id}" <cat:checker id="${category.id}" queryString="${pageContext.request.queryString}" url="${pageContext.request.servletPath}"/> >
-													<c:out value="${category.name}"/>
-												</label>
-											<!-- </a> -->
+											<label>
+												<input type="checkbox" class="category_checkbox" id="${category.id}" value="${category.id}" <cat:checker id="${category.id}" queryString="" url=""/> >
+												<c:out value="${category.name}"/>
+											</label>
 										</li>
 									</c:forEach>
 								</ul>
@@ -48,8 +46,6 @@
 								<%@include file="login-status-dropdown.jsp" %>
 							</c:if>
 						</ul>
-						<%-- <span><a href='<c:url value="/" />'><zmt:message key="main"/></a></span>
-						<span><a href='<c:url value="/feed" />'><span class="rss-icon"></span>RSS</a></span> --%>
 					</div>
 					<div id="header_banner">
 						<div id="vk_icon"><a target="_blank" href="http://vk.com/club10793353"><img src="/img/icons/vk.png" /></a></div>					

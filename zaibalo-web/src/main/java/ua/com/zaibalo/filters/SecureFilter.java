@@ -22,7 +22,7 @@ public class SecureFilter implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
 			Object arg2) throws Exception {
-		User user = servletHelperService.checkUserAuthorised(httpRequest, httpResponse);
+		User user = servletHelperService.updateUserAuthenication(httpRequest, httpResponse);
 		
 		if(user == null){
 			throw new ServletException(StringHelper.getLocalString("please_authorise"));

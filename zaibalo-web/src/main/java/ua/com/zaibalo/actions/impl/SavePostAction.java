@@ -23,7 +23,6 @@ import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.Category;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
-import ua.com.zaibalo.social.FBPostToGroup;
 import ua.com.zaibalo.social.VKPostToGroup;
 import ua.com.zaibalo.validation.Validator;
 
@@ -92,16 +91,14 @@ public class SavePostAction implements Action{
 
 		request.setAttribute("post", post);
 		
-		//String link = "zaibalo.com.ua/post.do?id=" + post.getId();
-		//String extr = StringHelper.extract(post.getContent(), 140 - post.getAuthorName().length() - link.length() -4);
 		String extr = post.getContent();
-		final String text = extr + "\n\n" + post.getAuthor().getDisplayName() + "\n\n" + "http://www.zaibalo.com.ua/post?id=" + post.getId();
+		final String text = extr + "\n\n" + post.getAuthor().getDisplayName() + "\n\n" + "http://www.zaibalo.com.ua/post/" + post.getId();
 			
 		new Thread(new Runnable(){
 			@Override
 			public void run() {
 				VKPostToGroup.postToVKGroup(text);
-				FBPostToGroup.postToFBGroup(text);
+				//FBPostToGroup.postToFBGroup(text);
 			}
 		}).start();
 		

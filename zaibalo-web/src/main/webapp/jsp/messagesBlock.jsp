@@ -11,7 +11,7 @@
 				</div>
 
 				<div class="comment_content">
-					<a href='<c:url value="/user?id=${message.author.id}"/>'>
+					<a href='<c:url value="/user/${message.author.id}"/>'>
 						<c:out value="${message.author.displayName}"/>
 					</a>
 

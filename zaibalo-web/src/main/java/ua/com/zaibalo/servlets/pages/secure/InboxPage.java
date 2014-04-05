@@ -12,17 +12,15 @@ import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.User;
-import ua.com.zaibalo.servlets.pages.ServletPage;
 
-//@WebServlet(urlPatterns={"/secure/inbox.do"}, name="InboxPage")
+
 @Controller
-public class InboxPage extends ServletPage{
+public class InboxPage{
 
 	@Autowired
 	private DiscussionsDAO discussionsDAO;
 	
-	@Override
-	public String runInternal(HttpServletRequest request, HttpServletResponse response) {
+	public String run(HttpServletRequest request, HttpServletResponse response) {
 	
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		List<Discussion> discussions = discussionsDAO.getAllDiscussions(user.getId());

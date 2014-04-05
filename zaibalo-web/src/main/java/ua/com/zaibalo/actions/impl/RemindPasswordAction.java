@@ -46,7 +46,7 @@ public class RemindPasswordAction implements Action {
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(is, writer, "UTF-8");
 		String pattern = writer.toString();
-		String link = "http://" + AppProperties.getProperty("app_server_address") + "/secure/profileSettings.do";
+		String link = "http://" + AppProperties.getProperty("app_server_address") + "/secure/settings";
 
 		String[] params = { 
 				StringHelper.getLocalString("your_pass_is_reset", newPassword),

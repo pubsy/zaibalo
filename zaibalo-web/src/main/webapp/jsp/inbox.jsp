@@ -23,13 +23,13 @@
 						<c:when test="${empty discussions}">
 							<div class="inbox_try_writing">
 							<zmt:message key="no_messages_yet_try_writing">
-								<zmt:param value="/secure/dialog.do" />
+								<zmt:param value="/secure/dialog" />
 							</zmt:message>
 							</div>
 						</c:when>
 						<c:otherwise>
 							
-							<div class="new_message_write_a_message"><a href="/secure/dialog.do"><span class="glyphicon glyphicon-pencil"></span><zmt:message key="write_a_message" /></a></div>
+							<div class="new_message_write_a_message"><a href="/secure/dialog"><span class="glyphicon glyphicon-pencil"></span><zmt:message key="write_a_message" /></a></div>
 						
 							<table id="mail">
 							  	<col width="5%">
@@ -37,7 +37,7 @@
 					  			<col width="60%">
 					  			<col width="15%">
 								<c:forEach var="discussion" items="${discussions}">
-										<div class="comment_style dialog-row" onclick="javascript:location.href='/secure/dialog.do?discussion_id=${discussion.id}'">
+										<div class="comment_style dialog-row" onclick="javascript:location.href='/secure/dialog/${discussion.id}'">
 												<div class="comment_avatar">
 													<c:choose>
 														<c:when test="${discussion.author.id eq sessionScope.user.id}">

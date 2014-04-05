@@ -6,7 +6,7 @@
 	<input type="hidden" name="post_id" value="${post.id}" class="post_id_hidden"/>
 	<div class="post_header">
 		<div class="post_header_title">
-			<a href='<c:url value="/post?id=${post.id}" />'><c:out value="${post.title}"/></a>
+			<a href='<c:url value="/post/${post.id}" />'><c:out value="${post.title}"/></a>
 			<c:if test="${(sessionScope.user.id == post.authorId && (empty post.comments)) || sessionScope.user.role < 2}">
 				<a href="javascript:editPostShow(${post.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
 			</c:if>
@@ -22,14 +22,14 @@
 		<div class="post_cat_rat">
 			<div class="post_rating">
 				<c:if test="${sessionScope.user != null}">
-					<img src="../img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
+					<img src="/img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
 				</c:if>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
 					(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
 				</span>
 				<c:if test="${sessionScope.user != null}">
-					<img src="../img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
+					<img src="/img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
 				</c:if>
 			</div>
 			<div>
@@ -37,7 +37,7 @@
 				<span class="post_category">
 					<c:forEach items="${post.categories}" var="category">
 					 	<c:set var="cat_name" value="${category.name}"/>
-							<a href='<c:url value="/category?categoryId=${category.id}" />'><c:out value="${cat_name}"/></a>
+							<a href='<c:url value="/category/${category.id}" />'><c:out value="${cat_name}"/></a>
 					</c:forEach>
 				</span>
 			</div>
@@ -52,7 +52,7 @@
 			</div>
 			<c:if test="${post.author.id != 2}">
 				<div>
-					<a href='<c:url value="/user?id=${post.authorId}" />'><c:out value="${post.author.displayName}" /></a>
+					<a href='<c:url value="/user/${post.authorId}" />'><c:out value="${post.author.displayName}" /></a>
 				</div>
 			</c:if>
 			<c:if test="${post.author.id == 2}">

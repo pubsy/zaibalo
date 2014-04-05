@@ -16,7 +16,7 @@
 			<zmt:param value="${comment_rating.userDisplayName}"/>
 			<zmt:param value="${comment_rating.commentAuthorName}"/>
 		</zmt:message>
-		<a href='<c:url value="/post?id=${comment_rating.postId}#comment_${comment_rating.commentId}" />'>"${comment_rating.postTitle}"</a>
+		<a href='<c:url value="/post/${comment_rating.postId}#comment_${comment_rating.commentId}" />'>"${comment_rating.postTitle}"</a>
 	</div>
 	<div style="clear:both;"></div>
 </div>

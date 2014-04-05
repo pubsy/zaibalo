@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	$('.category_checkbox').change(function() {
 		var catIds = getCategoryCheckBoxesIds();
-		window.location.replace("/category?categoryId=" + catIds);
+		window.location.replace("/category/" + catIds);
 	});
 });
 

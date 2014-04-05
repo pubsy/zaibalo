@@ -117,7 +117,9 @@ public class PostsDAOImpl implements PostsDAO {
 				parent.add(Restrictions.gt("date", fromDate));
 			}
 			parent.setMaxResults(count);
-			parent.addOrder(Order.desc(order.getPropertyName()));
+			if(order != null){
+				parent.addOrder(Order.desc(order.getPropertyName()));
+			}
 			postsList = parent.list();			
 			
 			for(Post post: postsList){

@@ -2,18 +2,34 @@
 <c:if test="${results_size != 0}">
 <div class="paging_pages">
 
-	<c:set var="url_base" value="/?" />
+	<c:set var="url_base" value="/" />
 
-	<c:forEach var='parameter' items='${paramValues}' varStatus="status"> 
-		<c:if test="${parameter.key ne 'page' and parameter.key ne 'url_base'}">
-			<c:set var="url_base" value="${url_base}${parameter.key}=${parameter.value[0]}&" />
+	<c:if test="${not empty paramValues}">
+		<c:if test="${param.categoryId ne null}">
+			<c:set var="url_base" value="${url_base}category/${param.categoryId}/" />
 		</c:if>
-	</c:forEach>
+		<c:if test="${param.order_by ne null}">
+			<c:set var="url_base" value="${url_base}order/${param.order_by}/" />
+		</c:if>
+		<c:if test="${param.count ne null}">
+			<c:set var="url_base" value="${url_base}count/${param.count}/" />
+		</c:if>
+	</c:if>
+	<c:if test="${empty paramValues}">
+		<c:if test="${param_categories ne null}">
+			<c:set var="url_base" value="${url_base}category/${param_categories}/" />
+		</c:if>
+		<c:if test="${param_order_by ne null}">
+			<c:set var="url_base" value="${url_base}order/${param_order_by}/" />
+		</c:if>
+		<c:if test="${param_count ne null}">
+			<c:set var="url_base" value="${url_base}count/${param_count}/" />
+		</c:if>
+	</c:if>
 
-	<c:set var="pages" value="start / results_size + 1" />
 	<c:set var="window" value="10" />
-	<c:set var="page_size" value="${param.count eq null ? 10 : param.count}" />
-	<c:set var="page" value="${param.page eq null ? 1 : param.page}"/>
+	<c:set var="page_size" value="${param_count eq null ? 10 : param_count}" />
+	<c:set var="page" value="${param_page eq null ? 1 : param_page}"/>
 	<c:set var="start" value="${(page - 1) * page_size}" />
 	
 	<c:set var="pages" value="${results_size / page_size}" />
@@ -34,7 +50,7 @@
     <c:set var="pageNo" value="${current_page - left_link_count}" />
     
 	<c:if test="${pageNo > 1}">
-		<a href="${url_base}page=1"><c:out value="1.. <<"/></a>
+		<a href="${url_base}"><c:out value="1.. <<"/></a>
 	</c:if>
 	
 	<fmt:formatNumber var="pageNo" value="${pageNo}" maxFractionDigits="0" />
@@ -45,8 +61,11 @@
 				<c:when test="${pageNo == current_page}">
 					<c:out value=" ${pageNo} "/>
 				</c:when>
+				<c:when test="${pageNo == 1}">
+					<a href="${url_base}">1</a>
+				</c:when>
 				<c:otherwise>
-					<a href="${url_base}page=${pageNo}"><c:out value="${pageNo}"/></a>
+					<a href="${url_base}page/${pageNo}"><c:out value="${pageNo}"/></a>
 				</c:otherwise>
 			</c:choose>
 		</c:if>
@@ -54,7 +73,7 @@
 	</c:forEach>
 	
 	<c:if test="${(pageNo - 1) < pages}">
-		<a href="${url_base}page=${pages}"><c:out value=">> ..${pages}"/></a>
+		<a href="${url_base}page/${pages}"><c:out value=">> ..${pages}"/></a>
 	</c:if>
 </div>
 <div class="paging_total">

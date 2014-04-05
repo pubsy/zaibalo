@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 public class CategoryCheckedTag extends SimpleTagSupport{
@@ -15,18 +17,18 @@ public class CategoryCheckedTag extends SimpleTagSupport{
 	
 	
 	public void doTag() throws JspException, IOException{
-		if("".equals(queryString)){
+		final ServletRequest servletRequest = ((PageContext) getJspContext()).getRequest();
+		String catIds = servletRequest.getParameter("categoryId");
+		
+		if(catIds == null){
+			catIds = (String) servletRequest.getAttribute("param_categories");
+		}
+		
+		if(catIds == null){
 			return;
 		}
-		String regex = ".*categoryId=([\\d{1,10},]+).*";
 		
-		Pattern datePatt = Pattern.compile(regex);
-		Matcher m = datePatt.matcher(queryString);
-		if (m.matches()) {
-			queryString   = m.group(1);
-		}
-		
-		String[] ids = queryString.split(",");
+		String[] ids = catIds.split(",");
 		if(Arrays.asList(ids).contains("" + id)){
 			getJspContext().getOut().print("checked");
 		}

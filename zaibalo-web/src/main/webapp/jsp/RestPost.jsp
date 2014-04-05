@@ -14,7 +14,7 @@
 	<input type="hidden" name="post_id" value="${post.id}" class="post_id_hidden"/>
 	<div class="post_header">
 		<div class="post_header_title">
-			<a href='<c:url value="/post?id=${post.id}" />'><c:out value="${post.title}"/></a>
+			<a href='<c:url value="/post/${post.id}" />'><c:out value="${post.title}"/></a>
 		</div>
 		<div class="post_header_date">
 			<fmt:formatDate type="both" dateStyle="MEDIUM" timeStyle="SHORT" value="${post.date}" timeZone="EET"/>
@@ -40,7 +40,7 @@
 				<span class="post_category">
 					<c:forEach items="${post.categories}" var="category">
 					 	<c:set var="cat_name" value="${category.name}"/>
-							<a href='<c:url value="/category?categoryId=${category.id}" />'><c:out value="${cat_name}"/></a>
+							<a href='<c:url value="/category/${category.id}" />'><c:out value="${cat_name}"/></a>
 					</c:forEach>
 				</span>
 			</div>
@@ -59,7 +59,7 @@
 			</div>
 			<c:if test="${post.author.id != 2}">
 				<div>
-					<a href='<c:url value="/user?id=${post.authorId}" />'><c:out value="${post.author.displayName}" /></a>
+					<a href='<c:url value="/user/${post.authorId}" />'><c:out value="${post.author.displayName}" /></a>
 				</div>
 			</c:if>
 			<c:if test="${post.author.id == 2}">

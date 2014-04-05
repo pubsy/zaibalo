@@ -6,14 +6,10 @@
 		
 		<div class="comment_content">
 			<c:if test="${comment.author.id != 2}">
-				<div class="comment_author" onclick="location.href='<c:url value="/user?id=${comment.author.id}"/>';"><c:out value="${comment.author.displayName}"/></div>
+				<div class="comment_author" onclick="location.href='<c:url value="/user/${comment.author.id}"/>';"><c:out value="${comment.author.displayName}"/></div>
 			</c:if>
 			<c:if test="${comment.author.id == 2}">
 				<div class="comment_author"><c:out value="${comment.author.displayName}"/></div>
-			</c:if>
-			
-			<c:if test="${profileAuthorStyle}">
-				<zmt:message key="commented_on" /><a href='<c:url value="/post?id=${comment.postId}"/>'>"<c:out value="${comment.postTitle}"/>"</a>
 			</c:if>
 			
 			<c:if test="${sessionScope.user.id == comment.author.id || sessionScope.user.role < 2}">
@@ -24,7 +20,7 @@
 			
 			<div class="comment_rating">
 				<c:if test="${sessionScope.user != null}">
-					<img src="img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
+					<img src="/img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
 				</c:if>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/>
@@ -32,7 +28,7 @@
 					(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
 				</span>
 				<c:if test="${sessionScope.user != null}">
-					<img src="img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
+					<img src="/img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
 				</c:if>
 			</div>
 			<div class="comment_date">

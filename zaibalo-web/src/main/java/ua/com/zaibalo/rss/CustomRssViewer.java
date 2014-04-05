@@ -47,7 +47,7 @@ public class CustomRssViewer extends AbstractRssFeedView {
 			item.setDescription(description);
  
 			item.setTitle(post.getTitle());
-			String link = "http://www.zaibalo.com.ua/post?id=" + post.getId();
+			String link = "http://www.zaibalo.com.ua/post/" + post.getId();
 			item.setLink(link);
 			item.setPubDate(post.getDate());
  

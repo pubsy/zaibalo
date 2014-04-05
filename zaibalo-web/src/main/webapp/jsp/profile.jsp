@@ -42,7 +42,7 @@
 					</div>
 					
 					<c:if test="${sessionScope.user != null}">
-						<a href="/secure/dialog.do?to=${user.displayName}"><zmt:message key="write_a_message_to_user" /></a>
+						<a href="/secure/dialog?to=${user.displayName}"><zmt:message key="write_a_message_to_user" /></a>
 					</c:if>
 					<br><br>
 					<div id="profile_entries">

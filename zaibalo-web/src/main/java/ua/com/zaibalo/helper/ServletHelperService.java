@@ -90,7 +90,7 @@ public class ServletHelperService {
 		return null;
 	}
 
-	public User checkUserAuthorised(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	public User updateUserAuthenication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		HttpSession session = request.getSession();
 
 		User user = (User)session.getAttribute(ZaibaloConstants.USER_PARAM_NAME);

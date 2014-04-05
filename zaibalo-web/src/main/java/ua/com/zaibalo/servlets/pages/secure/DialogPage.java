@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.DiscussionsDAO;
@@ -18,10 +18,9 @@ import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Message;
 import ua.com.zaibalo.model.User;
-import ua.com.zaibalo.servlets.pages.ServletPage;
 
 @Controller
-public class DialogPage extends ServletPage {
+public class DialogPage {
 
 	@Autowired
 	private UsersDAO usersDAO;
@@ -32,28 +31,24 @@ public class DialogPage extends ServletPage {
 	@Autowired
 	private ServletHelperService servletHelperService;
 	
-	@Override
-	public String runInternal(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-		
-		String discussionIdVal = request.getParameter("discussion_id");
-		
-		if(StringHelper.isBlank(discussionIdVal)){
+	public ModelAndView run(String discussionIdStr, HttpServletRequest request) throws IOException, ServletException{
+
+		ModelAndView mav = new ModelAndView("dialog");
+		if(StringHelper.isBlank(discussionIdStr)){
 			List<String> names = usersDAO.getAllUserNamesList();
-			request.setAttribute("names", names);
+			mav.addObject("names", names);
 		}else{
 			User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-			int discussionId = Integer.parseInt(discussionIdVal);
+			int discussionId = Integer.parseInt(discussionIdStr);
 			boolean accessible  = discussionsDAO.isDiscussionAccessible(discussionId, user.getId());
 		
 			if(!accessible){
 				ServletHelperService.logMessage("Unauthorise access.", request);
-				response.sendRedirect("/secure/dialog.do");
-				return null;
+				throw new ServletException("Unauthorised access.");
 			}
 		
 			List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussionId, user.getId());
-			request.setAttribute("messages", messages);		
+			mav.addObject("messages", messages);		
 			
 			Message m = messages.get(0);
 			String otherUserName;
@@ -62,7 +57,7 @@ public class DialogPage extends ServletPage {
 			}else{
 				otherUserName = m.getAuthor().getDisplayName();
 			}
-			request.setAttribute("other_user_name", otherUserName);
+			mav.addObject("other_user_name", otherUserName);
 			
 			messagesDAO.setDialogMessagesRead(discussionId, user.getId());
 			
@@ -70,7 +65,7 @@ public class DialogPage extends ServletPage {
 			
 		}
 		
-		return "dialog";
+		return mav;
 	}
 
 }

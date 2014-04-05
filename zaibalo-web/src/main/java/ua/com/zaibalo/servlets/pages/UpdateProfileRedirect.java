@@ -26,7 +26,7 @@ import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
 
 @Component
-public class UpdateProfileRedirect extends ServletPage{
+public class UpdateProfileRedirect {
 
 	@Autowired
 	private UsersDAO usersDAO;
@@ -168,8 +168,7 @@ public class UpdateProfileRedirect extends ServletPage{
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	protected String runInternal(HttpServletRequest request,
+	public String run(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String displayName = null;
 		String newPassword = null;
@@ -221,7 +220,7 @@ public class UpdateProfileRedirect extends ServletPage{
 				}
 				boolean mkdir = tempFolder.mkdir();
 				if(!mkdir){
-					throw new ServletException("Couldnt create a directory: " + tempFolder.getAbsolutePath());
+					throw new ServletException("Could not create a directory: " + tempFolder.getAbsolutePath());
 				}
 
 				newAvatar = new File("tmp" + File.separator + item.getName());
@@ -254,6 +253,6 @@ public class UpdateProfileRedirect extends ServletPage{
 		
 		request.setAttribute("update_status", status.toString());
 		
-		return "redirect:/secure/profileSettings.do";
+		return "redirect:/secure/settings";
 	}
 }

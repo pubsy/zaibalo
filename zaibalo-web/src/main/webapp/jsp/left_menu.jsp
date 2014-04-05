@@ -31,7 +31,7 @@
 					<div class="sidebar_block_body">
 						<c:forEach var="category" items="${applicationScope.categories}">
 							<input type="checkbox" class="category_checkbox" value="${category.id}" <cat:checker id="${category.id}" queryString="${pageContext.request.queryString}" url="${pageContext.request.servletPath}"/> >
-							<a href='<c:url value="/category?categoryId=${category.id}" />'><c:out value="${category.name}"/></a>
+							<a href='<c:url value="/category/${category.id}" />'><c:out value="${category.name}"/></a>
 							<br>
 						</c:forEach>
 					</div>
@@ -42,11 +42,11 @@
 					<div class="sidebar_block_body">
 						<c:forEach var="comment" items="${recentComments}">
 							<div class="recent_comment">
-								<a href='<c:url value="/user?id=${comment.authorId}" />'>
+								<a href='<c:url value="/user/${comment.authorId}" />'>
 								<img src="/image/${comment.author.smallImgPath}" >
 								<t:trimer text="${comment.author.displayName}" maxWords="12"/></a>
 								<zmt:message key="on" />
-								<a href="<c:url value="/post?id=${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
+								<a href="<c:url value="/post/${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
 							</div>
 						</c:forEach>
 					</div>

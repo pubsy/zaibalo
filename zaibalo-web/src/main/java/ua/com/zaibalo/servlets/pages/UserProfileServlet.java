@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.CommentRatingsDAO;
 import ua.com.zaibalo.db.api.CommentsDAO;
@@ -20,8 +21,8 @@ import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.model.UserRating;
 
-@Controller
-public class UserProfileServlet extends ServletPage {
+@Service
+public class UserProfileServlet {
 
 	@Autowired
 	private UsersDAO usersDAO;
@@ -33,51 +34,49 @@ public class UserProfileServlet extends ServletPage {
 	private PostRatingsDAO postRatingsDAO;
 	@Autowired
 	private CommentRatingsDAO commentRatingsDAO;
-	
-	@Override
-	public String runInternal(HttpServletRequest request, HttpServletResponse response){
 
-		String userParam = request.getParameter("user");
-		String idParam = request.getParameter("id");
-		
-		if(StringHelper.isBlank(userParam)){
-			userParam = idParam;
-		}
-		
-		if(StringHelper.isBlank(userParam) || !StringHelper.isDecimal(userParam)){
+	public String getUser(String userId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		if (StringHelper.isBlank(userId) || !StringHelper.isDecimal(userId)) {
 			ServletHelperService.redirectHome(response);
-			ServletHelperService.logMessage("User Id is not passed as a parameter.", request);
+			ServletHelperService.logMessage(
+					"User Id is not passed as a parameter.", request);
 			return null;
 		}
-		
-		int userId = Integer.parseInt(userParam);
-		
-		User user = usersDAO.getUserById(userId);
-		if(user == null){
+
+		int id = Integer.parseInt(userId);
+
+		User user = usersDAO.getUserById(id);
+		if (user == null) {
 			ServletHelperService.redirectHome(response);
-			ServletHelperService.logMessage("User with id: " + userId + " doesn't exist", request);
+			ServletHelperService.logMessage("User with id: " + id
+					+ " doesn't exist", request);
 			return null;
 		}
-		
-		List<Post> posts = postsDAO.getLatestUserPosts(userId, 10);
-		
+
+		List<Post> posts = postsDAO.getLatestUserPosts(id, 10);
+
 		List<Post> entrys = new ArrayList<Post>();
 		entrys.addAll(posts);
-		
-		int postCount = postsDAO.getUserPostCount(userId);
-		int commentCount = commentsDAO.getUserCommentCount(userId);
-		UserRating postRating = postRatingsDAO.getUserPostRatingSum(userId);
-		UserRating commentRating = commentRatingsDAO.getUserCommentRatingSum(userId);
-		
+
+		int postCount = postsDAO.getUserPostCount(id);
+		int commentCount = commentsDAO.getUserCommentCount(id);
+		UserRating postRating = postRatingsDAO.getUserPostRatingSum(id);
+		UserRating commentRating = commentRatingsDAO
+				.getUserCommentRatingSum(id);
+
 		request.setAttribute("post_count", postCount);
 		request.setAttribute("comment_count", commentCount);
 		request.setAttribute("post_rating", postRating);
 		request.setAttribute("comment_rating", commentRating);
 		request.setAttribute("user", user);
 		request.setAttribute("entrys", entrys);
-		request.setAttribute("pageTitle", getPageTitle(user.getDisplayName()));
-		
+		request.setAttribute(
+				"pageTitle",
+				StringHelper.getLocalString("zaibalo_blog") + " "
+						+ user.getDisplayName());
+
 		return "profile";
 	}
-
 }

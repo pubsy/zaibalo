@@ -14,7 +14,7 @@
 		</c:if>
 	</div>
 	<div class="vote_text">
-		<c:out value="${rating.userDisplayName}" /><fmt:message key="voted_on" /><a href='<c:url value="/post?id=${rating.postId}" />'>"<c:out value="${rating.postTitle}" />"</a>
+		<c:out value="${rating.userDisplayName}" /><fmt:message key="voted_on" /><a href='<c:url value="/post/${rating.postId}" />'>"<c:out value="${rating.postTitle}" />"</a>
 	</div>
 	<div style="clear:both;"></div>
 </div>
