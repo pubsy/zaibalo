@@ -18,7 +18,7 @@ public class Root {
 	@Autowired
 	private IndexServlet indexServlet;
 	
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/category" }, method = RequestMethod.GET)
 	public ModelAndView main(
 			@RequestParam(value="categoryId", required=false) String categoryId,
 			@RequestParam(value="order_by", required=false) String orderBy,
