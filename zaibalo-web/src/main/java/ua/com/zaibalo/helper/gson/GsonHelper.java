@@ -1,6 +1,9 @@
 package ua.com.zaibalo.helper.gson;
 
 
+import ua.com.zaibalo.helper.gson.adapters.SinglePostAdapter;
+import ua.com.zaibalo.model.Post;
+
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -9,7 +12,10 @@ import com.google.gson.GsonBuilder;
 public class GsonHelper {
 
 	public static Gson getGsonWithExclusionStrategy(){
-		Gson gson = new GsonBuilder().
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Post.class, new SinglePostAdapter());
+
+		Gson gson = gsonBuilder.
 		addSerializationExclusionStrategy(new ExclusionStrategy() {
 			
 			@Override
@@ -23,6 +29,7 @@ public class GsonHelper {
 				return false;
 			}
 		}).create();
+		
 		
 		return gson;
 	}

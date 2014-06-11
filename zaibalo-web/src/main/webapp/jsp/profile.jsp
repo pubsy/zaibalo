@@ -26,7 +26,7 @@
 						<span class="profile_info_field"><zmt:message key="who_where"/></span> <span class="profile_info_value"><c:out value="${user.about}"/></span>
 					</div>
 					<div class="profile_info_entry">
-						<span class="profile_info_field"><zmt:message key="registration_date"/></span> <span class="profile_info_value"><fmt:formatDate type="date" dateStyle="MEDIUM" value="${user.date}" timeZone="EET"/></span>
+						<span class="profile_info_field"><zmt:message key="registration_date"/></span> <span class="profile_info_value"><fmt:formatDate type="date" dateStyle="MEDIUM" value="${user.date}" /></span>
 					</div>
 					<div class="profile_info_entry">
 						<span class="profile_info_field"><zmt:message key="posts_count"/></span> <span class="profile_info_value">${post_count}</span>

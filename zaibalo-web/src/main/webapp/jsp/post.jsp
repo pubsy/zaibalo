@@ -12,7 +12,7 @@
 			</c:if>
 		</div>
 		<div class="post_header_date">
-			<fmt:formatDate type="date" dateStyle="SHORT" value="${post.date}" timeZone="EET"/>
+			<fmt:formatDate type="date" dateStyle="SHORT" value="${post.date}" />
 		</div>
 	</div>
 	<div style="clear: both;"></div>

@@ -17,7 +17,7 @@
 			<a href='<c:url value="/post/${post.id}" />'><c:out value="${post.title}"/></a>
 		</div>
 		<div class="post_header_date">
-			<fmt:formatDate type="both" dateStyle="MEDIUM" timeStyle="SHORT" value="${post.date}" timeZone="EET"/>
+			<fmt:formatDate type="both" dateStyle="MEDIUM" timeStyle="SHORT" value="${post.date}" />
 		</div>
 	</div>
 	<div style="clear: both;"></div>

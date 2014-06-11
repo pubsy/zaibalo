@@ -66,10 +66,10 @@
 													<div class="comment_date">
 														<c:choose>
 											 				<c:when test="${discussion.latestMessageDate.time gt now.time - 86400000}">
-																<fmt:formatDate type="time" timeStyle="SHORT" value="${discussion.latestMessageDate}" timeZone="EET"/>
+																<fmt:formatDate type="time" timeStyle="SHORT" value="${discussion.latestMessageDate}" />
 															</c:when> 
 															<c:otherwise>
-																<fmt:formatDate type="date" dateStyle="SHORT" value="${discussion.latestMessageDate}" timeZone="EET"/>
+																<fmt:formatDate type="date" dateStyle="SHORT" value="${discussion.latestMessageDate}" />
 															</c:otherwise>
 														</c:choose>
 													</div>

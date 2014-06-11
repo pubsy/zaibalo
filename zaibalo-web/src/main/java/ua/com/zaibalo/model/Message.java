@@ -25,11 +25,11 @@ public class Message {
 	@Type(type="text")
 	private String text;
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="author_id", referencedColumnName="id", insertable = false, updatable = false)
 	private User author;
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="recipient_id", referencedColumnName="id", insertable = false, updatable = false)
 	private User recipient;
 	

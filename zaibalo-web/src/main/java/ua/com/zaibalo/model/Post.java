@@ -16,12 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
+
+import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 
 @Entity
 @Table(name="posts")
-@JsonIgnoreProperties({"ratings", "categories", "author_id"})
 public class Post {
 
 	@Id
@@ -39,7 +39,7 @@ public class Post {
 	@Column(name="author_id")
 	private int authorId;
 	
-	//@ExcludeFromJson
+	@ExcludeFromJson
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="author_id", referencedColumnName="id", insertable = false, updatable = false)
 	private User author;
@@ -50,10 +50,11 @@ public class Post {
 	@Column(name="rating_sum")
 	private int ratingSum;
 
+	@ExcludeFromJson
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 	
-	//@ExcludeFromJson
+	@ExcludeFromJson
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade=CascadeType.REMOVE)
 	private List<PostRating> ratings;
 	

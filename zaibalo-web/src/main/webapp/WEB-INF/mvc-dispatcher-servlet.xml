@@ -15,7 +15,11 @@
 
 	<import resource="classpath:/zaibalo-core-context.xml" />
 	
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+	    <mvc:message-converters>
+	        <bean class="ua.com.zaibalo.helper.gson.GsonMessageConverter" />
+	    </mvc:message-converters>
+	</mvc:annotation-driven>
 	
 	<mvc:resources mapping="/css/**" location="/css/"/>
 	<mvc:resources mapping="/scripts/**" location="/scripts/"/>
@@ -23,35 +27,16 @@
 	<mvc:resources mapping="/fonts/**" location="/fonts/"/>
 	<mvc:resources mapping="/image/**" location="file:/var/lib/tomcat7/userphoto/"/>
 
-	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-	  <property name="order" value="1" />
-	  <property name="mediaTypes">
-		<map>
-		   <entry key="json" value="application/json" />
-		</map>
-	  </property>
- 
-	  <property name="defaultViews">
-		<list>
-		  <!-- JSON View -->
-		  <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-		  </bean>
-		</list>
-	  </property>
-	  <property name="ignoreAcceptHeader" value="true" />
-	</bean>
-
 	<!-- Map returned view name "rssViewer" to bean id "rssViewer" -->
-	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" >
-		<property name="order" value="2" />
-	</bean>
- 
 	<bean id="rssViewer" class="ua.com.zaibalo.rss.CustomRssViewer" />
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" >
+		<property name="order" value="1" />
+	</bean>
  
 	<!-- If no extension matched, use JSP view -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="order" value="3" />
+		<property name="order" value="2" />
 		<property name="prefix">
 			<value>/jsp/</value>
 		</property>
@@ -59,6 +44,8 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
+	
+
 	
 	<mvc:interceptors>
 		<mvc:interceptor>

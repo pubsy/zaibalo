@@ -22,7 +22,7 @@ public class CommentRating{
 
 	private Date date;
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id", referencedColumnName="id", insertable = false, updatable = false)
 	private User user;
 

@@ -34,10 +34,10 @@
 			<div class="comment_date">
 				<c:choose>
 	 				<c:when test="${comment.date.time gt now.time - 86400000}">
-						<fmt:formatDate type="time" timeStyle="SHORT" value="${comment.date}" timeZone="EET"/>
+						<fmt:formatDate type="time" timeStyle="SHORT" value="${comment.date}"/>
 					</c:when> 
 					<c:otherwise>
-						<fmt:formatDate type="date" dateStyle="SHORT" value="${comment.date}" timeZone="EET"/>
+						<fmt:formatDate type="date" dateStyle="SHORT" value="${comment.date}"/>
 					</c:otherwise>
 				</c:choose>
 			</div>

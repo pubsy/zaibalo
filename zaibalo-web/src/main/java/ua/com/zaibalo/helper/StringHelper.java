@@ -137,47 +137,5 @@ public class StringHelper {
 	public static String extract(String text, int maxWords){
 		return extract(text, maxWords, "");
 	}
-	
-//	@Test
-//	public void testExtractNormalCase(){
-//		String actual = extract("Some random text just being typed inside this shit.", 20, "...");
-//		assertEquals("Some random text...", actual);
-//	}
-//	
-//	@Test
-//	public void testExtractLongWordCase(){
-//		String actual = extract("Somerandomtextjustbeingtypedinsidethisshit.", 20, "...");
-//		assertEquals("Somerandomtextju...", actual);
-//	}
-//	
-//	@Test
-//	public void testExtractStartsWithSpacesCase(){
-//		String actual = extract("                      Some random text just being typed.", 20, "...");
-//		assertEquals("Some random text...", actual);
-//	}
-//	
-//	@Test
-//	public void testExtractOneSymbolCase1(){
-//		String actual = extract("A                      B", 20, "...");
-//		assertEquals("A...", actual);
-//	}
-//	
-//	@Test
-//	public void testExtractOneSymbolCase2(){
-//		String actual = extract("A", 20, "...");
-//		assertEquals("A", actual);
-//	}
-//	
-//	@Test
-//	public void testExtractSpecSymbolCase3(){
-//		String actual = extract("\"~\"!@#$%^&*()09`{}\"?>:|<>?", 20, "...");
-//		assertEquals("\"~\"!@#$%^&*()09`...", actual);
-//	}
-//
-//	
-//	@Test
-//	public void testExtractSpecSymbolCase4(){
-//		String actual = extract("Some random f...", 20, "...");
-//		assertEquals("Some random f...", actual);
-//	}	
+
 }

@@ -21,14 +21,17 @@ public class SinglePostAdapter implements JsonSerializer<Post>{
 		JsonObject obj = new JsonObject();
 		obj.addProperty("id", post.getId());
         obj.addProperty("title", post.getTitle());
-        obj.addProperty("date", Long.valueOf(post.getDate().getTime()));
-        obj.addProperty("authorName", post.getAuthor().getDisplayName());
+        if(post.getDate() != null){
+        	obj.addProperty("date", post.getDate().toString());
+        }
+        if(post.getAuthor() != null){
+        	obj.addProperty("authorName", post.getAuthor().getDisplayName());
+        }
         obj.addProperty("ratingSum", post.getRatingSum());
         obj.addProperty("ratingCount", post.getRatingCount());
         obj.addProperty("commentCount", post.getComments().size());
         
-        //String avatarUrl = "http://10.0.2.2:8080" + post.getAuthor().getSmallImgAbsolutePath();
-        String avatarUrl = "http://" + AppProperties.getProperty("app_server_address") + post.getAuthor().getSmallImgPath();
+        String avatarUrl = "http://" + AppProperties.getProperty("app_server_address")  + "/image/" +  post.getAuthor().getSmallImgPath();
         obj.addProperty("authorAvatarUrl", avatarUrl);
         
         Gson gson = GsonHelper.getGsonWithExclusionStrategy();

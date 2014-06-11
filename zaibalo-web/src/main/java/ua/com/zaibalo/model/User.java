@@ -11,12 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 
 
 @Entity
 @Table(name="users")
-@JsonIgnoreProperties({"comments", "password", "loginName", "token", "email", "partlyHiddenEmail", "role", "notifyOnPM"})
 public class User{
 	
 	@Id
@@ -55,7 +54,7 @@ public class User{
 	@Column(name="notify_on_pm")
 	private boolean notifyOnPM;
 	
-	//@ExcludeFromJson
+	@ExcludeFromJson
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
 	private List<Comment> comments;
 	
