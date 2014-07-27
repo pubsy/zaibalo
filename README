@@ -1,0 +1,2 @@
+In order to init an eclipse project run:
+mvn clean install -DskipTests eclipse:clean eclipse:eclipse -Dwtpversion=2.0
