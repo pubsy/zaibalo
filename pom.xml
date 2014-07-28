@@ -21,6 +21,16 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<includes>
+					<include>application.conf</include>
+					<include>zaibalo-core-context.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
