@@ -22,7 +22,7 @@ public class CommentsListAdapter implements JsonSerializer<Comment>{
         obj.addProperty("ratingCount", comment.getRatingCount());
         
         //String avatarUrl = "http://10.0.2.2:8080" + post.getAuthor().getSmallImgAbsolutePath();
-        String avatarUrl = "http://" + AppProperties.getProperty("app_server_address") + "/image/" + comment.getAuthor().getSmallImgPath();
+        String avatarUrl = "http://" + AppProperties.getProperty("app.server.domain") + "/image/" + comment.getAuthor().getSmallImgPath();
         obj.addProperty("authorAvatarUrl", avatarUrl);
         
         obj.addProperty("content", comment.getContent());

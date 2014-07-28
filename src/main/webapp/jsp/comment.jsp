@@ -12,14 +12,14 @@
 				<div class="comment_author"><c:out value="${comment.author.displayName}"/></div>
 			</c:if>
 			
-			<c:if test="${sessionScope.user.id == comment.author.id || sessionScope.user.role < 2}">
+			<c:if test="${(sessionScope.user.id == comment.author.id and sessionScope.user.role <= 2) || sessionScope.user.role < 2}">
 				<div class="delete_link"><a href="javascript:deleteComment(${comment.id})"><img src="/img/icons/x.png"></a></div>
 			</c:if>
 			
 			<div class="comment_context"><xe:escape text="${comment.content}" /></div>
 			
 			<div class="comment_rating">
-				<c:if test="${sessionScope.user != null}">
+				<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
 					<img src="/img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
 				</c:if>
 				<span class="rating-text">
@@ -27,7 +27,7 @@
 					<span id="comment_rating_sum_${comment.id}" class="rating_sum">${comment.ratingSum}</span>
 					(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
 				</span>
-				<c:if test="${sessionScope.user != null}">
+				<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
 					<img src="/img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
 				</c:if>
 			</div>

@@ -33,7 +33,7 @@ public class RemindPasswordAction implements Action {
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userName = request.getParameter("userName");
 
-		User user = usersDAO.getUserByName(userName);
+		final User user = usersDAO.getUserByName(userName);
 		if (user == null) {
 			return new FailResponse(StringHelper.getLocalString("user_doesnt_exist"));
 		}
@@ -46,7 +46,7 @@ public class RemindPasswordAction implements Action {
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(is, writer, "UTF-8");
 		String pattern = writer.toString();
-		String link = "http://" + AppProperties.getProperty("app_server_address") + "/secure/settings";
+		String link = "http://" + AppProperties.getProperty("app.server.domain") + "/secure/settings";
 
 		String[] params = { 
 				StringHelper.getLocalString("your_pass_is_reset", newPassword),
@@ -54,22 +54,27 @@ public class RemindPasswordAction implements Action {
 			};
 		String body = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
 
-		SendEmailHelper helper = new SendEmailHelper();
-		MimeMessage message = helper.createMessage(
+		final SendEmailHelper helper = new SendEmailHelper();
+		final MimeMessage message = helper.createMessage(
 				user.getEmail(),
 				StringHelper.getLocalString("zaibalo_pass_remind_subj"), body
 			);
 
 		new FailResponse(StringHelper.getLocalString("reminder_mess_sent", user.getPartlyHiddenEmail()));
 
-		try {
-			helper.send(message);
-		} catch (MessagingException ex) {
-			System.out.println("ERROR: Sending reminder message failed.");
-			System.out.println("ERROR: Email: " + user.getEmail());
-			System.out.println("ERROR: Login: " + user.getLoginName());
-			throw new Exception("Sending reminder message failed.");
-		}
+		new Thread(new Runnable(){
+			@Override
+			public void run() {
+				try {
+					helper.send(message);
+				} catch (MessagingException ex) {
+					System.out.println("ERROR: Sending reminder message failed.");
+					System.out.println("ERROR: Email: " + user.getEmail());
+					System.out.println("ERROR: Login: " + user.getLoginName());
+				}
+			}
+		}).start();
+
 		return new SuccessResponse();
 	}
 

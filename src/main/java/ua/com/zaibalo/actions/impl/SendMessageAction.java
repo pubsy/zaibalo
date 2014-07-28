@@ -46,8 +46,15 @@ public class SendMessageAction implements Action {
 	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		
+		if(user.getRole() > 2){
+			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
+		}
+
 		String recipientName = request.getParameter("recipient_name");
 		String text = request.getParameter("text");
+		
 		
 		if(StringHelper.isBlank(recipientName)){
 			return new FailResponse(StringHelper.getLocalString("select_recipient"));
@@ -61,7 +68,7 @@ public class SendMessageAction implements Action {
 			return new FailResponse(StringHelper.getLocalString("message_text_cant_be_longer_than", 500));
 		}
 		
-		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		
 		
 		User recipient = usersDAO.getUserByDisplayName(recipientName);
 		

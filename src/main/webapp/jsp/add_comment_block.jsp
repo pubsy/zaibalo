@@ -1,5 +1,5 @@
 
-		<c:if test="${sessionScope.user != null}">	
+		<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">	
 			<div class="comment_style">
 				<a href="javascript:showAddCommentField('${post.id}');" id='add_comment_text_${post.id}'><zmt:message key="comment_this"/></a>
 				<div id='add_comment_${post.id}' style='display: none;'>

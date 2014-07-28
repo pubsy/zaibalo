@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.MessagesDAO;
+import ua.com.zaibalo.db.api.UserDetailDAO;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.model.UserDetail;
+import ua.com.zaibalo.model.UserDetail.DetailType;
 
 @Service
 public class ServletHelperService {
@@ -25,6 +28,8 @@ public class ServletHelperService {
 	private UsersDAO usersDAO;
 	@Autowired
 	private MessagesDAO messagesDAO;
+	@Autowired(required=true)
+	private UserDetailDAO userDetailDAO;
 	
 	public static String getClientIpAddr(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");
@@ -102,6 +107,14 @@ public class ServletHelperService {
 
 		if (cookieUser != null) {
 			session.setAttribute(ZaibaloConstants.USER_PARAM_NAME, cookieUser);
+			
+			String ipAddr = ServletHelperService.getClientIpAddr(request);
+			UserDetail userDetail = new UserDetail();
+			userDetail.setDetailType(DetailType.IP);
+			userDetail.setUser(cookieUser);
+			userDetail.setValue(ipAddr);
+			userDetailDAO.saveIfNotExists(userDetail);
+			
 			return cookieUser;
 		}
 		

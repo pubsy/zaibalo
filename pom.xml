@@ -2,19 +2,46 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ua.com.zaibalo</groupId>
-	<artifactId>zaibalo-web</artifactId>
+	<artifactId>zaibalo</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>zaibalo-web</name>
+	<name>zaibalo</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-      <spring.version>3.1.1.RELEASE</spring.version>
-      <jackson.mapper.version>1.5.6</jackson.mapper.version>
-      <log4j.version>1.2.16</log4j.version>
-    </properties>
+		<spring.version>3.1.1.RELEASE</spring.version>
+		<jackson.mapper.version>1.5.6</jackson.mapper.version>
+		<log4j.version>1.2.16</log4j.version>
+	</properties>
 	<build>
-		<finalName>zaibalo-web</finalName>
+		<finalName>zaibalo</finalName>
+		<filters>
+			<filter>${env.HOME}/zaibalo.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>${env.HOME}/zaibalo.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -24,16 +51,25 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
-	    <repository>
-	        <id>spring-milestone</id>
-	        <name>Spring Portfolio Milestone Repository</name>
-	        <url>http://repo.springsource.org/milestone/</url>
-	    </repository>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Portfolio Milestone Repository</name>
+			<url>http://repo.springsource.org/milestone/</url>
+		</repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -102,10 +138,10 @@
 			<artifactId>spring-expression</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		 <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-orm</artifactId>
-		    <version>${spring.version}</version>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
@@ -214,15 +250,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test-mvc</artifactId>
-		    <version>1.0.0.M2</version>
-		    <scope>test</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test-mvc</artifactId>
+			<version>1.0.0.M2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

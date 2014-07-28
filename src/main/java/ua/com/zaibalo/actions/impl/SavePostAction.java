@@ -17,6 +17,7 @@ import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.CategoriesDAO;
 import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
+import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
@@ -46,6 +47,10 @@ public class SavePostAction implements Action{
 
 		User user = (User) request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 
+		if(user.getRole() > 2){
+			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
+		}
+		
 		// save post
 		Post post = new Post();
 		post.setAuthor(user);

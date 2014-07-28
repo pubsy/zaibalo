@@ -7,7 +7,7 @@
 	<div class="post_header">
 		<div class="post_header_title">
 			<a href='<c:url value="/post/${post.id}" />'><c:out value="${post.title}"/></a>
-			<c:if test="${(sessionScope.user.id == post.authorId && (empty post.comments)) || sessionScope.user.role < 2}">
+			<c:if test="${(sessionScope.user.id == post.authorId and (empty post.comments) and sessionScope.user.role <= 2) or sessionScope.user.role < 2}">
 				<a href="javascript:editPostShow(${post.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
 			</c:if>
 		</div>
@@ -21,14 +21,14 @@
 		<div class="post_content_text"><xe:escape text="${post.content}" /></div>
 		<div class="post_cat_rat">
 			<div class="post_rating">
-				<c:if test="${sessionScope.user != null}">
+				<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
 					<img src="/img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
 				</c:if>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
 					(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
 				</span>
-				<c:if test="${sessionScope.user != null}">
+				<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
 					<img src="/img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
 				</c:if>
 			</div>

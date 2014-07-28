@@ -11,6 +11,6 @@ public class ZaibaloConstants {
 	public static final String ZAIBALO_USER_COOKIE_NAME = "zaibalo_user";
 	
 	public static final String COMMENT_HTML_PATH = "comment.html";
-	public static final String USERPHOTO_DIR_PROP_NAME = "userphoto_path";
-	public static final String BLACK_LIST = "black_list";
+	public static final String USERPHOTO_DIR_PROP_NAME = "userphoto.path";
+	public static final String BLACK_LIST = "black.list";
 }

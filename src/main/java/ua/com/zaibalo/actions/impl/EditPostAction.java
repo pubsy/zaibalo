@@ -56,6 +56,10 @@ public class EditPostAction implements Action {
 		
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 
+		if(user.getRole() > 2){
+			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
+		}
+		
 		int postId = Integer.parseInt(postIdStr);
 		Post post = postsDAO.getObjectById(postId);
 		

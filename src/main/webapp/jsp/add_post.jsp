@@ -1,5 +1,5 @@
 
-<c:if test="${sessionScope.user != null}">
+<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
 	<div id="add_post_div">
 		<div id="add_post_form">
 			<input id="post_title" type="text" placeholder='<zmt:message key="post_title"/>'

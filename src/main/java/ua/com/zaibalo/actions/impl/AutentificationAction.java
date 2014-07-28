@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.constants.ZaibaloConstants;
+import ua.com.zaibalo.db.api.UserDetailDAO;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.MD5Helper;
 import ua.com.zaibalo.helper.ServletHelperService;
@@ -19,6 +20,8 @@ import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.model.UserDetail;
+import ua.com.zaibalo.model.UserDetail.DetailType;
 
 @Component
 public class AutentificationAction implements Action{
@@ -31,6 +34,8 @@ public class AutentificationAction implements Action{
 	private UsersDAO usersDAO;
 	@Autowired
 	private ServletHelperService servletHelperService;
+	@Autowired(required=true)
+	private UserDetailDAO userDetailDAO;
 
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -67,6 +72,13 @@ public class AutentificationAction implements Action{
 				cookie.setMaxAge(90*24*60*60);
 				response.addCookie(cookie);
 			}
+			
+			String ipAddr = ServletHelperService.getClientIpAddr(request);
+			UserDetail userDetail = new UserDetail();
+			userDetail.setDetailType(DetailType.IP);
+			userDetail.setUser(user);
+			userDetail.setValue(ipAddr);
+			userDetailDAO.saveIfNotExists(userDetail);
 			
 			return new SuccessResponse();
 			

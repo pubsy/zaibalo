@@ -47,6 +47,10 @@ public class SaveCommentAction implements Action{
 		
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
+		if(user.getRole() > 2){
+			return new FailResponse(StringHelper.getLocalString("error_colon") + StringHelper.getLocalString("operation_forbidden"));
+		}
+		
 		//save comment
 		Comment comment = new Comment();
 		comment.setContent(content);

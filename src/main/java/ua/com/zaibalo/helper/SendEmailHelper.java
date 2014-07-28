@@ -16,8 +16,8 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmailHelper {
 	
-	private final static String LOGIN = AppProperties.getProperty("email_address"); 
-	private final static String PASSWORD = AppProperties.getProperty("email_pass"); 
+	private final static String LOGIN = AppProperties.getProperty("email.address"); 
+	private final static String PASSWORD = AppProperties.getProperty("email.pass"); 
 	final String host = "smtp.gmail.com";
 	
 	Session session = null;

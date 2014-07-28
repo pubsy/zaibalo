@@ -84,10 +84,9 @@ public class RegisterAction  implements Action{
 					System.out.println("ERROR: Sending registration message failed.");
 					System.out.println("ERROR: Email: " + email);
 					System.out.println("ERROR: Login: " + login);
-					throw new RuntimeException("Sending registration message failed.");
 				}
 			}
-		});
+		}).start();
 
 		return new SuccessMessageResponse(StringHelper.getLocalString("check_your_mail_box"));
 	}
