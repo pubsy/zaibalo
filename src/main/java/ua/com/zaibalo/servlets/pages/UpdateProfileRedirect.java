@@ -20,10 +20,10 @@ import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.UsersDAO;
-import ua.com.zaibalo.helper.AppProperties;
 import ua.com.zaibalo.helper.MD5Helper;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.servlets.listener.ContextInitListener;
 
 @Component
 public class UpdateProfileRedirect {
@@ -80,7 +80,7 @@ public class UpdateProfileRedirect {
 		BufferedImage smallThumbnail = Scalr.resize(img, 50);
 
 		//File bigOutputfile = new File(path + File.separator + "img/userphoto/" + name  + "." + ext);
-		String userPhoteDirPath = AppProperties.getProperty(ZaibaloConstants.USERPHOTO_DIR_PROP_NAME) + File.separator;
+		String userPhoteDirPath = ContextInitListener.getProperty(ZaibaloConstants.USERPHOTO_DIR_PROP_NAME) + File.separator;
 		File bigOutputfile = new File(userPhoteDirPath + userId  + "." + ext);
 		if(bigOutputfile.exists()){
 			bigOutputfile.delete();

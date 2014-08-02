@@ -14,10 +14,12 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import ua.com.zaibalo.servlets.listener.ContextInitListener;
+
 public class SendEmailHelper {
 	
-	private final static String LOGIN = AppProperties.getProperty("email.address"); 
-	private final static String PASSWORD = AppProperties.getProperty("email.pass"); 
+	private final static String LOGIN = ContextInitListener.getProperty("email.address"); 
+	private final static String PASSWORD = ContextInitListener.getProperty("email.pass"); 
 	final String host = "smtp.gmail.com";
 	
 	Session session = null;

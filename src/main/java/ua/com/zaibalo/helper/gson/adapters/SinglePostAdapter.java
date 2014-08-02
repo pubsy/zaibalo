@@ -2,10 +2,10 @@ package ua.com.zaibalo.helper.gson.adapters;
 
 import java.lang.reflect.Type;
 
-import ua.com.zaibalo.helper.AppProperties;
 import ua.com.zaibalo.helper.gson.GsonHelper;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
+import ua.com.zaibalo.servlets.listener.ContextInitListener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,7 +31,7 @@ public class SinglePostAdapter implements JsonSerializer<Post>{
         obj.addProperty("ratingCount", post.getRatingCount());
         obj.addProperty("commentCount", post.getComments().size());
         
-        String avatarUrl = "http://" + AppProperties.getProperty("app.server.domain")  + "/image/" +  post.getAuthor().getSmallImgPath();
+        String avatarUrl = "http://" + ContextInitListener.getProperty("app.server.domain")  + "/image/" +  post.getAuthor().getSmallImgPath();
         obj.addProperty("authorAvatarUrl", avatarUrl);
         
         Gson gson = GsonHelper.getGsonWithExclusionStrategy();

@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.db.api.UsersDAO;
-import ua.com.zaibalo.helper.AppProperties;
 import ua.com.zaibalo.helper.SendEmailHelper;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.servlets.listener.ContextInitListener;
 
 @Component
 public class RemindPasswordAction implements Action {
@@ -46,7 +46,7 @@ public class RemindPasswordAction implements Action {
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(is, writer, "UTF-8");
 		String pattern = writer.toString();
-		String link = "http://" + AppProperties.getProperty("app.server.domain") + "/secure/settings";
+		String link = "http://" + ContextInitListener.getProperty("app.server.domain") + "/secure/settings";
 
 		String[] params = { 
 				StringHelper.getLocalString("your_pass_is_reset", newPassword),
