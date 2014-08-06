@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.MessagesDAO;
@@ -22,6 +24,7 @@ import ua.com.zaibalo.model.UserDetail;
 import ua.com.zaibalo.model.UserDetail.DetailType;
 
 @Service
+@Transactional(propagation=Propagation.REQUIRED)
 public class ServletHelperService {
 	
 	@Autowired
@@ -95,6 +98,7 @@ public class ServletHelperService {
 		return null;
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public User updateUserAuthenication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		HttpSession session = request.getSession();
 

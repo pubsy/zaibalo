@@ -1,16 +1,22 @@
 package ua.com.zaibalo.helper.ajax;
 
-public class FailResponse extends AjaxResponse{
+import org.apache.commons.lang3.StringUtils;
+
+import ua.com.zaibalo.helper.StringHelper;
+
+public class FailResponse extends AjaxResponse {
 
 	private String message;
-	
+
 	public FailResponse() {
 		super(false);
 	}
-	
-	public FailResponse(String message){
+
+	public FailResponse(String message) {
 		this();
-		this.message = message;
+		this.message = StringUtils.isBlank(message) ? 
+				StringHelper.getLocalString("internal_server_error") : 
+				message;
 	}
 
 	public String getMessage() {

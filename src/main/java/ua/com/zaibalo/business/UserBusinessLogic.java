@@ -1,15 +1,19 @@
 package ua.com.zaibalo.business;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
 
 @Component
+@Transactional(propagation=Propagation.REQUIRED)
 public class UserBusinessLogic {
 	
 	@Autowired
@@ -45,5 +49,9 @@ public class UserBusinessLogic {
 		}
 
 		return usersDAO.insert(user);
+	}
+	
+	public List<String> getAllUserNamesList(){
+		return usersDAO.getAllUserNamesList();
 	}
 }

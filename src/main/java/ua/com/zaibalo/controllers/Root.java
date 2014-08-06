@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.zaibalo.servlets.pages.IndexServlet;
 
 @Controller
-@Transactional
 public class Root {
 	
 	@Autowired

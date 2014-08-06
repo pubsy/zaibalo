@@ -1,10 +1,12 @@
 package ua.com.zaibalo.actions.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +23,7 @@ import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.User;
-import ua.com.zaibalo.servlets.listener.ContextInitListener;
+import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 @Component
 public class RemindPasswordAction implements Action {
@@ -30,7 +32,7 @@ public class RemindPasswordAction implements Action {
 	private UsersDAO usersDAO;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws IOException, AddressException, MessagingException {
 		String userName = request.getParameter("userName");
 
 		final User user = usersDAO.getUserByName(userName);
@@ -46,7 +48,7 @@ public class RemindPasswordAction implements Action {
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(is, writer, "UTF-8");
 		String pattern = writer.toString();
-		String link = "http://" + ContextInitListener.getProperty("app.server.domain") + "/secure/settings";
+		String link = "http://" + SpringPropertiesUtil.getProperty("app.server.domain") + "/secure/settings";
 
 		String[] params = { 
 				StringHelper.getLocalString("your_pass_is_reset", newPassword),
@@ -60,22 +62,14 @@ public class RemindPasswordAction implements Action {
 				StringHelper.getLocalString("zaibalo_pass_remind_subj"), body
 			);
 
-		new FailResponse(StringHelper.getLocalString("reminder_mess_sent", user.getPartlyHiddenEmail()));
 
-		new Thread(new Runnable(){
-			@Override
-			public void run() {
-				try {
-					helper.send(message);
-				} catch (MessagingException ex) {
-					System.out.println("ERROR: Sending reminder message failed.");
-					System.out.println("ERROR: Email: " + user.getEmail());
-					System.out.println("ERROR: Login: " + user.getLoginName());
-				}
-			}
-		}).start();
+		try{
+			helper.send(message);
+		}catch(MessagingException ex){
+			throw new RuntimeException(ex);
+		}
 
-		return new SuccessResponse();
+		return new SuccessResponse(StringHelper.getLocalString("reminder_mess_sent", user.getPartlyHiddenEmail()));
 	}
 
 }

@@ -9,12 +9,15 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.CategoriesDAO;
 import ua.com.zaibalo.model.Category;
 import ua.com.zaibalo.model.Post;
 
 @Repository
+@Transactional(propagation=Propagation.MANDATORY)
 public class CategoriesDAOImpl implements CategoriesDAO{
 
 	@Autowired

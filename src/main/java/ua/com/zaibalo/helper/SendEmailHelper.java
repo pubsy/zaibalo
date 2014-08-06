@@ -1,7 +1,5 @@
 package ua.com.zaibalo.helper;
 
-//File Name SendHTMLEmail.java
-
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -14,13 +12,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import ua.com.zaibalo.servlets.listener.ContextInitListener;
+import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 public class SendEmailHelper {
-	
-	private final static String LOGIN = ContextInitListener.getProperty("email.address"); 
-	private final static String PASSWORD = ContextInitListener.getProperty("email.pass"); 
-	final String host = "smtp.gmail.com";
+
+	private static final String HOST = "smtp.gmail.com";
 	
 	Session session = null;
 
@@ -35,7 +31,7 @@ public class SendEmailHelper {
 	
 	private void init(){
 		Properties properties = System.getProperties();
-		properties.setProperty("mail.smtp.host", host);
+		properties.setProperty("mail.smtp.host", HOST);
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.auth", "true");
 		
@@ -44,8 +40,10 @@ public class SendEmailHelper {
 	}
 	
 	public MimeMessage createMessage(String to, String subject, String body) throws AddressException, MessagingException {
+		String emailAddress = SpringPropertiesUtil.getProperty("email.address");
+		
 		MimeMessage message = new MimeMessage(this.session);
-		message.setFrom(new InternetAddress(LOGIN));
+		message.setFrom(new InternetAddress(emailAddress));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 		message.setSubject(subject, "utf-8");
 		message.setContent(body, "text/html; charset=UTF-8");
@@ -56,9 +54,15 @@ public class SendEmailHelper {
 	private Authenticator getAuthenticator() {
 		Authenticator authenticator = new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(LOGIN, PASSWORD);
+				String emailAddress = SpringPropertiesUtil.getProperty("email.address"); 
+				String password = SpringPropertiesUtil.getProperty("email.pass");
+				return new PasswordAuthentication(emailAddress, password);
 			}
 		};
+		
+		
 		return authenticator;
 	}
+	
+	
 }

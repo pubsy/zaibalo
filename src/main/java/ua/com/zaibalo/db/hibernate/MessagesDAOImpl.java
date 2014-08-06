@@ -10,11 +10,14 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.MessagesDAO;
 import ua.com.zaibalo.model.Message;
 
 @Repository
+@Transactional(propagation=Propagation.MANDATORY)
 public class MessagesDAOImpl implements MessagesDAO {
 
 	@Autowired

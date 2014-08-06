@@ -13,6 +13,6 @@ function sendJQueryAjaxRequest(url, type, params, successMethod, dataType) {
 
 	request.fail(function(jqXHR, textStatus) {
 		console.log("ERROR: %s", textStatus);
-		showMessageDialog({title: jqXHR.status, message: "HTTP error. Status: " + jqXHR.statusText});
+		showMessageDialog({title: jqXHR.status, message: "HTTP error. Status: " + textStatus});
 	});
 }

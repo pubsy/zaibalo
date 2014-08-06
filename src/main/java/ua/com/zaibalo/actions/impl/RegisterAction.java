@@ -75,18 +75,12 @@ public class RegisterAction  implements Action{
 		String body = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
 
 		final MimeMessage message = helper.createMessage(email, StringHelper.getLocalString("zaibalo_registration"), body);
-		new Thread(new Runnable(){
-			@Override
-			public void run() {
-				try {
-					helper.send(message);
-				} catch (MessagingException ex) {
-					System.out.println("ERROR: Sending registration message failed.");
-					System.out.println("ERROR: Email: " + email);
-					System.out.println("ERROR: Login: " + login);
-				}
-			}
-		}).start();
+
+		try{
+			helper.send(message);
+		}catch(MessagingException ex){
+			throw new RuntimeException(ex);
+		}
 
 		return new SuccessMessageResponse(StringHelper.getLocalString("check_your_mail_box"));
 	}

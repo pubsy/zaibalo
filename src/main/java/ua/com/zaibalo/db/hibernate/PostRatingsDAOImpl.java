@@ -9,6 +9,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.PostRatingsDAO;
 import ua.com.zaibalo.model.Post;
@@ -16,6 +18,7 @@ import ua.com.zaibalo.model.PostRating;
 import ua.com.zaibalo.model.UserRating;
 
 @Repository
+@Transactional(propagation=Propagation.MANDATORY)
 public class PostRatingsDAOImpl implements PostRatingsDAO {
 
 	@Autowired

@@ -6,12 +6,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.UserDetailDAO;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.model.UserDetail;
 
 @Repository
+@Transactional(propagation=Propagation.MANDATORY)
 public class UserDetailDAOImpl implements UserDetailDAO{
 	
 	@Autowired

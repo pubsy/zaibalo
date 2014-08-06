@@ -26,25 +26,14 @@ function login() {
 function showLoginForm(){
 	if(document.getElementById("login_form").style.display == "none"){
 		$("#login_form").show("slow");
-		//document.getElementById("login_status").style.display = "none";
 		document.getElementById("forgot_password").style.display = "none";
 		document.getElementById("register").style.display = "none";
 	}
 }
 
-function showLoginStatus(){
-	//if(document.getElementById("login_status").style.display == "none"){
-	//	document.getElementById("login_form").style.display = "none";
-	//	$("#login_status").show("slow");
-	//	document.getElementById("forgot_password").style.display = "none";
-	//	document.getElementById("register").style.display = "none";
-	//}
-}
-
 function showForgotPassword(){
 	if(document.getElementById("forgot_password").style.display == "none"){
 		document.getElementById("login_form").style.display = "none";
-		//document.getElementById("login_status").style.display = "none";
 		$("#forgot_password").show("slow");
 		document.getElementById("register").style.display = "none";
 	}
@@ -53,7 +42,6 @@ function showForgotPassword(){
 function showRegister(){
 	if(document.getElementById("register").style.display == "none"){
 		document.getElementById("login_form").style.display = "none";
-		//document.getElementById("login_status").style.display = "none";
 		document.getElementById("forgot_password").style.display = "none";
 		$("#register").show("slow");
 	}

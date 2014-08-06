@@ -8,23 +8,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import ua.com.zaibalo.business.InboxBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.User;
-
 
 @Controller
 public class InboxPage{
 
 	@Autowired
-	private DiscussionsDAO discussionsDAO;
-	
+	private InboxBusinessLogic inboxBusinessLogic;
+
 	public String run(HttpServletRequest request, HttpServletResponse response) {
 	
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		List<Discussion> discussions = discussionsDAO.getAllDiscussions(user.getId());
-
+		List<Discussion> discussions =inboxBusinessLogic.getDiscussionsList(user);
 		request.setAttribute("discussions", discussions);
 		
 		return "inbox";

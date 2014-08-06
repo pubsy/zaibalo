@@ -15,14 +15,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import ua.com.zaibalo.servlets.listener.ContextInitListener;
+import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 public class FBPostToGroup {
 
 	public static void postToFBGroup(String text) {
 
 
-		String accessToken = ContextInitListener.getProperty("fb.access.token");
+		String accessToken = SpringPropertiesUtil.getProperty("fb.access.token");
 		String url = "https://graph.facebook.com/285081091622988/feed";
 		
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();

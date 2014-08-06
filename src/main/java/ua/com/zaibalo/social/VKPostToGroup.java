@@ -15,7 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import ua.com.zaibalo.servlets.listener.ContextInitListener;
+import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 public class VKPostToGroup {
 
@@ -25,7 +25,7 @@ public class VKPostToGroup {
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost post = new HttpPost("https://api.vk.com/method/wall.post");
 
-		String token = ContextInitListener.getProperty("vk.access.token");
+		String token = SpringPropertiesUtil.getProperty("vk.access.token");
 		
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();
 		qparams.add(new BasicNameValuePair("owner_id", "-10793353"));

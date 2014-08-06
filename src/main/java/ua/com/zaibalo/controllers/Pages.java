@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,9 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.actions.AuthorisedActionServlet;
 import ua.com.zaibalo.actions.UnauthorisedActionServlet;
-import ua.com.zaibalo.db.api.PostsDAO;
+import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
+import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.servlets.pages.LogoutRedirect;
 import ua.com.zaibalo.servlets.pages.SinglePostServlet;
@@ -32,7 +32,6 @@ import ua.com.zaibalo.servlets.pages.secure.InboxPage;
 import ua.com.zaibalo.servlets.pages.secure.ProfileSettingsServlet;
 
 @Controller
-@Transactional
 public class Pages {
 
 	@Autowired
@@ -50,7 +49,7 @@ public class Pages {
 	@Autowired
 	private LogoutRedirect logoutRedirect;
 	@Autowired
-	private PostsDAO postsDAO;
+	private PostsBusinessLogic postsBusinessLogic;
 	@Autowired
 	private ProfileSettingsServlet profileSettingsServlet;
 	@Autowired
@@ -91,7 +90,8 @@ public class Pages {
 	@RequestMapping(value = { "/feed" }, method = RequestMethod.GET)
 	public ModelAndView feed(HttpServletRequest request,
 			HttpServletResponse response) {
-		List<Post> items = postsDAO.getOrderedList(-1, 10, Post.PostOrder.ID);
+		List<Post> items = postsBusinessLogic.getOrderedList(-1, 10,
+				Post.PostOrder.ID);
 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("rssViewer");
@@ -119,13 +119,14 @@ public class Pages {
 
 	@RequestMapping(value = { "/secure/dialog.do", "/secure/dialog" }, method = RequestMethod.GET)
 	public ModelAndView dialog(
-			@RequestParam(value="discussion_id", required=false) String discussionId, HttpServletRequest request) throws IOException, ServletException {
+			@RequestParam(value = "discussion_id", required = false) Integer discussionId,
+			HttpServletRequest request) throws IOException, ServletException {
 		return dialogPage.run(discussionId, request);
 	}
-	
+
 	@RequestMapping(value = { "/secure/dialog/{discussionId}" }, method = RequestMethod.GET)
-	public ModelAndView dialogPath(
-			@PathVariable String discussionId, HttpServletRequest request) throws IOException, ServletException {
+	public ModelAndView dialogPath(@PathVariable Integer discussionId,
+			HttpServletRequest request) throws IOException, ServletException {
 		return dialogPage.run(discussionId, request);
 	}
 
@@ -134,14 +135,29 @@ public class Pages {
 	public AjaxResponse action(HttpServletRequest request,
 			HttpServletResponse response) {
 		checkAutenticated(request, response);
-		return unauthorisedActionServlet.doPost(request, response);
+
+		AjaxResponse ajaxResponse = null;
+		try {
+			ajaxResponse = unauthorisedActionServlet.doPost(request, response);
+		} catch (Exception e) {
+			ServletHelperService.logException(e, request);
+			ajaxResponse = new FailResponse(e.getMessage());
+		}
+		return ajaxResponse;
 	}
 
 	@RequestMapping(value = { "/secure_action/action.do", "/secure/action.do" }, method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResponse secureAction(HttpServletRequest request,
 			HttpServletResponse response) {
-		return authorisedActionServlet.doPost(request, response);
+		AjaxResponse ajaxResponse = null;
+		try {
+			ajaxResponse = authorisedActionServlet.doPost(request, response);
+		} catch (Exception e) {
+			ServletHelperService.logException(e, request);
+			ajaxResponse = new FailResponse(e.getMessage());
+		}
+		return ajaxResponse;
 	}
 
 	private void checkAutenticated(HttpServletRequest request,

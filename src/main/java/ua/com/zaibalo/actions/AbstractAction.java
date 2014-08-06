@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
@@ -15,7 +17,8 @@ public abstract class AbstractAction {
 	
 	protected abstract Action getActionByName(String actionName);
 
-	public AjaxResponse doPost(HttpServletRequest request, HttpServletResponse response) {
+	@Transactional(propagation=Propagation.REQUIRED)
+	public AjaxResponse doPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String actionName = request.getParameter(ACTION_PARAMETER);
 		
 		AjaxResponse ajaxResponse;
@@ -27,12 +30,7 @@ public abstract class AbstractAction {
 		
 		Action action = getActionByName(actionName);
 
-		try {
-			ajaxResponse = action.run(request, response);
-		} catch (Exception e) {
-			ServletHelperService.logException(e, request);
-			ajaxResponse = new FailResponse(e.getMessage());
-		}
+		ajaxResponse = action.run(request, response);
 		
 		return ajaxResponse;
 	}

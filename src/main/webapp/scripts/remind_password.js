@@ -24,6 +24,7 @@ $(document).ready(function() {
 
 function remindPassDialogShow(){
 	$("#userName").val("");
+	$("#forgot-pass-dialog-validation").html("");
 
 	$("#forgot_password").dialog('option', 'title', 'Нагадати пароль');
 	$("#forgot_password").dialog('open');

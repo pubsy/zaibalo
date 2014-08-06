@@ -25,10 +25,6 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		<param-value>3000</param-value>
 	</context-param>
 
-	<listener>
-		<listener-class>ua.com.zaibalo.servlets.listener.ContextInitListener</listener-class>
-	</listener>
-
 	<servlet>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

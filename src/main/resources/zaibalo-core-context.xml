@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="placeholderConfigurer"
-		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		class="ua.com.zaibalo.spring.SpringPropertiesUtil">
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
@@ -24,12 +24,12 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1/zaibalo?characterEncoding=utf-8" />
-        <property name="user" value="zaibalo" />
-        <property name="password" value="hB3yT8mP" /> 
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.databaseurl}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" /> 
 
         <!-- these are C3P0 properties -->
         <property name="acquireIncrement" value="5" />
@@ -46,20 +46,21 @@
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
         </property>
 		<property name="packagesToScan" value="ua.com.zaibalo.model" />
-		
+
         <property name="hibernateProperties">
 		    <props>
 			  <prop key="hibernate.show_sql">false</prop>
-			  <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+			  <prop key="hibernate.dialect">${jdbc.dialect}</prop>
 			  <prop key="hibernate.format_sql">false</prop>
 			  <prop key="hibernate.use_sql_comments">false</prop>
 			  <prop key="hibernate.auto_close_session">true</prop>
+			  <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 		    </props>
         </property>
 	</bean>
-	
+
 	<context:component-scan base-package="ua.com.zaibalo" />
-	
+
 	<tx:annotation-driven />
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

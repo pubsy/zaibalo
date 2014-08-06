@@ -13,7 +13,6 @@ import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
 
-@Transactional
 public class SecureFilter implements HandlerInterceptor{
 
 	@Autowired

@@ -5,10 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 
 @Component
+@Transactional(propagation=Propagation.REQUIRED)
 public class LogoutRedirect {
 
 	public String run(HttpServletRequest request,

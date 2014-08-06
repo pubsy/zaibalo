@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.db.api.PostsDAO;
@@ -14,6 +16,7 @@ import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Post;
 
 @Component
+@Transactional(propagation=Propagation.REQUIRED)
 public class IndexServlet {
 
 	@Autowired

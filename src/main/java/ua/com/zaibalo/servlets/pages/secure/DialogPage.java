@@ -10,12 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import ua.com.zaibalo.business.InboxBusinessLogic;
+import ua.com.zaibalo.business.UserBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.db.api.DiscussionsDAO;
-import ua.com.zaibalo.db.api.MessagesDAO;
-import ua.com.zaibalo.db.api.UsersDAO;
-import ua.com.zaibalo.helper.ServletHelperService;
-import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Message;
 import ua.com.zaibalo.model.User;
 
@@ -23,46 +20,37 @@ import ua.com.zaibalo.model.User;
 public class DialogPage {
 
 	@Autowired
-	private UsersDAO usersDAO;
-	@Autowired
-	private MessagesDAO messagesDAO;
-	@Autowired
-	private DiscussionsDAO discussionsDAO;
-	@Autowired
-	private ServletHelperService servletHelperService;
+	private UserBusinessLogic userBusinessLogic;
 	
-	public ModelAndView run(String discussionIdStr, HttpServletRequest request) throws IOException, ServletException{
+	@Autowired
+	private InboxBusinessLogic inboxBusinessLogic;
+	
+	public ModelAndView run(Integer discussionId, HttpServletRequest request) throws IOException, ServletException{
 
 		ModelAndView mav = new ModelAndView("dialog");
-		if(StringHelper.isBlank(discussionIdStr)){
-			List<String> names = usersDAO.getAllUserNamesList();
+		if(discussionId == null){
+			List<String> names = userBusinessLogic.getAllUserNamesList();
 			mav.addObject("names", names);
 		}else{
 			User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-			int discussionId = Integer.parseInt(discussionIdStr);
-			boolean accessible  = discussionsDAO.isDiscussionAccessible(discussionId, user.getId());
-		
-			if(!accessible){
-				ServletHelperService.logMessage("Unauthorise access.", request);
-				throw new ServletException("Unauthorised access.");
-			}
-		
-			List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussionId, user.getId());
+			List<Message> messages = inboxBusinessLogic.getDiscussionMessages(discussionId, request, user);
 			mav.addObject("messages", messages);		
 			
 			Message m = messages.get(0);
-			String otherUserName;
-			if(user.getId() == m.getAuthorId()){
-				otherUserName = m.getRecipient().getDisplayName();
-			}else{
-				otherUserName = m.getAuthor().getDisplayName();
-			}
+			String otherUserName = user.getId() == m.getAuthorId() ?
+					m.getRecipient().getDisplayName() :
+					m.getAuthor().getDisplayName();			
 			mav.addObject("other_user_name", otherUserName);
 			
-			messagesDAO.setDialogMessagesRead(discussionId, user.getId());
-			
-			servletHelperService.updateUnreadMessagesStatus(request);
-			
+			int count = inboxBusinessLogic.getUnreadMessagesCount(user.getId());
+
+			if(count != 0){			
+				request.getSession().setAttribute("unreadMailCount", " [" + count + "]");
+			}else{
+				request.getSession().setAttribute("unreadMailCount", "");
+			}
+					
+			inboxBusinessLogic.onDialogShown(discussionId, user.getId());
 		}
 		
 		return mav;

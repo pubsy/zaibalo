@@ -4,12 +4,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
 
 @Component
+@Transactional(propagation=Propagation.REQUIRED)
 public class ProfileSettingsServlet {
 
 	public String run(HttpServletRequest request, HttpServletResponse response) {
