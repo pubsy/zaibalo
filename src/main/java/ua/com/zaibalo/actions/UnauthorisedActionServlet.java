@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import ua.com.zaibalo.actions.impl.AutentificationAction;
 import ua.com.zaibalo.actions.impl.RegisterAction;
 import ua.com.zaibalo.actions.impl.RemindPasswordAction;
+import ua.com.zaibalo.actions.impl.SetTimeZoneAction;
 import ua.com.zaibalo.actions.impl.ShowRatingAction;
 import ua.com.zaibalo.actions.impl.UserValidationLinkAction;
 
@@ -25,7 +26,9 @@ public class UnauthorisedActionServlet extends AbstractAction {
 	private RemindPasswordAction remindPasswordAction;
 	@Autowired
 	private ShowRatingAction showRatingAction;
-
+	@Autowired
+	private SetTimeZoneAction setTimeZoneAction;
+	
 	private Map<String, Action> actionsMap = new HashMap<String, Action>();
 
 	public void initMap() {
@@ -34,6 +37,7 @@ public class UnauthorisedActionServlet extends AbstractAction {
 		actionsMap.put("register", registerAction);
 		actionsMap.put("remind_password", remindPasswordAction);
 		actionsMap.put("show_rating", showRatingAction);
+		actionsMap.put("set_time_zone", setTimeZoneAction);
 	}
 
 	@Override

@@ -3,6 +3,10 @@
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
 
+<c:if test="${sessionScope.timeZone != null}">
+	<fmt:setTimeZone value="${sessionScope.timeZone}" />
+</c:if>
+
 	<c:forEach var="message" items="${messages}">
 		<div class="comment_style">
 			<div>

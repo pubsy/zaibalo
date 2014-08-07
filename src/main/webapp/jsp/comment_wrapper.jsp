@@ -5,4 +5,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
 
+<c:if test="${sessionScope.timeZone != null}">
+	<fmt:setTimeZone value="${sessionScope.timeZone}" />
+</c:if>
+
 <%@ include file="comment.jsp"%>

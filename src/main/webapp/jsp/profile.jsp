@@ -7,6 +7,10 @@
 <%@taglib prefix="t" uri="Trimer"  %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
 
+<c:if test="${sessionScope.timeZone != null}">
+	<fmt:setTimeZone value="${sessionScope.timeZone}" />
+</c:if>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>

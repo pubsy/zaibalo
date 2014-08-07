@@ -1,4 +1,3 @@
-
 	<div id="comment_${comment.id}" class="comment_style">
 		<div class="comment_avatar">
 			<img src="/image/${comment.author.smallImgPath}" width="32" alt="${comment.author.displayName}">
