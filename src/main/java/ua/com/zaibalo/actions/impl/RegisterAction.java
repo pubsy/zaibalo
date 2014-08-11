@@ -1,23 +1,17 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.text.MessageFormat;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.business.UserBusinessLogic;
 import ua.com.zaibalo.db.api.UsersDAO;
+import ua.com.zaibalo.email.impl.SendEmailServiceImpl;
+import ua.com.zaibalo.email.templates.RegisterUserMessage;
 import ua.com.zaibalo.helper.MD5Helper;
-import ua.com.zaibalo.helper.SendEmailHelper;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
@@ -31,6 +25,9 @@ public class RegisterAction  implements Action{
 	
 	@Autowired
 	private UserBusinessLogic userBusinessLogic;
+	
+	@Autowired
+	private SendEmailServiceImpl sendEmailService;
 	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -61,26 +58,10 @@ public class RegisterAction  implements Action{
 		String newPassword = StringHelper.generateString(10);
 		userBusinessLogic.addUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
 
-		final SendEmailHelper helper = new SendEmailHelper();
-
-		InputStream is = request.getServletContext().getResourceAsStream("html/register.html");
-
-		StringWriter writer = new StringWriter();
-		IOUtils.copy(is, writer, "UTF-8");
-
-		String pattern = writer.toString();
-		String[] params = { StringHelper.getLocalString("thank_you_for_reg"),
-				StringHelper.getLocalString("your_login_is", login),
-				StringHelper.getLocalString("your_password_is", newPassword) };
-		String body = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
-
-		final MimeMessage message = helper.createMessage(email, StringHelper.getLocalString("zaibalo_registration"), body);
-
-		try{
-			helper.send(message);
-		}catch(MessagingException ex){
-			throw new RuntimeException(ex);
-		}
+		RegisterUserMessage message = new RegisterUserMessage(email);
+		message.setLogin(login);
+		message.setNewPassword(newPassword);
+		sendEmailService.sendEmail(message);
 
 		return new SuccessMessageResponse(StringHelper.getLocalString("check_your_mail_box"));
 	}

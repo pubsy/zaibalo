@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -145,6 +146,20 @@ public class UsersDAOImpl implements UsersDAO {
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public User getUserByLoginOrDisplayName(String name) {
+
+		SimpleExpression loginNameRestriction = Restrictions.eq("loginName", name);
+		SimpleExpression displayNameRestriction = Restrictions.eq("displayName", name);
+		
+		User user = (User) this.sessionFactory.getCurrentSession().
+				createCriteria(User.class).
+				add(Restrictions.or(loginNameRestriction, displayNameRestriction)).
+				uniqueResult();
+		
+		return user;
 	}
 
 }

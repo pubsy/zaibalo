@@ -1,19 +1,14 @@
 package ua.com.zaibalo.actions.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +17,9 @@ import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.db.api.MessagesDAO;
 import ua.com.zaibalo.db.api.UsersDAO;
+import ua.com.zaibalo.email.impl.SendEmailServiceImpl;
+import ua.com.zaibalo.email.templates.PrivateMessageNotificationMessage;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
-import ua.com.zaibalo.helper.SendEmailHelper;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
@@ -41,7 +37,8 @@ public class SendMessageAction implements Action {
 	private DiscussionsDAO discussionsDAO;
 	@Autowired
 	private MessagesDAO messagesDAO;
-
+	@Autowired
+	private SendEmailServiceImpl sendEmailService;
 
 	
 	@Override
@@ -119,35 +116,12 @@ public class SendMessageAction implements Action {
 
 	private void sendNotification(HttpServletRequest request, String text, String recipientEmail, String senderName)
 			throws IOException, AddressException, MessagingException, Exception {
-		String[] params = { 
-				StringHelper.getLocalString("you_got_new_message", senderName),
-				StringHelper.getLocalString("message_text", text) 
-			};
 		
-		InputStream is = request.getServletContext().getResourceAsStream("html/pm_notification.html");
-		StringWriter writer = new StringWriter();
-		IOUtils.copy(is, writer, "UTF-8");
-
-		String pattern = writer.toString();
-		
-		String body = new MessageFormat(pattern).format(params, new StringBuffer(), null).toString();
-
-		final SendEmailHelper helper = new SendEmailHelper();
-		final MimeMessage email = helper.createMessage(
-				recipientEmail,
-				StringHelper.getLocalString("zaibalo_new_pm"), body
-			);
-		
-		new Thread(new Runnable(){
-			@Override
-			public void run() {
-				try {
-					helper.send(email);
-				} catch (MessagingException ex) {
-					System.out.println("ERROR: Sending pm message email notification failed.");
-				}					
-			}		
-		}).start();
+		PrivateMessageNotificationMessage message = new PrivateMessageNotificationMessage(recipientEmail);
+		message.setSenderName(senderName);
+		message.setText(text);
+		sendEmailService.sendEmail(message);
+	
 	}
 
 }
