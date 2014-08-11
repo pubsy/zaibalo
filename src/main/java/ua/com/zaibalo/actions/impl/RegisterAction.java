@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.business.UserBusinessLogic;
 import ua.com.zaibalo.db.api.UsersDAO;
-import ua.com.zaibalo.email.impl.SendEmailServiceImpl;
+import ua.com.zaibalo.email.SendEmailService;
 import ua.com.zaibalo.email.templates.RegisterUserMessage;
 import ua.com.zaibalo.helper.MD5Helper;
 import ua.com.zaibalo.helper.StringHelper;
@@ -27,7 +27,7 @@ public class RegisterAction  implements Action{
 	private UserBusinessLogic userBusinessLogic;
 	
 	@Autowired
-	private SendEmailServiceImpl sendEmailService;
+	private SendEmailService sendEmailService;
 	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -49,7 +49,7 @@ public class RegisterAction  implements Action{
 			return new FailResponse(StringHelper.getLocalString("login_is_blank"));
 		}
 		
-		user = usersDAO.getUserByName(login);
+		user = usersDAO.getUserByLoginOrDisplayName(login);
 		
 		if(user != null){
 			return new FailResponse(StringHelper.getLocalString("user_name_taken"));

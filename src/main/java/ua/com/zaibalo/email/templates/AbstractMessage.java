@@ -1,5 +1,6 @@
 package ua.com.zaibalo.email.templates;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Properties;
 
@@ -12,6 +13,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 
 import ua.com.zaibalo.helper.StringHelper;
@@ -30,8 +32,13 @@ public abstract class AbstractMessage {
 	protected abstract String[] getParameters();
 	
 	public MimeMessage getMimeMessage() {
-		String pattern = new ClassPathResource(this.templatePath).toString();
-		String body = new MessageFormat(pattern).format(getParameters(), new StringBuffer(), null).toString();
+		String templateText = null;
+		try {
+			templateText = IOUtils.toString(new ClassPathResource(this.templatePath).getInputStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		String body = new MessageFormat(templateText).format(getParameters(), new StringBuffer(), null).toString();
 		String subject = StringHelper.getLocalString(this.subjectKey);
 		
 		Session mailSession = createMailSession();

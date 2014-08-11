@@ -17,7 +17,7 @@ import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.db.api.MessagesDAO;
 import ua.com.zaibalo.db.api.UsersDAO;
-import ua.com.zaibalo.email.impl.SendEmailServiceImpl;
+import ua.com.zaibalo.email.SendEmailService;
 import ua.com.zaibalo.email.templates.PrivateMessageNotificationMessage;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
 import ua.com.zaibalo.helper.StringHelper;
@@ -38,7 +38,7 @@ public class SendMessageAction implements Action {
 	@Autowired
 	private MessagesDAO messagesDAO;
 	@Autowired
-	private SendEmailServiceImpl sendEmailService;
+	private SendEmailService sendEmailService;
 
 	
 	@Override
@@ -64,15 +64,12 @@ public class SendMessageAction implements Action {
 		if(text.length() > 500){
 			return new FailResponse(StringHelper.getLocalString("message_text_cant_be_longer_than", 500));
 		}
-		
-		
-		
+
 		User recipient = usersDAO.getUserByDisplayName(recipientName);
 		
 		if(recipient == null){
 			return new FailResponse(StringHelper.getLocalString("user_does_not_exist", recipientName));
 		}
-		
 		
 		Message message = new Message();
 		message.setAuthorId(user.getId());

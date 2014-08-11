@@ -25,8 +25,7 @@ public class RemindPasswordAction implements Action {
 
 	@Autowired
 	private UsersDAO usersDAO;
-	
-	@Autowired
+
 	private SendEmailService sendEmailService;
 	
 	@Override
