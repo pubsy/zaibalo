@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +41,7 @@ public class RegisterActionTest {
 
 	@Test
 	@Transactional
-	public void testUserRegistration() throws Exception {
+	public void testUserRegistration() throws IOException, MessagingException {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -59,7 +63,7 @@ public class RegisterActionTest {
 
 	@Test
 	@Transactional
-	public void testEmailExists() throws Exception {
+	public void testEmailExists() {
 		User user = new User();
 		user.setEmail("some@email.com");
 		user.setLoginName("someLoginName");
@@ -82,7 +86,7 @@ public class RegisterActionTest {
 	
 	@Test
 	@Transactional
-	public void testLoginNameExists() throws Exception {
+	public void testLoginNameExists() {
 		User user = new User();
 		user.setEmail("some@email.com");
 		user.setLoginName("someLoginName");
@@ -105,7 +109,7 @@ public class RegisterActionTest {
 	
 	@Test
 	@Transactional
-	public void testDisplayNameExists() throws Exception {
+	public void testDisplayNameExists() {
 		User user = new User();
 		user.setEmail("some@email.com");
 		user.setLoginName("someLoginName");
@@ -123,6 +127,23 @@ public class RegisterActionTest {
 		assertTrue(result instanceof FailResponse);
 		assertEquals("fail", result.getStatus());
 		assertEquals("Цей логін вже зайнято. Будь ласка оберіть інший.",
+				((FailResponse) result).getMessage());
+	}
+	
+	@Test
+	@Transactional
+	public void testInvalidEmail() {
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		request.setParameter("email", "invalidemail.com");
+		request.setParameter("register_login", "loginName");
+		request.setParameter("action", "register");
+
+		AjaxResponse result = pages.action(request, response);
+		assertTrue(result instanceof FailResponse);
+		assertEquals("fail", result.getStatus());
+		assertEquals("Невалідний e-mail.",
 				((FailResponse) result).getMessage());
 	}
 
