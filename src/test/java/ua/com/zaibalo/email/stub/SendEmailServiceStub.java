@@ -1,9 +1,10 @@
-package ua.com.zaibalo.email;
+package ua.com.zaibalo.email.stub;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import ua.com.zaibalo.email.SendEmailService;
 import ua.com.zaibalo.email.templates.AbstractMessage;
 
 public class SendEmailServiceStub implements SendEmailService{
@@ -17,8 +18,11 @@ public class SendEmailServiceStub implements SendEmailService{
 
 	public static AbstractMessage pollMessage(){
 		Iterator<AbstractMessage> iterator = emails.iterator();
-		AbstractMessage message = iterator.next();
-		iterator.remove();
+		AbstractMessage message = null;
+		if(iterator.hasNext()){
+		    message = iterator.next();
+		    iterator.remove();
+		}
 		return message;
 	}
 }

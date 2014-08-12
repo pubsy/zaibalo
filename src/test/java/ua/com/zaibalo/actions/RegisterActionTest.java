@@ -2,6 +2,7 @@ package ua.com.zaibalo.actions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -19,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.controllers.Pages;
 import ua.com.zaibalo.db.api.UsersDAO;
-import ua.com.zaibalo.email.SendEmailService;
-import ua.com.zaibalo.email.SendEmailServiceStub;
+import ua.com.zaibalo.email.stub.SendEmailServiceStub;
 import ua.com.zaibalo.email.templates.AbstractMessage;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
@@ -32,9 +32,6 @@ public class RegisterActionTest {
 
 	@Autowired
 	private Pages pages;
-
-	@Autowired
-	private SendEmailService sendEmailService;
 
 	@Autowired
 	private UsersDAO usersDAO;
@@ -82,6 +79,9 @@ public class RegisterActionTest {
 		assertEquals("fail", result.getStatus());
 		assertEquals("E-mail вже зареєстровано. Спробуйте відновити пароль.",
 				((FailResponse) result).getMessage());
+		
+        AbstractMessage message = SendEmailServiceStub.pollMessage();
+        assertNull(message);
 	}
 	
 	@Test
@@ -105,6 +105,9 @@ public class RegisterActionTest {
 		assertEquals("fail", result.getStatus());
 		assertEquals("Цей логін вже зайнято. Будь ласка оберіть інший.",
 				((FailResponse) result).getMessage());
+		
+        AbstractMessage message = SendEmailServiceStub.pollMessage();
+        assertNull(message);
 	}
 	
 	@Test
@@ -128,6 +131,9 @@ public class RegisterActionTest {
 		assertEquals("fail", result.getStatus());
 		assertEquals("Цей логін вже зайнято. Будь ласка оберіть інший.",
 				((FailResponse) result).getMessage());
+		
+        AbstractMessage message = SendEmailServiceStub.pollMessage();
+        assertNull(message);
 	}
 	
 	@Test
@@ -145,6 +151,9 @@ public class RegisterActionTest {
 		assertEquals("fail", result.getStatus());
 		assertEquals("Невалідний e-mail.",
 				((FailResponse) result).getMessage());
+		
+        AbstractMessage message = SendEmailServiceStub.pollMessage();
+        assertNull(message);
 	}
 
 }

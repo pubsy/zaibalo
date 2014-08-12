@@ -15,7 +15,7 @@
 
 	<import resource="classpath:/mvc-dispatcher-servlet.xml" />
 
-	<bean id="ua.com.zaibalo.email.SendEmailService" class="ua.com.zaibalo.email.SendEmailServiceStub" />
+	<bean id="ua.com.zaibalo.email.SendEmailService" class="ua.com.zaibalo.email.stub.SendEmailServiceStub" />
 	
 	<bean id="dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource" >
         <property name="driverClassName" value="org.h2.Driver" />
