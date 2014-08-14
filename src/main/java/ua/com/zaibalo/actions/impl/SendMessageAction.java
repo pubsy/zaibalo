@@ -43,9 +43,9 @@ public class SendMessageAction implements Action {
 	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		User sender = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
-		if(user.getRole() > 2){
+		if(sender.getRole() > 2){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 
@@ -72,8 +72,8 @@ public class SendMessageAction implements Action {
 		}
 		
 		Message message = new Message();
-		message.setAuthorId(user.getId());
-		message.setAuthor(user);
+		message.setAuthorId(sender.getId());
+		message.setAuthor(sender);
 		message.setDate(new Date());
 		message.setRecipientId(recipient.getId());
 		message.setText(text);
@@ -98,11 +98,11 @@ public class SendMessageAction implements Action {
 		int messageId = messagesDAO.insert(message);
 		discussionId = messagesDAO.getMessageById(messageId).getDiscussionId();
 
-		List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussionId, user.getId());
+		List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussionId, sender.getId());
 		request.setAttribute("messages", messages);
 		
 		if(recipient.isNotifyOnPM()){
-			sendNotification(request, text, recipient.getEmail(), user.getDisplayName());
+			sendNotification(request, text, recipient.getEmail(), sender.getDisplayName());
 		}
 
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);

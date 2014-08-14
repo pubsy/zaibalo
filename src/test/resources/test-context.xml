@@ -16,12 +16,12 @@
 	<import resource="classpath:/mvc-dispatcher-servlet.xml" />
 
 	<bean id="ua.com.zaibalo.email.SendEmailService" class="ua.com.zaibalo.email.stub.SendEmailServiceStub" />
-	
+
 	<bean id="dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource" >
         <property name="driverClassName" value="org.h2.Driver" />
 		<property name="url" value="jdbc:h2:mem:zaibalo;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS zaibalo" />
 		<property name="username" value="user" />
 		<property name="password" value="password" />
 	</bean>
-	
+
 </beans>
