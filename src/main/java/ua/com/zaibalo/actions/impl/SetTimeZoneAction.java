@@ -16,7 +16,7 @@ public class SetTimeZoneAction implements Action {
 	public AjaxResponse run(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
         String strFromJavaScript = request.getParameter("timeZone");
-        int timeZone = Integer.parseInt(strFromJavaScript);
+        double timeZone = Double.parseDouble(strFromJavaScript);
         if (timeZone >= 0) {
             strFromJavaScript = "+" + timeZone;
         }
