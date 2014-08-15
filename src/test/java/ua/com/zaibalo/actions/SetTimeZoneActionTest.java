@@ -53,4 +53,28 @@ public class SetTimeZoneActionTest {
 		String sessionValue = (String)request.getSession().getAttribute("timeZone");
 		assertEquals("GMT+2.5", sessionValue);
 	}
+	
+	@Test
+	@Transactional
+	public void testSetTimeZoneWithoutDecimal() throws IOException, MessagingException {
+		User author = new User();
+		author.setEmail("author@email.com");
+		author.setLoginName("SomeLoginName");
+		author.setDisplayName("CoolGuy");
+		usersDAO.insert(author);
+
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		request.getSession().setAttribute("user", author);
+		request.setParameter("timeZone", "2");
+		request.setParameter("action", "set_time_zone");
+
+		AjaxResponse result = pages.action(request, response);
+
+		// Check for success response
+		assertEquals("success", result.getStatus());
+		String sessionValue = (String)request.getSession().getAttribute("timeZone");
+		assertEquals("GMT+2", sessionValue);
+	}
 }

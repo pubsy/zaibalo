@@ -1,5 +1,7 @@
 package ua.com.zaibalo.actions.impl;
 
+import java.text.DecimalFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,13 +17,16 @@ public class SetTimeZoneAction implements Action {
 	@Override
 	public AjaxResponse run(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-        String strFromJavaScript = request.getParameter("timeZone");
-        double timeZone = Double.parseDouble(strFromJavaScript);
-        if (timeZone >= 0) {
-            strFromJavaScript = "+" + timeZone;
-        }
-        request.getSession().setAttribute("timeZone", "GMT" + strFromJavaScript);
-        return new SuccessResponse(true);
+		DecimalFormat format = new DecimalFormat();
+		format.setDecimalSeparatorAlwaysShown(false);
+
+		String strFromJavaScript = request.getParameter("timeZone");
+		double timeZone = Double.parseDouble(strFromJavaScript);
+		String timeZoneValue = timeZone >= 0 ? 
+				"GMT+" + format.format(timeZone) :
+				"GMT" + format.format(timeZone);
+		request.getSession().setAttribute("timeZone", timeZoneValue);
+		return new SuccessResponse(true);
 	}
 
 }
