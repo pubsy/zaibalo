@@ -14,10 +14,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.apache.log4j.Logger;
 
 import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 public class VKPostToGroup {
+	
+	private static final Logger LOGGER = Logger.getLogger(FBPostToGroup.class);
 
 	public static void postToVKGroup(String text) {
 		//http://oauth.vkontakte.ru/authorize?client_id=2863655&scope=wall&redirect_uri=http://api.vk.com/blank.html&display=page&response_type=token
@@ -41,7 +44,7 @@ public class VKPostToGroup {
 			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
-				System.out.println(inputLine);
+				LOGGER.info(inputLine);
 			in.close();
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block

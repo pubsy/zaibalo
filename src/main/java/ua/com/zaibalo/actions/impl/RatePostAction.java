@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,6 @@ import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.PostRatingsDAO;
 import ua.com.zaibalo.db.api.PostsDAO;
-import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
@@ -23,6 +23,8 @@ import ua.com.zaibalo.model.User;
 
 @Component
 public class RatePostAction implements Action {
+	
+	private final static Logger LOGGER = Logger.getLogger(RatePostAction.class);
 
 	@Autowired
 	private PostsDAO postsDAO;
@@ -40,7 +42,7 @@ public class RatePostAction implements Action {
 			value = -1;
 		}else{
 			String message = "Wrong 'how' parameter sent";
-			ServletHelperService.logException(new Exception(message), request);
+			LOGGER.error(message);
 			return new FailResponse(message);
 		}
 		

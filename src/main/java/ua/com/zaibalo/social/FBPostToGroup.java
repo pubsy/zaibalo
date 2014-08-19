@@ -14,13 +14,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.apache.log4j.Logger;
 
 import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 public class FBPostToGroup {
 
-	public static void postToFBGroup(String text) {
+	private static final Logger LOGGER = Logger.getLogger(FBPostToGroup.class);
 
+	public static void postToFBGroup(String text) {
 
 		String accessToken = SpringPropertiesUtil.getProperty("fb.access.token");
 		String url = "https://graph.facebook.com/285081091622988/feed";
@@ -40,7 +42,7 @@ public class FBPostToGroup {
 			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			String inputLine;
 			while ((inputLine = in.readLine()) != null)
-				System.out.println(inputLine);
+				LOGGER.info(inputLine);
 			in.close();
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block

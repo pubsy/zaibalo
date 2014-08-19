@@ -4,9 +4,15 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,21 +24,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.actions.AuthorisedActionServlet;
 import ua.com.zaibalo.actions.UnauthorisedActionServlet;
+import ua.com.zaibalo.business.InboxBusinessLogic;
 import ua.com.zaibalo.business.PostsBusinessLogic;
+import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.helper.ServletHelperService;
+import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.Post;
-import ua.com.zaibalo.servlets.pages.LogoutRedirect;
+import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.servlets.pages.SinglePostServlet;
 import ua.com.zaibalo.servlets.pages.UpdateProfileRedirect;
 import ua.com.zaibalo.servlets.pages.UserProfileServlet;
 import ua.com.zaibalo.servlets.pages.secure.DialogPage;
 import ua.com.zaibalo.servlets.pages.secure.InboxPage;
-import ua.com.zaibalo.servlets.pages.secure.ProfileSettingsServlet;
 
 @Controller
-public class Pages {
+public class PagesController {
+	
+	private final static Logger LOGGER = Logger.getLogger(PagesController.class);
 
 	@Autowired
 	private SinglePostServlet singlePostServlet;
@@ -47,49 +57,51 @@ public class Pages {
 	@Autowired
 	private AuthorisedActionServlet authorisedActionServlet;
 	@Autowired
-	private LogoutRedirect logoutRedirect;
-	@Autowired
 	private PostsBusinessLogic postsBusinessLogic;
-	@Autowired
-	private ProfileSettingsServlet profileSettingsServlet;
 	@Autowired
 	private UpdateProfileRedirect updateProfileRedirect;
 	@Autowired
 	private ServletHelperService servletHelperService;
-
+	@Autowired
+	private InboxBusinessLogic inboxBusinessLogic;
+	
 	@RequestMapping(value = { "/logout.do", "/logout" }, method = RequestMethod.GET)
 	public String logout(HttpServletRequest request,
 			HttpServletResponse response) {
-		return logoutRedirect.run(request, response);
+		request.getSession().removeAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		
+		for (Cookie cookie : request.getCookies()) {
+			if (cookie.getName().equals(ZaibaloConstants.ZAIBALO_USER_COOKIE_NAME)) {
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}
+		}
+		
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = { "/post", "/post.do" }, method = RequestMethod.GET)
-	public String singlePost(@RequestParam("id") String postId,
-			HttpServletRequest request, HttpServletResponse response) {
-		return singlePostServlet.getPost(postId, request, response);
+	public ModelAndView singlePost(@RequestParam("id") String postId) throws Exception {
+		return singlePostServlet.getPost(postId);
 	}
 
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
-	public String singlePostWithPathParameter(@PathVariable String postId,
-			HttpServletRequest request, HttpServletResponse response) {
-		return singlePostServlet.getPost(postId, request, response);
+	public ModelAndView singlePostWithPathParameter(@PathVariable String postId) throws Exception {
+		return singlePost(postId);
 	}
 
 	@RequestMapping(value = { "/userProfile.do", "/user" }, method = RequestMethod.GET)
-	public String user(@RequestParam("id") String userId,
-			HttpServletRequest request, HttpServletResponse response) {
-		return userProfileServlet.getUser(userId, request, response);
+	public ModelAndView user(@RequestParam("id") String userId) {
+		return userProfileServlet.getUser(userId);
 	}
 
 	@RequestMapping(value = { "/user/{userId}" }, method = RequestMethod.GET)
-	public String userWithPathParameter(@PathVariable String userId,
-			HttpServletRequest request, HttpServletResponse response) {
-		return userProfileServlet.getUser(userId, request, response);
+	public ModelAndView userWithPathParameter(@PathVariable String userId) {
+		return user(userId);
 	}
 
 	@RequestMapping(value = { "/feed" }, method = RequestMethod.GET)
-	public ModelAndView feed(HttpServletRequest request,
-			HttpServletResponse response) {
+	public ModelAndView feed() {
 		List<Post> items = postsBusinessLogic.getOrderedList(-1, 10,
 				Post.PostOrder.ID);
 
@@ -101,33 +113,62 @@ public class Pages {
 	}
 
 	@RequestMapping(value = { "/secure/profileSettings.do", "/secure/settings" }, method = RequestMethod.GET)
-	public String profileSettings(HttpServletRequest request,
-			HttpServletResponse response) {
-		return profileSettingsServlet.run(request, response);
+	public String profileSettings(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		
+		request.setAttribute("profilePiscturePath", User.USERPHOTO_DIR_PATH + user.getBigImgPath());
+		request.setAttribute("pageTitle",
+				StringHelper.getLocalString("zaibalo_blog") + " " +
+				StringHelper.getLocalString("profile_settings"));
+		
+		return "profile_settings";
 	}
 
 	@RequestMapping(value = { "/secure/update_profile.do" }, method = RequestMethod.POST)
-	public String updateProfile(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		return updateProfileRedirect.run(request, response);
+	public String updateProfile(HttpServletRequest request) throws ServletException, FileUploadException, IOException {
+		if (!ServletFileUpload.isMultipartContent(request)) {
+			throw new ServletException(StringHelper.getLocalString("internal_server_error"));
+		}
+		
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		
+		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+		diskFileItemFactory.setSizeThreshold(1*1024*1024);
+		
+		ServletFileUpload upload = new ServletFileUpload(diskFileItemFactory);
+		
+		@SuppressWarnings("unchecked")
+		List<FileItem> fileItemsList = upload.parseRequest(request);
+
+		String status = updateProfileRedirect.run(user, fileItemsList);
+		request.setAttribute("update_status", status);
+		
+		return "redirect:/secure/settings";
 	}
 
 	@RequestMapping(value = { "/secure/inbox.do", "/secure/inbox" }, method = RequestMethod.GET)
-	public String inbox(HttpServletRequest request, HttpServletResponse response) {
-		return inboxPage.run(request, response);
+	public ModelAndView inbox(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		return inboxPage.run(user);
 	}
 
 	@RequestMapping(value = { "/secure/dialog.do", "/secure/dialog" }, method = RequestMethod.GET)
 	public ModelAndView dialog(
 			@RequestParam(value = "discussion_id", required = false) Integer discussionId,
-			HttpServletRequest request) throws IOException, ServletException {
-		return dialogPage.run(discussionId, request);
+			HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		ModelAndView mav = dialogPage.run(discussionId, user);
+		int count = inboxBusinessLogic.getUnreadMessagesCount(user.getId());
+		String countValue = count != 0 ? " [" + count + "]" : ""; 
+		request.getSession().setAttribute("unreadMailCount", countValue);
+		
+		return mav;
 	}
 
 	@RequestMapping(value = { "/secure/dialog/{discussionId}" }, method = RequestMethod.GET)
 	public ModelAndView dialogPath(@PathVariable Integer discussionId,
 			HttpServletRequest request) throws IOException, ServletException {
-		return dialogPage.run(discussionId, request);
+		return dialog(discussionId, request);
 	}
 
 	@RequestMapping(value = { "/action.do" }, method = RequestMethod.POST)
@@ -140,7 +181,7 @@ public class Pages {
 		try {
 			ajaxResponse = unauthorisedActionServlet.doPost(request, response);
 		} catch (Exception e) {
-			ServletHelperService.logException(e, request);
+			LOGGER.error("Unathorised Action Exception", e);
 			ajaxResponse = new FailResponse(e.getMessage());
 		}
 		return ajaxResponse;
@@ -154,7 +195,7 @@ public class Pages {
 		try {
 			ajaxResponse = authorisedActionServlet.doPost(request, response);
 		} catch (Exception e) {
-			ServletHelperService.logException(e, request);
+			LOGGER.error("Secure Action Exception", e);
 			ajaxResponse = new FailResponse(e.getMessage());
 		}
 		return ajaxResponse;

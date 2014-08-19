@@ -30,11 +30,11 @@ public class AutentificationAction implements Action{
 	public static final String USER_NAME ="user_name";
 	public static final String USER_TOKEN ="user_token";
 	
-	@Autowired(required=true)
+	@Autowired
 	private UsersDAO usersDAO;
 	@Autowired
 	private ServletHelperService servletHelperService;
-	@Autowired(required=true)
+	@Autowired
 	private UserDetailDAO userDetailDAO;
 
 	@Override

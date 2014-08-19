@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.zaibalo.controllers.Pages;
+import ua.com.zaibalo.controllers.PagesController;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.email.stub.SendEmailServiceStub;
 import ua.com.zaibalo.email.templates.AbstractMessage;
@@ -31,7 +31,7 @@ import ua.com.zaibalo.model.User;
 public class RegisterActionTest {
 
 	@Autowired
-	private Pages pages;
+	private PagesController pages;
 
 	@Autowired
 	private UsersDAO usersDAO;

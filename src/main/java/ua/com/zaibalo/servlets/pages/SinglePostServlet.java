@@ -1,15 +1,12 @@
 package ua.com.zaibalo.servlets.pages;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.db.api.PostsDAO;
-import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Post;
 
@@ -20,27 +17,25 @@ public class SinglePostServlet {
 	@Autowired
 	private PostsDAO postsDAO;
 	
-	public String getPost(String postIdParam, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView getPost(String postIdParam) throws Exception {
 		
 		if(StringHelper.isBlank(postIdParam) || !StringHelper.isDecimal(postIdParam)){
-			ServletHelperService.redirectHome(response);
-			ServletHelperService.logMessage("Post Id is not passed as a parameter.", request);
-			return null;
+			throw new RuntimeException(StringHelper.getLocalString("post_not_found_colon", postIdParam));
 		}
 		
 		int postId = Integer.parseInt(postIdParam);
-		
 		Post post = postsDAO.getObjectById(postId);
-
+		
 		if(post == null){
-			ServletHelperService.redirectHome(response);
-			ServletHelperService.logShortErrorMessage("Post not found: " + postIdParam);
-			return null;
+			throw new RuntimeException(StringHelper.getLocalString("post_not_found_colon", postIdParam));
 		}
 		
-		request.setAttribute("post", post);
+		ModelAndView mav = new ModelAndView();
 		
-		return "single_post";
+		mav.addObject("post", post);
+		mav.setViewName("single_post");
+		
+		return mav;
 	}
 
 }

@@ -2,9 +2,6 @@ package ua.com.zaibalo.business;
 
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,13 +31,11 @@ public class InboxBusinessLogic {
 		return discussionsDAO.getAllDiscussions(user.getId());
 	}
 	
-	public List<Message> getDiscussionMessages(Integer discussionId,
-			HttpServletRequest request, User user) throws ServletException {
+	public List<Message> getDiscussionMessages(Integer discussionId, User user) {
 		boolean accessible  = discussionsDAO.isDiscussionAccessible(discussionId, user.getId());
 
 		if(!accessible){
-			ServletHelperService.logMessage("Unauthorise access.", request);
-			throw new ServletException("Unauthorised access.");
+			throw new RuntimeException("Unauthorised access.");
 		}
 
 		return messagesDAO.getAllUserDiscussionMessages(discussionId, user.getId());

@@ -1,11 +1,9 @@
 package ua.com.zaibalo.filters;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +22,7 @@ public class SecureFilter implements HandlerInterceptor{
 		User user = servletHelperService.updateUserAuthenication(httpRequest, httpResponse);
 		
 		if(user == null){
-			throw new ServletException(StringHelper.getLocalString("please_authorise"));
+			throw new RuntimeException(StringHelper.getLocalString("please_authorise"));
 		}
 		
 		return true;

@@ -124,41 +124,7 @@ public class ServletHelperService {
 		
 		return null;
 	}
-	
-	public static void logException(Exception exception, HttpServletRequest request){
 
-		logMessage(exception.getMessage(), request);
-		
-		exception.printStackTrace();
-	}
-	
-	public static void logMessage(String message, HttpServletRequest request){
-		System.out.println();
-		System.out.println("ERROR: " + message);
-		System.out.println("Requested URL: " + request.getRequestURL() + ((request.getQueryString() == null) ? "" : "?" + request.getQueryString()));
-		System.out.println("From IP: " + ServletHelperService.getClientIpAddr(request));
-		System.out.println("Parameters:");
-		for(String paramKey : request.getParameterMap().keySet()){
-			System.out.print(paramKey);
-			System.out.print(": ");
-			String[] par = request.getParameterMap().get(paramKey);
-			for(String str: par){
-				System.out.print(str);
-			}
-			System.out.println();
-		}
-		
-		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		if(user != null){
-			System.out.println("Logged in user: " + user.getLoginName() + " id: " + user.getId());
-		}
-	}
-	
-	public static void logShortErrorMessage(String message){
-		System.out.println();
-		System.out.println("ERROR: " + message);
-	}
-	
 	public void updateUnreadMessagesStatus(HttpServletRequest request){
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		

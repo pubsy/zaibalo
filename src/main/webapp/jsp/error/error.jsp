@@ -18,7 +18,7 @@
 			<div id="right_body">
 				<%@ include file="../banner.jsp"%>
 				<div class="content">
-					<H2><zmt:message key="error_colon" /> <%= exception.getMessage() %></H2>
+					<H2><zmt:message key="error_colon" /><%= exception.getMessage() %></H2>
 					<br>
 					<a href='<c:url value="/" />'><zmt:message key="go_to_main_page" /></a>
 				</div>

@@ -18,7 +18,7 @@
 			<div id="right_body">
 				<%@ include file="../banner.jsp"%>
 				<div class="content">
-					<H2>Error: 404 Page not found</H2>
+					<H2><zmt:message key="error_colon" /><zmt:message key="file_not_found" /></H2>
 					<br>
 					<a href='<c:url value="/" />'>Go to main page</a>
 				</div>

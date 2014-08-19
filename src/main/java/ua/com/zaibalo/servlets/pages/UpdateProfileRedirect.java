@@ -7,13 +7,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,34 +29,13 @@ public class UpdateProfileRedirect {
 	@Autowired
 	private UsersDAO usersDAO;
 	
-	@SuppressWarnings("unchecked")
-	public String run(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public String run(User user, List<FileItem> fileItemsList) throws ServletException, IOException {
 		String displayName = null;
 		String newPassword = null;
 		String repeatPassword = null;
 		File newAvatar = null;
 		String about = null;
 		boolean notifyOnPM = false;
-
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			throw new ServletException(StringHelper.getLocalString("internal_server_error"));
-		}
-		
-		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		
-		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-		diskFileItemFactory.setSizeThreshold(1*1024*1024);
-		
-		ServletFileUpload upload = new ServletFileUpload(diskFileItemFactory);
-		
-		List<FileItem> fileItemsList = null;
-		try {
-			fileItemsList = (List<FileItem>) upload.parseRequest(request);
-		} catch (FileUploadException e) {
-			//TODO
-			e.printStackTrace();
-		}
 
 		for (FileItem item : fileItemsList) {
 
@@ -72,7 +46,6 @@ public class UpdateProfileRedirect {
 			if (item.isFormField()) {
 				String name = item.getFieldName();
 				String value = item.getString("utf-8");
-				
 				
 				displayName = "user_display_name".equals(name) ? value : displayName;
 				newPassword = "new_password".equals(name) ? value : newPassword;
@@ -94,7 +67,6 @@ public class UpdateProfileRedirect {
 				try {
 					item.write(newAvatar);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -114,13 +86,10 @@ public class UpdateProfileRedirect {
 		returnStatus = updateUserNotifyOnPM(user, notifyOnPM);
 		status.append(returnStatus);
 		
-		String basePath = request.getServletContext().getRealPath("");
-		returnStatus = updateUserAvatar(user, newAvatar, basePath);
+		returnStatus = updateUserAvatar(user, newAvatar);
 		status.append(returnStatus);
 		
-		request.setAttribute("update_status", status.toString());
-		
-		return "redirect:/secure/settings";
+		return status.toString();
 	}
 
 	private String updateUserAbout(User user, String about){
@@ -148,7 +117,7 @@ public class UpdateProfileRedirect {
 		}
 	}
 
-	private String updateUserAvatar(User user, File savedFile, String path) throws IOException{
+	private String updateUserAvatar(User user, File savedFile) throws IOException{
 		if(savedFile == null){
 			return "";
 		}
