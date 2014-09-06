@@ -13,7 +13,7 @@ $(document).ready(function() {
 		minHeight: 50,
 		buttons: {
 			"Зберегти": function() {
-				if (validateFields()){
+				if (validatePostFields()){
 					update_post(); 
 				}		
 			},
@@ -56,7 +56,7 @@ function editPostShow(id){
 	
 }
 
-function validateFields(){
+function validatePostFields(){
 	title = $('#edit_post_title').val().trim();
 	content = $('#edit_post_content').val().trim();
 	categories = $('#edit_post_category').text().trim();
@@ -96,7 +96,7 @@ function update_post() {
 	var s = function editPostSuccess(response) {
 		if(response.status == "success"){
 			$("#post_" + postId).html(response.object);
-		}else if(obj.status == "fail"){
+		}else if(response.status == "fail"){
 			showMessageDialog({title: "Хай йому грець!", message: response.message});
 		}
 		$("#edit_post_dialog").dialog("close");
@@ -108,7 +108,7 @@ function update_post() {
 			post_title	: post_title,
 			post_text	: post_text,
 			categories	: categories,
-			post_id		: $('#edit_post_id').val(),
+			post_id		: postId,
 			action		: 'update_post'
 	}
 	var dataType = "json";

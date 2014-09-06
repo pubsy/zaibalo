@@ -33,7 +33,7 @@ public class CommentRatingsDAOImpl implements CommentRatingsDAO {
 	@Override
 	public UserRating getUserCommentRatingSum(int userId) {
 
-		Query base = this.sessionFactory.getCurrentSession().createQuery("select count(id), sum(value) from CommentRating cr where cr.commentId in (select id from Comment c where c.authorId = ?)");
+		Query base = this.sessionFactory.getCurrentSession().createQuery("select count(id), sum(value) from CommentRating cr where cr.commentId in (select id from Comment c where c.author.id = ?)");
 		base.setInteger(0, userId);
 		Object[] result = (Object[])base.uniqueResult();
 		

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.CategoriesDAO;
-import ua.com.zaibalo.db.api.CommentsDAO;
 import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
 import ua.com.zaibalo.helper.StringHelper;
@@ -20,7 +19,6 @@ import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.Category;
-import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 
@@ -29,8 +27,6 @@ public class EditPostAction implements Action {
 	
 	@Autowired
 	private PostsDAO postsDAO;
-	@Autowired
-	private CommentsDAO commentsDAO;
 	@Autowired
 	private CategoriesDAO categoriesDAO;
 	
@@ -91,16 +87,11 @@ public class EditPostAction implements Action {
 		post.setContent(text);
 		
 		postsDAO.update(post);
-		
-		for(Comment comment: post.getComments()){
-			comment.setPostTitle(title);
-			commentsDAO.update(comment);
-		}
-		
+
 		request.setAttribute("post", post);
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/jsp/post_wrapper.jsp").forward(request, customResponse);
+	    request.getRequestDispatcher("/WEB-INF/jsp/post_wrapper.jsp").forward(request, customResponse);
 	    Object postHTML = customResponse.getOutput();
 		
 	    return new SuccessResponse(postHTML);

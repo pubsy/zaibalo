@@ -19,7 +19,7 @@ public class UserBusinessLogic {
 	@Autowired
 	private UsersDAO usersDAO;
 	
-	public int addUser(String loginName, String email, String password,
+	public User createUser(String loginName, String email, String password,
 								String displayName, String smallImagePath, String bigImagePath){
 		User user = new User();
 		user.setLoginName(loginName);
@@ -51,7 +51,15 @@ public class UserBusinessLogic {
 		return usersDAO.insert(user);
 	}
 	
+	public User addUser(User user){
+		return createUser(user.getLoginName(), user.getEmail(), user.getPassword(), user.getDisplayName(), user.getSmallImgPath(), user.getBigImgPath());
+	}
+	
 	public List<String> getAllUserNamesList(){
 		return usersDAO.getAllUserNamesList();
+	}
+	
+	public User getUserById(int userId){
+		return usersDAO.getUserById(userId);
 	}
 }

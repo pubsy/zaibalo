@@ -43,8 +43,6 @@ public class SaveCommentAction implements Action{
 
 		Post post = postsDAO.getObjectById(postId);
 
-		String postTitle = post.getTitle();
-		
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
 		if(user.getRole() > 2){
@@ -54,12 +52,11 @@ public class SaveCommentAction implements Action{
 		//save comment
 		Comment comment = new Comment();
 		comment.setContent(content);
-		comment.setAuthorId(user.getId());
-		comment.setPostId(postId);
+		comment.setAuthor(user);
+		comment.setPost(post);
 		comment.setDate(new Date());
 		//comment.setAuthorDisplayName(user.getDisplayName());
 		comment.setAuthor(user);
-		comment.setPostTitle(postTitle);
 		comment.setRatingCount(0);
 		comment.setRatingSum(0);
 		
@@ -68,14 +65,12 @@ public class SaveCommentAction implements Action{
 			return new FailResponse(StringHelper.getLocalString("error_colon") + validator.getErrors());
 		}
 		
-		int id = commentsDAO.insert(comment);
+		comment = commentsDAO.update(comment);
 
-		comment.setId(id);
-		
 		request.setAttribute("comment", comment);
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/jsp/comment_wrapper.jsp").forward(request, customResponse);
+	    request.getRequestDispatcher("/WEB-INF/jsp/comment_wrapper.jsp").forward(request, customResponse);
 	    
 	    return new SuccessResponse(customResponse.getOutput());
 	}

@@ -19,7 +19,6 @@
 	<body>
 		<div id="body">
 			<jsp:useBean id="now" class="java.util.Date"/>
-			<%@ include file="edit_post_dialog.jsp"%>
 			<div id="right_body">
 				<%@ include file="banner.jsp"%>
 				<div class="content">
@@ -62,7 +61,7 @@
 					</div>
 				
 					<div id="dialog_messages">
-						<%@include file="/jsp/messagesBlock.jsp" %>
+						<%@include file="messagesBlock.jsp" %>
 					</div>
 				</div>
 			</div>

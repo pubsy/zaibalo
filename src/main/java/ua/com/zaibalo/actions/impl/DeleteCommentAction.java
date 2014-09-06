@@ -37,7 +37,7 @@ public class DeleteCommentAction implements Action{
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		
-		if(user.getId() != comment.getAuthorId() && user.getRole() >=2){
+		if(user.getId() != comment.getAuthor().getId() && user.getRole() >=2){
 			LOGGER.error("Rights violation!");
 			return new FailResponse(StringHelper.getLocalString("you.are.not.powerfull.enough"));
 		}

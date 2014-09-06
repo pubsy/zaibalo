@@ -31,7 +31,7 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public User getUserByName(String name) {
+	public User getUserByLoginName(String name) {
 
 		User user = (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("loginName", name)).uniqueResult();
 		
@@ -56,21 +56,9 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public int insert(User user) {
-
+	public User insert(User user) {
 		this.sessionFactory.getCurrentSession().save(user);
-		int id = user.getId();
-		
-		return id;
-	}
-
-	@Override
-	public void updateUserToken(int userId, String newToken) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, userId);
-		user.setToken(newToken);
-		this.sessionFactory.getCurrentSession().update(user);
-		
+		return user;
 	}
 
 	@Override

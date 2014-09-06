@@ -54,6 +54,21 @@ public class ServletHelperService {
 		return ip;
 	}
 
+	private boolean hasRememberMeCookie(HttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null) {
+			return false;
+		}
+
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals(ZaibaloConstants.REMEBER_ME)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	private User getCookieUser(HttpServletRequest request, HttpServletResponse response){
 
 		Cookie[] cookies = request.getCookies();
@@ -61,40 +76,37 @@ public class ServletHelperService {
 			return null;
 		}
 
-		String userCookie = null;
+		String userNameAndToken = null;
 
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(ZaibaloConstants.ZAIBALO_USER_COOKIE_NAME)) {
+			if (cookie.getName().equals(ZaibaloConstants.USER_NAME_TOKEN)) {
 				try {
-					userCookie = URLDecoder.decode(cookie.getValue(), "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-					// NEVER GONNA HAPPEN)))
-				}
+					userNameAndToken = URLDecoder.decode(cookie.getValue(), "UTF-8");
+				} catch (UnsupportedEncodingException e) {}
 			}
 		}
-		if (userCookie == null) {
+		if (userNameAndToken == null) {
 			return null;
 		}
 
-		int colonIndex = userCookie.indexOf(":");
+		int colonIndex = userNameAndToken.indexOf(":");
 		if (colonIndex == -1) {
-			response.addCookie(new Cookie(ZaibaloConstants.ZAIBALO_USER_COOKIE_NAME, ""));
+			response.addCookie(new Cookie(ZaibaloConstants.USER_NAME_TOKEN, ""));
 			return null;
 		}
-		String userName = userCookie.substring(0, colonIndex);
-		String userToken = userCookie.substring(colonIndex + 1);
+		String userName = userNameAndToken.substring(0, colonIndex);
+		String userToken = userNameAndToken.substring(colonIndex + 1);
 
 		User cookieUser = null;
 
-		cookieUser = usersDAO.getUserByName(userName);
+		cookieUser = usersDAO.getUserByLoginName(userName);
 
 
 		if (cookieUser != null && cookieUser.getToken().equals(userToken)) {
 			return cookieUser;
 		}
 
-		response.addCookie(new Cookie(ZaibaloConstants.ZAIBALO_USER_COOKIE_NAME, ""));
+		response.addCookie(new Cookie(ZaibaloConstants.USER_NAME_TOKEN, ""));
 		return null;
 	}
 
@@ -107,9 +119,10 @@ public class ServletHelperService {
 			return user;
 		}
 
+		boolean hasRememberMeCookie = hasRememberMeCookie(request);
 		User cookieUser = getCookieUser(request, response);
 
-		if (cookieUser != null) {
+		if (hasRememberMeCookie) {
 			session.setAttribute(ZaibaloConstants.USER_PARAM_NAME, cookieUser);
 			
 			String ipAddr = ServletHelperService.getClientIpAddr(request);
@@ -118,11 +131,9 @@ public class ServletHelperService {
 			userDetail.setUser(cookieUser);
 			userDetail.setValue(ipAddr);
 			userDetailDAO.saveIfNotExists(userDetail);
-			
-			return cookieUser;
 		}
 		
-		return null;
+		return cookieUser;
 	}
 
 	public void updateUnreadMessagesStatus(HttpServletRequest request){
@@ -132,7 +143,7 @@ public class ServletHelperService {
 			return;
 		}
 		
-		int count = messagesDAO.getUnreadMessagesCount(user.getId());
+		long count = messagesDAO.getUnreadMessagesCount(user.getId());
 		if(count != 0){			
 			request.getSession().setAttribute("unreadMailCount", " [" + count + "]");
 		}else{

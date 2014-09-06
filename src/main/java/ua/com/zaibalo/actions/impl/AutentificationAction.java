@@ -58,7 +58,7 @@ public class AutentificationAction implements Action{
 			return new FailResponse(StringHelper.getLocalString("user_name_cant_be_blank"));
 		}
 		
-		User user = usersDAO.getUserByName(name);
+		User user = usersDAO.getUserByLoginName(name);
 
 		if(user != null && MD5Helper.getMD5Of(password).equals(user.getPassword())){			
 			
@@ -66,11 +66,15 @@ public class AutentificationAction implements Action{
 			
 			servletHelperService.updateUnreadMessagesStatus(request);
 			
+			String value = user.getLoginName() + ":" + user.getToken();
+			Cookie cookie = new Cookie(ZaibaloConstants.USER_NAME_TOKEN, URLEncoder.encode(value, "UTF-8"));
+			cookie.setMaxAge(90*24*60*60);
+			response.addCookie(cookie);
+			
 			if(remember != null && remember.equals("true")){
-				String value = user.getLoginName() + ":" + user.getToken();
-				Cookie cookie = new Cookie(ZaibaloConstants.ZAIBALO_USER_COOKIE_NAME, URLEncoder.encode(value, "UTF-8"));
-				cookie.setMaxAge(90*24*60*60);
-				response.addCookie(cookie);
+				Cookie rememberMeCookie = new Cookie(ZaibaloConstants.REMEBER_ME, Boolean.TRUE.toString());
+				rememberMeCookie.setMaxAge(90*24*60*60);
+				response.addCookie(rememberMeCookie);
 			}
 			
 			String ipAddr = ServletHelperService.getClientIpAddr(request);

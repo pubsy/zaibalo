@@ -1,5 +1,6 @@
 package ua.com.zaibalo.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,13 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
+import ua.com.zaibalo.helper.gson.ExcludeFromJson;
+
 @Entity
 @Table(name="comments")
-@JsonIgnoreProperties({"post", "ratings", "postId", "postTitle", "authorId"})
+@JsonIgnoreProperties({"post", "ratings"})
 public class Comment{
 	
 	@Id
@@ -27,39 +32,31 @@ public class Comment{
 	@Column(name="id")
 	private int id;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	@Type(type="text")
 	private String content;
 	
-	//@ExcludeFromJson
+	@ExcludeFromJson
 	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="author_id", referencedColumnName="id", insertable = false, updatable = false)
+	@JoinColumn(name="author_id", referencedColumnName="id", nullable = false)
 	private User author;
 	
-	//@ExcludeFromJson
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="post_id", referencedColumnName="id", insertable = false, updatable = false)
+	@ExcludeFromJson
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	private Post post;
 	
-	@Column(name="post_title")
-	private String postTitle;
-	
 	@Column(name="rating_count")
-	private int ratingCount;
+	private int ratingCount = 0;
 
 	@Column(name="rating_sum")
-	private int ratingSum;
-
-	@Column(name="author_id")
-	private int authorId;
+	private int ratingSum = 0;
 	
-	@Column(name="post_id")
-	private int postId;
-	
-	//@ExcludeFromJson
+	@ExcludeFromJson
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", cascade=CascadeType.REMOVE)
-	private List<CommentRating> ratings;
+	private List<CommentRating> ratings = new ArrayList<CommentRating>();
 	
 	public Comment() {
 	}
@@ -71,35 +68,12 @@ public class Comment{
 		this.content = content;
 	}
 	
-	public int getAuthorId() {
-		return authorId;
-	}
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
-	}
-
-	public void setPostId(int postId) {
-		this.postId = postId;
-	}
-
-	public int getPostId() {
-		return postId;
-	}
-	
 	public User getAuthor(){
 		return this.author;
 	}	
 	
 	public void setAuthor(User author){
 		this.author = author;
-	}
-	
-	public void setPostTitle(String postTitle) {
-		this.postTitle = postTitle;
-	}
-	
-	public String getPostTitle() {
-		return postTitle;
 	}
 
 	public void setRatingCount(int ratingCount) {

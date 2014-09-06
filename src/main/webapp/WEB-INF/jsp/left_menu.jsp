@@ -42,11 +42,11 @@
 					<div class="sidebar_block_body">
 						<c:forEach var="comment" items="${recentComments}">
 							<div class="recent_comment">
-								<a href='<c:url value="/user/${comment.authorId}" />'>
+								<a href='<c:url value="/user/${comment.author.id}" />'>
 								<img src="/image/${comment.author.smallImgPath}" >
 								<t:trimer text="${comment.author.displayName}" maxWords="12"/></a>
 								<zmt:message key="on" />
-								<a href="<c:url value="/post/${comment.postId}" />"><t:trimer text="${comment.postTitle}" maxWords="19"/></a>
+								<a href="<c:url value="/post/${comment.post.id}" />"><t:trimer text="${comment.post.title}" maxWords="19"/></a>
 							</div>
 						</c:forEach>
 					</div>

@@ -6,12 +6,11 @@ import ua.com.zaibalo.model.User;
 
 public interface UsersDAO{
 	User getUserByEmail(String email);
-	User getUserByName(String name);
+	User getUserByLoginName(String name);
 	User getUserByLoginOrDisplayName(String name);
 	void updateUserPassword(int userId, String newPassword);
 	void updateUserPassword(int userId, String newPassword, boolean encode);
-	int insert(User user);
-	void updateUserToken(int userId, String newToken);
+	User insert(User user);
 	User getUserById(int userId);
 	void updateUserDisplayName(int userId, String newDisplayName);
 	void updateUserImage(int id, String bigImg, String smallImg);

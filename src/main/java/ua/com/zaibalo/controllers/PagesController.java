@@ -71,7 +71,10 @@ public class PagesController {
 		request.getSession().removeAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
 		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().equals(ZaibaloConstants.ZAIBALO_USER_COOKIE_NAME)) {
+			if (cookie.getName().equals(ZaibaloConstants.USER_NAME_TOKEN)) {
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}else if (cookie.getName().equals(ZaibaloConstants.REMEBER_ME)) {
 				cookie.setMaxAge(0);
 				response.addCookie(cookie);
 			}
@@ -158,7 +161,7 @@ public class PagesController {
 			HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		ModelAndView mav = dialogPage.run(discussionId, user);
-		int count = inboxBusinessLogic.getUnreadMessagesCount(user.getId());
+		long count = inboxBusinessLogic.getUnreadMessagesCount(user.getId());
 		String countValue = count != 0 ? " [" + count + "]" : ""; 
 		request.getSession().setAttribute("unreadMailCount", countValue);
 		

@@ -254,8 +254,13 @@ textarea{
 	font-weight: bold;
 }
 
-.delete_link{
+.comment_operations{
 	float:right;
+	height: 15px;
+}
+
+.comment_operations a {
+	padding-left: 10px;
 }
 
 .vote_icon{

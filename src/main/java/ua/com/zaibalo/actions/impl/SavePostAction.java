@@ -108,7 +108,7 @@ public class SavePostAction implements Action{
 		}).start();
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/jsp/post_wrapper.jsp").forward(request, customResponse);
+	    request.getRequestDispatcher("/WEB-INF/jsp/post_wrapper.jsp").forward(request, customResponse);
 	    
 	    return new SuccessResponse(customResponse.getOutput());
 	}

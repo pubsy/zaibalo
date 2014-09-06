@@ -56,7 +56,7 @@ public class RegisterAction  implements Action{
 		}
 		
 		String newPassword = StringHelper.generateString(10);
-		userBusinessLogic.addUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
+		userBusinessLogic.createUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
 
 		RegisterUserMessage message = new RegisterUserMessage(email);
 		message.setLogin(login);

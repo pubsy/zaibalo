@@ -1,10 +1,14 @@
 
-function sendJQueryAjaxRequest(url, type, params, successMethod, dataType) {
+function sendJQueryAjaxRequest(url, type, params, successMethod, dataType, contentType, headers) {
+	contentType = typeof contentType !== 'undefined' ? contentType : 'application/x-www-form-urlencoded';
+	
 	var request = $.ajax({
 		url : url,
 		type : type,
 		data : params,
-		dataType : dataType
+		dataType : dataType,
+		contentType: contentType,
+		headers: headers
 	});
 
 	request.done(function(msg) {

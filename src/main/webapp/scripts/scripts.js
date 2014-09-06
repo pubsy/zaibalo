@@ -30,47 +30,40 @@ function addComment(postId){
 		return;
 	}
 
-	var url = "/secure/action.do";
-	var method = "POST";
-	var params = {
-			post_id : postId,
-			content : textarea.val(),
-			action	: 'save_comment'
-	}
-	var dataType = "json";
-	
-	comments = document.getElementById('comments_' + postId);
-	comment_count = document.getElementById('comment_count_' + postId);
-	comment_count_text = document.getElementById('comment_count_text_' + postId);
+	var comments = document.getElementById('comments_' + postId);
+	var comment_count = document.getElementById('comment_count_' + postId);
 
 	var s = function addCommentSuccess(response) {
 		$('#loading_gif_' + + postId).hide("slow");
-		
-		if(response.status == "success"){
-			var newCommentWrap = document.createElement("div");
-			newCommentWrap.innerHTML = response.object;
 			
-			var comment = newCommentWrap.children[0];
-			comment.style.display = "none";
-
-			$('#comments_' + postId).append(newCommentWrap);
-			$(comment).show("slow");
-
-			if (comment_count != null) {
-				var commentCount = parseInt(comment_count.innerHTML) + 1;
-				comment_count.innerHTML = commentCount;
-			}
-			textarea.val("");
-			textarea.trigger('keydown');
-		}else{
-			showMessageDialog({title: "Хай йому грець!", message: response.message});
-			return;
+		var template = $('#comment-template').html();
+		Mustache.parse(template);
+		var comment = $(Mustache.render(template, response));
+		
+		comment.css("display", "none");
+		$('#comments_' + postId).append(comment);
+		comment.show("slow");
+			
+		if (comment_count != null) {
+			var commentCount = parseInt(comment_count.innerHTML) + 1;
+			comment_count.innerHTML = commentCount;
 		}
-
+		textarea.val("");
+		textarea.trigger('keydown');
 	}
 		
 	$('#loading_gif_' + + postId).show("slow");
-	sendJQueryAjaxRequest(url, method, params, s, dataType);
+	
+	var url = "/api/comments";
+	var method = "POST"; //POST for saving new
+	var comment = {content: textarea.val(), post: {id: postId}};
+	var data = JSON.stringify(comment);
+	var dataType = "json";
+	
+	var contentType = "application/json";
+	var headers = getAuthHeader();
+	
+	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, headers);
 }
 
 function add_post() {
@@ -254,5 +247,22 @@ function sendMessage(){
 	var dataType = "json";
 
 	sendJQueryAjaxRequest(url, method, params, s, dataType);
+}
+
+function getAuthHeader() {
+	var authorization = getCookie('zaibalo_user');
+	var headers = {"Authorization": "Basic " + btoa(authorization)};
+	return headers;
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+    }
+    return null;
 }
 

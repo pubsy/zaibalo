@@ -2,6 +2,7 @@ package ua.com.zaibalo.db.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,17 @@ public class CommentsDAOImpl implements CommentsDAO {
 	}
 
 	@Override
-	public int insert(Comment comment) {
-
-		this.sessionFactory.getCurrentSession().save(comment);
-		int id = comment.getId();
-		
-		return id;
+	public Comment update(Comment comment) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.update(comment);
+		return comment;
+	}
+	
+	@Override
+	public Comment persist(Comment comment) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.persist(comment);
+		return comment;
 	}
 
 	@Override
@@ -85,8 +91,4 @@ public class CommentsDAOImpl implements CommentsDAO {
 		
 	}
 
-	@Override
-	public void update(Comment comment) {
-		this.sessionFactory.getCurrentSession().update(comment);
-	}
 }

@@ -46,7 +46,7 @@ public class RateCommentAction implements Action{
 		
 		Comment comment = commentsDAO.getObjectById(commentId);
 		
-		if(user.getId() == comment.getAuthorId()){
+		if(user.getId() == comment.getAuthor().getId()){
 			return new FailResponse(StringHelper.getLocalString("you_cant_rate_own_comments"));
 		}
 		
@@ -57,8 +57,8 @@ public class RateCommentAction implements Action{
 			rate.setUserId(user.getId());
 			rate.setDate(new Date());
 			rate.setValue(value);
-			rate.setPostTitle(comment.getPostTitle());
-			rate.setPostId(comment.getPostId());
+			rate.setPostTitle(comment.getPost().getTitle());
+			rate.setPostId(comment.getPost().getId());
 			rate.setUserDisplayName(user.getDisplayName());
 			
 			commentRatingsDAO.createCommentRating(rate);

@@ -106,7 +106,7 @@ public class SendMessageAction implements Action {
 		}
 
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/jsp/messagesBlock.jsp").forward(request, customResponse);
+	    request.getRequestDispatcher("/WEB-INF/jsp/messagesBlock.jsp").forward(request, customResponse);
 	    
 	    return new SuccessResponse(customResponse.getOutput());
 	}

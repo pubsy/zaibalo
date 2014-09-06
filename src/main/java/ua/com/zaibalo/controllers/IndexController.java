@@ -12,7 +12,7 @@ import ua.com.zaibalo.servlets.pages.IndexServlet;
 
 @Controller
 public class IndexController {
-
+	
 	@Autowired
 	private IndexServlet indexServlet;
 
@@ -122,6 +122,11 @@ public class IndexController {
 			@PathVariable("count") String count,
 			@PathVariable("page") String page) {
 		return main(categoryId, order, count, page);
+	}
+	
+	@RequestMapping(value = { "/error" }, method = RequestMethod.GET)
+	public String errorPage(){
+		return "error/error";
 	}
 
 }

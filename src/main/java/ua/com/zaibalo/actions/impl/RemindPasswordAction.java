@@ -33,7 +33,7 @@ public class RemindPasswordAction implements Action {
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws IOException, AddressException, MessagingException {
 		String userName = request.getParameter("userName");
 
-		final User user = usersDAO.getUserByName(userName);
+		final User user = usersDAO.getUserByLoginName(userName);
 		if (user == null) {
 			return new FailResponse(StringHelper.getLocalString("user_doesnt_exist"));
 		}

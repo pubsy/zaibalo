@@ -1,10 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
@@ -14,47 +20,60 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<import resource="classpath:/zaibalo-core-context.xml" />
-	
+
+	<security:http>
+		<security:intercept-url pattern="/api/**" access="ROLE_USER" />
+		<security:http-basic />
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query="select login_name as username, token as password, 'true' as enabled from users where login_name = ?"
+		  authorities-by-username-query="select login_name as username, 'ROLE_USER' as role from users where login_name = ?" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
 	<mvc:annotation-driven>
-	    <mvc:message-converters>
-	        <bean class="ua.com.zaibalo.helper.gson.GsonMessageConverter" />
-	    </mvc:message-converters>
+		<mvc:message-converters>
+			<bean class="ua.com.zaibalo.helper.gson.GsonMessageConverter" />
+		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
-	<mvc:resources mapping="/css/**" location="/css/"/>
-	<mvc:resources mapping="/scripts/**" location="/scripts/"/>
-	<mvc:resources mapping="/img/**" location="/img/"/>
-	<mvc:resources mapping="/fonts/**" location="/fonts/"/>
-	<mvc:resources mapping="/image/**" location="file:/var/lib/tomcat7/userphoto/"/>
+
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/scripts/**" location="/scripts/" />
+	<mvc:resources mapping="/img/**" location="/img/" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/image/**" location="file:/var/lib/tomcat7/userphoto/" />
 
 	<!-- Map returned view name "rssViewer" to bean id "rssViewer" -->
 	<bean id="rssViewer" class="ua.com.zaibalo.rss.CustomRssViewer" />
-	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" >
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="1" />
 	</bean>
- 
+
 	<!-- If no extension matched, use JSP view -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="order" value="2" />
 		<property name="prefix">
-			<value>/jsp/</value>
+			<value>/WEB-INF/jsp/</value>
 		</property>
 		<property name="suffix">
 			<value>.jsp</value>
 		</property>
 	</bean>
-	
+
 	<bean id="ua.com.zaibalo.email.SendEmailService" class="ua.com.zaibalo.email.impl.SendEmailServiceImpl" />
-	
+
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
+			<mvc:mapping path="/**" />
 			<bean class="ua.com.zaibalo.filters.EncodingFilter" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/secure_action/**" />
-			<mvc:mapping path="/secure/**"/>
+			<mvc:mapping path="/secure/**" />
 			<bean class="ua.com.zaibalo.filters.SecureFilter" />
 		</mvc:interceptor>
 		<mvc:interceptor>
@@ -64,17 +83,17 @@
 			<mvc:mapping path="/order/**" />
 			<mvc:mapping path="/count/**" />
 			<mvc:mapping path="/post/**" />
-			<mvc:mapping path="/post.do/**"/>
-			<mvc:mapping path="/userProfile.do/**"/>
-			<mvc:mapping path="/user/**"/>
-			<mvc:mapping path="/user.do/**"/>
-			<mvc:mapping path="/secure/inbox.do"/>
-			<mvc:mapping path="/secure/inbox"/>
-			<mvc:mapping path="/secure/dialog.do"/>
-			<mvc:mapping path="/secure/dialog/**"/>
-			<mvc:mapping path="/secure/update_profile.do"/>
+			<mvc:mapping path="/post.do/**" />
+			<mvc:mapping path="/userProfile.do/**" />
+			<mvc:mapping path="/user/**" />
+			<mvc:mapping path="/user.do/**" />
+			<mvc:mapping path="/secure/inbox.do" />
+			<mvc:mapping path="/secure/inbox" />
+			<mvc:mapping path="/secure/dialog.do" />
+			<mvc:mapping path="/secure/dialog/**" />
+			<mvc:mapping path="/secure/update_profile.do" />
 			<bean class="ua.com.zaibalo.filters.PageFilter" />
 		</mvc:interceptor>
-	</mvc:interceptors> 
-	
+	</mvc:interceptors>
+
 </beans>

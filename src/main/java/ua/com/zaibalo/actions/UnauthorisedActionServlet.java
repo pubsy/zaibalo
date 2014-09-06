@@ -11,15 +11,12 @@ import ua.com.zaibalo.actions.impl.RegisterAction;
 import ua.com.zaibalo.actions.impl.RemindPasswordAction;
 import ua.com.zaibalo.actions.impl.SetTimeZoneAction;
 import ua.com.zaibalo.actions.impl.ShowRatingAction;
-import ua.com.zaibalo.actions.impl.UserValidationLinkAction;
 
 @Component
 public class UnauthorisedActionServlet extends AbstractAction {
 
 	@Autowired
 	private AutentificationAction autentificationAction;
-	@Autowired
-	private UserValidationLinkAction userValidationLinkAction;
 	@Autowired
 	private RegisterAction registerAction;
 	@Autowired
@@ -33,7 +30,6 @@ public class UnauthorisedActionServlet extends AbstractAction {
 
 	public void initMap() {
 		actionsMap.put("authenticate", autentificationAction);
-		actionsMap.put("validate_email", userValidationLinkAction);
 		actionsMap.put("register", registerAction);
 		actionsMap.put("remind_password", remindPasswordAction);
 		actionsMap.put("show_rating", showRatingAction);

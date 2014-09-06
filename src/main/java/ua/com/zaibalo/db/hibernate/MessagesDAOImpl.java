@@ -49,12 +49,12 @@ public class MessagesDAOImpl implements MessagesDAO {
 	}
 
 	@Override
-	public int getUnreadMessagesCount(int recipientId) {
+	public long getUnreadMessagesCount(int recipientId) {
 
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Message.class);
 		criteria.add(Restrictions.eq("recipientId", recipientId));
 		criteria.add(Restrictions.eq("read", false));
-		int size = (Integer)criteria.setProjection(Projections.rowCount()).uniqueResult();
+		long size = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
 		
 		return size;
 	}

@@ -79,7 +79,7 @@ public class IndexServlet {
 		List<Post> postList = postsDAO.getPostsList(catIdsParam, fromDate,
 				order, from, count);
 
-		int pagingResultsSize = postsDAO
+		long pagingResultsSize = postsDAO
 				.getPostsListSize(catIdsParam, fromDate);
 
 		ModelAndView mav = new ModelAndView("index");

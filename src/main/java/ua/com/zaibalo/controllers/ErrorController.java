@@ -17,7 +17,7 @@ public class ErrorController {
 
 	private final static Logger LOGGER = Logger.getLogger(ErrorController.class);
 
-	@ExceptionHandler({RuntimeException.class})
+	@ExceptionHandler({Exception.class})
 	public String handleError(HttpServletRequest request, Exception exception) {
 		LOGGER.error("Request: " + request.getRequestURL() + ((request.getQueryString() == null) ? "" : "?" + request.getQueryString()));
 		LOGGER.error("From IP: " + ServletHelperService.getClientIpAddr(request));
@@ -43,4 +43,5 @@ public class ErrorController {
 		
 		return "error/error";
 	}
+
 }

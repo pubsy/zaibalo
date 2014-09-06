@@ -137,11 +137,9 @@ public class PostsDAOImpl implements PostsDAO {
 	}
 
 	@Override
-	public int getPostsListSize(List<Integer> ids, Date fromDate) {
-		
+	public long getPostsListSize(List<Integer> ids, Date fromDate) {
 
-
-		int size = 0;
+		long size = 0;
 		try{
 			Criteria parent = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
 			if(ids != null && ids.size() > 0){
@@ -152,7 +150,7 @@ public class PostsDAOImpl implements PostsDAO {
 				parent.add(Restrictions.gt("date", fromDate));
 			}
 
-			size = (Integer)parent.setProjection(Projections.rowCount()).uniqueResult();
+			size = (Long)parent.setProjection(Projections.rowCount()).uniqueResult();
 
 		}catch(Exception ex){
 			ex.printStackTrace();

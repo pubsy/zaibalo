@@ -43,7 +43,7 @@ public class PostRatingsDAOImpl implements PostRatingsDAO {
 		criteria.add(Restrictions.eq("postId", postId));
 		criteria.add(Restrictions.eq("userId", userId));
 		criteria.setProjection(Projections.rowCount());
-		int size = (Integer)criteria.uniqueResult();
+		long size = (Long)criteria.uniqueResult();
 		
 		
 		if(size > 0){

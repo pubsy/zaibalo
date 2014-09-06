@@ -1,9 +1,0 @@
-DROP TABLE IF EXISTS `post_rating`;
-DROP TABLE IF EXISTS `post_category`;
-DROP TABLE IF EXISTS `messages`;
-DROP TABLE IF EXISTS `discussions`;
-DROP TABLE IF EXISTS `comment_rating`;
-DROP TABLE IF EXISTS `comments`;
-DROP TABLE IF EXISTS `categories`;
-DROP TABLE IF EXISTS `posts`;
-DROP TABLE IF EXISTS `users`;

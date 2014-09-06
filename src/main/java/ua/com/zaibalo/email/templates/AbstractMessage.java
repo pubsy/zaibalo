@@ -34,7 +34,7 @@ public abstract class AbstractMessage {
 	public MimeMessage getMimeMessage() {
 		String templateText = null;
 		try {
-			templateText = IOUtils.toString(new ClassPathResource(this.templatePath).getInputStream());
+			templateText = IOUtils.toString(new ClassPathResource(this.templatePath).getInputStream(), "UTF-8");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

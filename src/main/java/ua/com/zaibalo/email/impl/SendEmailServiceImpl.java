@@ -9,12 +9,17 @@ import ua.com.zaibalo.email.templates.AbstractMessage;
 public class SendEmailServiceImpl implements SendEmailService {
 
 	@Override
-	public void sendEmail(AbstractMessage message) {
-		try {
-			Transport.send(message.getMimeMessage());
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
+	public void sendEmail(final AbstractMessage message) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Transport.send(message.getMimeMessage());
+				} catch (MessagingException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}).start();
 	}
-	
+
 }

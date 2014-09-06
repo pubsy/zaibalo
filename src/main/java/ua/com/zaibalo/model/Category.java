@@ -14,13 +14,13 @@ public class Category{
 	
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column
 	private int id;
 	
-	@Column(name="name", unique=true)
+	@Column(unique=true)
 	private String name;
 	
-	@Column(name="type")
+	@Column
 	private String type;
 	
 	public static final String CATEGORY_TYPE = "category";

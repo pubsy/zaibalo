@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 
@@ -17,19 +19,22 @@ import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 @Table(name = "users")
 public class User {
 
+	public static final String USERPHOTO_DIR_PATH = "/image/";
+	public static final String DEFAULT_BIG_IMG_PATH = "default.jpg";
+	public static final String DEFAULT_SMALL_IMG_PATH = "default.thumbnail.jpg";
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private int id;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-
-	public static final String USERPHOTO_DIR_PATH = "/image/";
-	public static final String DEFAULT_BIG_IMG_PATH = "default.jpg";
-	public static final String DEFAULT_SMALL_IMG_PATH = "default.thumbnail.jpg";
 
 	@Column(name = "login_name", unique = true)
 	private String loginName;
+	
+	@ExcludeFromJson
 	private String password;
 
 	@Column(name = "display_name", unique = true)
@@ -38,9 +43,11 @@ public class User {
 	@Column(name = "email", unique = true)
 	private String email;
 
+	@ExcludeFromJson
 	@Column(name = "role")
 	private int role;
-
+	
+	@ExcludeFromJson
 	private String token;
 
 	@Column(name = "small_img_path")

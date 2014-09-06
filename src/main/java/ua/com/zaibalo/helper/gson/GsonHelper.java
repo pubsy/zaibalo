@@ -1,7 +1,9 @@
 package ua.com.zaibalo.helper.gson;
 
 
+import ua.com.zaibalo.helper.gson.adapters.SingleCommentAdapter;
 import ua.com.zaibalo.helper.gson.adapters.SinglePostAdapter;
+import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 
 import com.google.gson.ExclusionStrategy;
@@ -14,6 +16,7 @@ public class GsonHelper {
 	public static Gson getGsonWithExclusionStrategy(){
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Post.class, new SinglePostAdapter());
+		gsonBuilder.registerTypeAdapter(Comment.class, new SingleCommentAdapter());
 
 		Gson gson = gsonBuilder.
 		addSerializationExclusionStrategy(new ExclusionStrategy() {

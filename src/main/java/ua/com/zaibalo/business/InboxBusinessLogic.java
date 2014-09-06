@@ -45,7 +45,7 @@ public class InboxBusinessLogic {
 		messagesDAO.setDialogMessagesRead(discussionId, userId);
 	}
 	
-	public int getUnreadMessagesCount(int userId){
+	public long getUnreadMessagesCount(int userId){
 		return messagesDAO.getUnreadMessagesCount(userId);
 	}
 }

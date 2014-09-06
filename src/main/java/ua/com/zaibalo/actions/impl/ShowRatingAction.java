@@ -43,13 +43,13 @@ public class ShowRatingAction implements Action {
 			
 			request.setAttribute("postRatings", postRatings);
 			
-			request.getRequestDispatcher("/jsp/post_ratings.jsp").forward(request, customResponse);
+			request.getRequestDispatcher("/WEB-INF/jsp/post_ratings.jsp").forward(request, customResponse);
 		}else if("comment".equals(typeParam)){
 			List<CommentRating> commentRatings = commentRatingsDAO.getUserCommentRatings(id);
 			
 			request.setAttribute("commentRatings", commentRatings);
 			
-			request.getRequestDispatcher("/jsp/comment_ratings.jsp").forward(request, customResponse);
+			request.getRequestDispatcher("/WEB-INF/jsp/comment_ratings.jsp").forward(request, customResponse);
 		}
 		
 	    
