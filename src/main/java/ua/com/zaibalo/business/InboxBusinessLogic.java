@@ -31,6 +31,10 @@ public class InboxBusinessLogic {
 		return discussionsDAO.getAllDiscussions(user);
 	}
 	
+	public Discussion getDiscussionById(int discussionId){
+		return discussionsDAO.getDiscussionById(discussionId);
+	}
+	
 	public List<Message> getDiscussionMessages(Discussion discussion, User user) {
 		boolean accessible  = discussionsDAO.isDiscussionAccessible(discussion, user);
 

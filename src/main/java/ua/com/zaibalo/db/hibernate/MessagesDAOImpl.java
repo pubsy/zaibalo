@@ -62,14 +62,14 @@ public class MessagesDAOImpl implements MessagesDAO {
 	@Override
 	public void setDialogMessagesRead(Discussion discussion, User recipient) {
 
-		String hqlUpdate = "update Message set read = :read where discussionId = :discussionId and recipientId = :recipientId"; 
+		String hqlUpdate = "update Message set read = :read where discussion = :discussion and recipient = :recipient"; 
 		this.sessionFactory.getCurrentSession().createQuery( hqlUpdate ) 
 		.setBoolean("read", true)
 		.setEntity("discussion", discussion)
 		.setEntity("recipient", recipient)
 		.executeUpdate(); 
 
-		hqlUpdate = "update Discussion set hasUnreadMessages = :hasUnreadMessages where id = :discussionId and recipientId = :recipientId"; 
+		hqlUpdate = "update Discussion set hasUnreadMessages = :hasUnreadMessages where id = :discussion and recipient = :recipient"; 
 		this.sessionFactory.getCurrentSession().createQuery( hqlUpdate ) 
 		.setInteger("hasUnreadMessages", 0)
 		.setEntity("discussion", discussion)

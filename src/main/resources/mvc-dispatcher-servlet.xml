@@ -45,7 +45,8 @@
 	<mvc:resources mapping="/img/**" location="/img/" />
 	<mvc:resources mapping="/fonts/**" location="/fonts/" />
 	<mvc:resources mapping="/image/**" location="file:/var/lib/tomcat7/userphoto/" />
-	<mvc:resources mapping="/favicon.ico" location="/img/icons/favicon.ico" />
+	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+	<mvc:resources mapping="/robots.txt" location="/robots.txt" />
 
 	<!-- Map returned view name "rssViewer" to bean id "rssViewer" -->
 	<bean id="rssViewer" class="ua.com.zaibalo.rss.CustomRssViewer" />

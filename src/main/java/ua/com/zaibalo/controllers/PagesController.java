@@ -164,7 +164,7 @@ public class PagesController {
 			@RequestParam(value = "discussion_id", required = false) Integer discussionId,
 			HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		Discussion discussion = discussionsDAO.getDiscussionById(discussionId);
+		Discussion discussion = inboxBusinessLogic.getDiscussionById(discussionId);
 		
 		ModelAndView mav = dialogPage.run(discussion, user);
 		long count = inboxBusinessLogic.getUnreadMessagesCount(user);

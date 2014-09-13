@@ -95,6 +95,8 @@ public class SendMessageAction implements Action {
 		
 		message.setDiscussion(discussion);
 		
+		messagesDAO.insert(message);
+		
 		List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussion, sender);
 		request.setAttribute("messages", messages);
 		
