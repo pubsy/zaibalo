@@ -99,7 +99,7 @@ public class UpdateProfileRedirect {
 		
 		if(!about.equals(user.getAbout())){
 			user.setAbout(about);
-			usersDAO.updateUserAbout(user.getId(), about);
+			usersDAO.updateUserAbout(user, about);
 			return StringHelper.getLocalString("user_about_success");
 		}
 		
@@ -112,7 +112,7 @@ public class UpdateProfileRedirect {
 			return "";
 		}else{
 			user.setNotifyOnPM(notifyOnPM);
-			usersDAO.updateUserNotifyOnPM(user.getId(), notifyOnPM);
+			usersDAO.updateUserNotifyOnPM(user, notifyOnPM);
 			return StringHelper.getLocalString("email_notification_settings_changed");
 		}
 	}
@@ -157,7 +157,7 @@ public class UpdateProfileRedirect {
 		user.setBigImgPath(userId  + "." + ext);
 		user.setSmallImgPath(userId + ".thumbnail" + "." + ext);
 		
-		usersDAO.updateUserImage(user.getId(), userId  + "." + ext, userId + ".thumbnail" + "." + ext);
+		usersDAO.updateUserImage(user, userId  + "." + ext, userId + ".thumbnail" + "." + ext);
 		
 		return StringHelper.getLocalString("user_image_successfully_updated");
 	}
@@ -183,7 +183,7 @@ public class UpdateProfileRedirect {
 			String hashedPass = MD5Helper.getMD5Of(newPassword);
 			if(!user.getPassword().equals(hashedPass)){
 				user.setPassword(MD5Helper.getMD5Of(newPassword));
-				usersDAO.updateUserPassword(user.getId(), newPassword);
+				usersDAO.updateUserPassword(user, newPassword);
 				return StringHelper.getLocalString("user_password_success_updated");
 			}else{
 				return "";
@@ -208,7 +208,7 @@ public class UpdateProfileRedirect {
 			}
 			
 			user.setDisplayName(value);
-			usersDAO.updateUserDisplayName(user.getId(), value);
+			usersDAO.updateUserDisplayName(user, value);
 			return StringHelper.getLocalString("user_diaplay_name_success");
 		}
 		

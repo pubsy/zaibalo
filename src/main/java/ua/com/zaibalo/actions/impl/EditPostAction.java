@@ -59,7 +59,7 @@ public class EditPostAction implements Action {
 		int postId = Integer.parseInt(postIdStr);
 		Post post = postsDAO.getObjectById(postId);
 		
-		if(user.getRole() >= 2 && post.getAuthorId() != user.getId()){
+		if(user.getRole() >= 2 && post.getAuthor().equals(user)){
 			return new FailResponse(StringHelper.getLocalString("you_cant_edit_other_users_post"));
 		}
 		
@@ -71,7 +71,7 @@ public class EditPostAction implements Action {
 		List<Category> postCategoriesAndTags = new ArrayList<Category>();
 		
 		for (String catName : categoriesStr.split(",")){
-			Category category = categoriesDAO.getCategoryByName(Category.CategoryType.BOTH, catName.trim());
+			Category category = categoriesDAO.getCategoryByName(catName.trim());
 			if(category != null){
 				postCategoriesAndTags.add(category);
 			}else{

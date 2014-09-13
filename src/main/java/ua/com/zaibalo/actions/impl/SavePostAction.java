@@ -56,7 +56,7 @@ public class SavePostAction implements Action{
 		post.setAuthor(user);
 		post.setContent(postText);
 		post.setTitle(postTitle);
-		post.setAuthorId(user.getId());
+		post.setAuthor(user);
 		post.setRatingCount(0);
 		post.setRatingSum(0);
 		
@@ -70,7 +70,7 @@ public class SavePostAction implements Action{
 
 
 		for (String catName : postCategories.split(",")) {
-			Category category = categoriesDAO.getCategoryByName(Category.CategoryType.BOTH, catName.trim());
+			Category category = categoriesDAO.getCategoryByName(catName.trim());
 			if(category == null){
 				category = new Category(catName.trim(), Category.CategoryType.TAG);
 				categoriesDAO.insert(category);

@@ -7,7 +7,7 @@
 	<div class="post_header">
 		<div class="post_header_title">
 			<a href='<c:url value="/post/${post.id}" />'><c:out value="${post.title}"/></a>
-			<c:if test="${(sessionScope.user.id == post.authorId and (empty post.comments) and sessionScope.user.role <= 2) or sessionScope.user.role < 2}">
+			<c:if test="${(sessionScope.user.id == post.author.id and (empty post.comments) and sessionScope.user.role <= 2) or sessionScope.user.role < 2}">
 				<a href="javascript:editPostShow(${post.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
 			</c:if>
 		</div>
@@ -52,7 +52,7 @@
 			</div>
 			<c:if test="${post.author.id != 2}">
 				<div>
-					<a href='<c:url value="/user/${post.authorId}" />'><c:out value="${post.author.displayName}" /></a>
+					<a href='<c:url value="/user/${post.author.id}" />'><c:out value="${post.author.displayName}" /></a>
 				</div>
 			</c:if>
 			<c:if test="${post.author.id == 2}">

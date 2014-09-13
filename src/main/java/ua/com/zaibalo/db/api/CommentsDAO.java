@@ -3,14 +3,14 @@ package ua.com.zaibalo.db.api;
 import java.util.List;
 
 import ua.com.zaibalo.model.Comment;
+import ua.com.zaibalo.model.User;
 
 public interface CommentsDAO{
-	List<Comment> getAllPostComments(int postId);
 	Comment update(Comment comment);
-	void delete(int id);
+	void delete(Comment comment);
 	List<Comment> getRecentComments(int count);
-	int getUserCommentCount(int userId);
+	int getUserCommentCount(User user);
 	Comment getObjectById(int commentId);
-	void updateCommentRatingSum(int value, int count, int commentId);
+	void updateCommentRatingSum(int value, int count, Comment comment);
 	Comment persist(Comment comment);
 }

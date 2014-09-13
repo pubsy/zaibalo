@@ -38,7 +38,7 @@ public class DeletePostAction implements Action{
 		
 		Post post = postsDAO.getObjectById(postId);
 		
-		if(user.getId() != post.getAuthorId() && user.getRole() >=2){
+		if(user.equals(post.getAuthor()) && user.getRole() >=2){
 			LOGGER.error("Rights violation!");
 			return new FailResponse(StringHelper.getLocalString("you.are.not.powerfull.enough"));
 		}

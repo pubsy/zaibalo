@@ -50,19 +50,16 @@ public class RateCommentAction implements Action{
 			return new FailResponse(StringHelper.getLocalString("you_cant_rate_own_comments"));
 		}
 		
-		CommentRating rate = commentRatingsDAO.getUserVote(user.getId(), commentId);
+		CommentRating rate = commentRatingsDAO.getUserVote(user, comment);
 		if(rate == null){
 			rate = new CommentRating();
-			rate.setCommentId(comment.getId());
-			rate.setUserId(user.getId());
+			rate.setComment(comment);
+			rate.setUser(user);
 			rate.setDate(new Date());
 			rate.setValue(value);
-			rate.setPostTitle(comment.getPost().getTitle());
-			rate.setPostId(comment.getPost().getId());
-			rate.setUserDisplayName(user.getDisplayName());
 			
 			commentRatingsDAO.createCommentRating(rate);
-			commentsDAO.updateCommentRatingSum(value, 1, rate.getCommentId());
+			commentsDAO.updateCommentRatingSum(value, 1, rate.getComment());
 
 		}else{
 			if(value == rate.getValue()){
@@ -71,7 +68,7 @@ public class RateCommentAction implements Action{
 			
 			if(value == -rate.getValue()){
 				commentRatingsDAO.deleteCommentRate(rate);
-				commentsDAO.updateCommentRatingSum(- rate.getValue(), -1, rate.getCommentId());
+				commentsDAO.updateCommentRatingSum(- rate.getValue(), -1, rate.getComment());
 			}
 		}
 		

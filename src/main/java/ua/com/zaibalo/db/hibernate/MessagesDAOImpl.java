@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.MessagesDAO;
+import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.Message;
+import ua.com.zaibalo.model.User;
 
 @Repository
 @Transactional(propagation=Propagation.MANDATORY)
@@ -34,14 +36,14 @@ public class MessagesDAOImpl implements MessagesDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Message> getAllUserDiscussionMessages(int discussionId, int userId) {
-		SimpleExpression authorE =  Restrictions.eq("authorId", userId);
-		SimpleExpression recipientE =  Restrictions.eq("recipientId", userId);
+	public List<Message> getAllUserDiscussionMessages(Discussion discussion, User user) {
+		SimpleExpression authorE =  Restrictions.eq("author", user);
+		SimpleExpression recipientE =  Restrictions.eq("recipient", user);
 		
 
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Message.class);
 		criteria.add(Restrictions.or(authorE, recipientE));
-		criteria.add(Restrictions.eq("discussionId", discussionId));
+		criteria.add(Restrictions.eq("discussion", discussion));
 		criteria.addOrder(Order.desc("id"));
 		List<Message> list = criteria.list();
 		
@@ -49,41 +51,30 @@ public class MessagesDAOImpl implements MessagesDAO {
 	}
 
 	@Override
-	public long getUnreadMessagesCount(int recipientId) {
+	public long getUnreadMessagesCount(User recipient) {
 
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Message.class);
-		criteria.add(Restrictions.eq("recipientId", recipientId));
+		criteria.add(Restrictions.eq("recipient", recipient));
 		criteria.add(Restrictions.eq("read", false));
-		long size = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
-		
-		return size;
+		return (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override
-	public void setDialogMessagesRead(int discussionId, int recipientId) {
+	public void setDialogMessagesRead(Discussion discussion, User recipient) {
 
 		String hqlUpdate = "update Message set read = :read where discussionId = :discussionId and recipientId = :recipientId"; 
 		this.sessionFactory.getCurrentSession().createQuery( hqlUpdate ) 
 		.setBoolean("read", true)
-		.setInteger("discussionId", discussionId)
-		.setInteger("recipientId", recipientId)
+		.setEntity("discussion", discussion)
+		.setEntity("recipient", recipient)
 		.executeUpdate(); 
 
 		hqlUpdate = "update Discussion set hasUnreadMessages = :hasUnreadMessages where id = :discussionId and recipientId = :recipientId"; 
 		this.sessionFactory.getCurrentSession().createQuery( hqlUpdate ) 
 		.setInteger("hasUnreadMessages", 0)
-		.setInteger("discussionId", discussionId)
-		.setInteger("recipientId", recipientId)
+		.setEntity("discussion", discussion)
+		.setEntity("recipient", recipient)
 		.executeUpdate();
 		
 	}
-
-	@Override
-	public Message getMessageById(int messageId) {
-
-		Message message = (Message)this.sessionFactory.getCurrentSession().get(Message.class, messageId);
-		
-		return message;
-	}
-
 }

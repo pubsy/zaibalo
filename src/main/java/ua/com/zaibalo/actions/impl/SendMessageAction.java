@@ -72,33 +72,30 @@ public class SendMessageAction implements Action {
 		}
 		
 		Message message = new Message();
-		message.setAuthorId(sender.getId());
+		message.setAuthor(sender);
 		message.setAuthor(sender);
 		message.setDate(new Date());
-		message.setRecipientId(recipient.getId());
+		message.setRecipient(recipient);
 		message.setText(text);
 		message.setRead(false);
 		
-		int discussionId = discussionsDAO.getDisscussionIdForUsers(message.getAuthorId(), message.getRecipientId());
-		if(discussionId == -1){
-			Discussion discussion = new Discussion();
+		Discussion discussion = discussionsDAO.getDisscussionIdForUsers(message.getAuthor(), message.getRecipient());
+		if(discussion == null){
+			discussion = new Discussion();
 			discussion.setExtract(message.getText());
-			discussion.setAuthorId(message.getAuthorId());
-			discussion.setRecipientId(message.getRecipientId());
+			discussion.setAuthor(message.getAuthor());
+			discussion.setRecipient(message.getRecipient());
 			discussion.setHasUnreadMessages(true);
 			discussion.setLatestMessageDate(message.getDate());
 			
-			discussionId = discussionsDAO.insert(discussion);
+			discussionsDAO.insert(discussion);
 		}else{
-			discussionsDAO.updateExistingDiscussion(discussionId, message);
+			discussionsDAO.updateExistingDiscussion(discussion, message);
 		}
 		
-		message.setDiscussionId(discussionId);
+		message.setDiscussion(discussion);
 		
-		int messageId = messagesDAO.insert(message);
-		discussionId = messagesDAO.getMessageById(messageId).getDiscussionId();
-
-		List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussionId, sender.getId());
+		List<Message> messages = messagesDAO.getAllUserDiscussionMessages(discussion, sender);
 		request.setAttribute("messages", messages);
 		
 		if(recipient.isNotifyOnPM()){

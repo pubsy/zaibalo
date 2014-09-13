@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -29,6 +31,7 @@ public class Post {
 	@Column(name="id")
 	private int id;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	private String title;
@@ -36,12 +39,9 @@ public class Post {
 	@Type(type="text")
 	private String content;
 	
-	@Column(name="author_id")
-	private int authorId;
-	
 	@ExcludeFromJson
 	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="author_id", referencedColumnName="id", insertable = false, updatable = false)
+	@JoinColumn(name="author_id", referencedColumnName="id")
 	private User author;
 	
 	@Column(name="rating_count")
@@ -118,14 +118,6 @@ public class Post {
 	
 	public int getRatingSum() {
 		return ratingSum;
-	}
-
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
-	}
-
-	public int getAuthorId() {
-		return authorId;
 	}
 
 	public enum PostOrder{

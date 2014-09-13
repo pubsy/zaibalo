@@ -42,7 +42,7 @@ function editPostShow(id){
 	categories.children('a').each(function(i) {
 		catText += "<span class='edit-cat'>" + 
 		$(this).text().trim() + 
-		"<span class='edit-cat-del'><img src='img/icons/edit_post_del_cat.png' ></span>" +
+		"<span class='edit-cat-del'><img src='/img/icons/edit_post_del_cat.png' ></span>" +
 		"</span>, ";
 	});
 
@@ -127,7 +127,7 @@ function addSelectedCategoryToEditPost(){
 			$('#edit_post_category').append(", ");
 		}
 		$('#edit_post_category').append("<span class='edit-cat'>" + value + 
-			"<span class='edit-cat-del'><img src='img/icons/edit_post_del_cat.png' ></span>" +		
+			"<span class='edit-cat-del'><img src='/img/icons/edit_post_del_cat.png' ></span>" +		
 			"</span>");
 	}
 }
@@ -142,7 +142,7 @@ function addTagToEditPost(){
 				$('#edit_post_category').append(", ");
 			}
 			$('#edit_post_category').append("<span class='edit-cat'>" + value + 
-				"<span class='edit-cat-del'><img src='img/icons/edit_post_del_cat.png' ></span>" +	
+				"<span class='edit-cat-del'><img src='/img/icons/edit_post_del_cat.png' ></span>" +	
 				"</span>");
 		}
 	}
@@ -167,7 +167,7 @@ function onClickToCatName(thisEl){
 		$('#edit_post_category').children('span').each(function(i) {
 			if($(this).text() != catName){
 				catText += "<span class='edit-cat'>" + $(this).text().trim() + 
-					"<span class='edit-cat-del'><img src='img/icons/edit_post_del_cat.png'></span>" +
+					"<span class='edit-cat-del'><img src='/img/icons/edit_post_del_cat.png'></span>" +
 					"</span>, ";
 			}
 		});

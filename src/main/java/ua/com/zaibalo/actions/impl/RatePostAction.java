@@ -58,23 +58,21 @@ public class RatePostAction implements Action {
 		
 		Post post = postsDAO.getObjectById(postId);
 
-		if (user.getId() == post.getAuthorId()) {
+		if (user.equals(post.getAuthor())) {
 			return new FailResponse(StringHelper.getLocalString("you_cant_rate_own_posts"));
 		}
 		
-		PostRating postRating = postRatingsDAO.getUserVote(user.getId(), post.getId());
+		PostRating postRating = postRatingsDAO.getUserVote(user, post);
 
 		int returnSum;
 		int returnCount;
 		
 		if( postRating == null ) {
 			PostRating rating = new PostRating();
-			rating.setPostId(post.getId());
-			rating.setUserId(user.getId());
+			rating.setPost(post);
+			rating.setUser(user);
 			rating.setDate(new Date());
 			rating.setValue(value);
-			rating.setPostTitle(post.getTitle());
-			rating.setUserDisplayName(user.getDisplayName());
 			
 			postRatingsDAO.savePostRating(rating);
 			
@@ -89,7 +87,7 @@ public class RatePostAction implements Action {
 			returnSum = post.getRatingSum() - postRating.getValue();
 
 			postRatingsDAO.deletePostRating(postRating);
-			postsDAO.updatePostRatingSum(-postRating.getValue(), -1, postRating.getPostId());
+			postsDAO.updatePostRatingSum(-postRating.getValue(), -1, postRating.getPost());
 		}
 		
 		return new RateCommentResponse(returnSum, returnCount);

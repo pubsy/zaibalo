@@ -39,7 +39,7 @@ public class RemindPasswordAction implements Action {
 		}
 
 		String newPassword = StringHelper.generateString(10);
-		usersDAO.updateUserPassword(user.getId(), newPassword);
+		usersDAO.updateUserPassword(user, newPassword);
 
 		RemindPasswordMessage message = new RemindPasswordMessage(user.getEmail());
 		message.setNewPassword(newPassword);

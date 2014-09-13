@@ -28,24 +28,24 @@ public class InboxBusinessLogic {
 	private ServletHelperService servletHelperService;
 	
 	public List<Discussion> getDiscussionsList(User user){
-		return discussionsDAO.getAllDiscussions(user.getId());
+		return discussionsDAO.getAllDiscussions(user);
 	}
 	
-	public List<Message> getDiscussionMessages(Integer discussionId, User user) {
-		boolean accessible  = discussionsDAO.isDiscussionAccessible(discussionId, user.getId());
+	public List<Message> getDiscussionMessages(Discussion discussion, User user) {
+		boolean accessible  = discussionsDAO.isDiscussionAccessible(discussion, user);
 
 		if(!accessible){
 			throw new RuntimeException("Unauthorised access.");
 		}
 
-		return messagesDAO.getAllUserDiscussionMessages(discussionId, user.getId());
+		return messagesDAO.getAllUserDiscussionMessages(discussion, user);
 	}
 
-	public void onDialogShown(int discussionId, int userId) {
-		messagesDAO.setDialogMessagesRead(discussionId, userId);
+	public void onDialogShown(Discussion discussion, User user) {
+		messagesDAO.setDialogMessagesRead(discussion, user);
 	}
 	
-	public long getUnreadMessagesCount(int userId){
-		return messagesDAO.getUnreadMessagesCount(userId);
+	public long getUnreadMessagesCount(User user){
+		return messagesDAO.getUnreadMessagesCount(user);
 	}
 }

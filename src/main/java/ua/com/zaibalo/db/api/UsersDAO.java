@@ -6,17 +6,17 @@ import ua.com.zaibalo.model.User;
 
 public interface UsersDAO{
 	User getUserByEmail(String email);
-	User getUserByLoginName(String name);
-	User getUserByLoginOrDisplayName(String name);
-	void updateUserPassword(int userId, String newPassword);
-	void updateUserPassword(int userId, String newPassword, boolean encode);
+	User getUserByLoginName(String ligonName);
+	User getUserByLoginOrDisplayName(String displayName);
+	User getUserByDisplayName(String value);
+	void updateUserPassword(User user, String newPassword);
+	void updateUserPassword(User user, String newPassword, boolean encode);
 	User insert(User user);
 	User getUserById(int userId);
-	void updateUserDisplayName(int userId, String newDisplayName);
-	void updateUserImage(int id, String bigImg, String smallImg);
-	void updateUserAbout(int id, String about);
+	void updateUserDisplayName(User user, String newDisplayName);
+	void updateUserImage(User user, String bigImg, String smallImg);
+	void updateUserAbout(User user, String about);
 	List<String> getAllUserNamesList();
-	User getUserByDisplayName(String value);
 	List<User> getAllUsers();
-	void updateUserNotifyOnPM(int id, boolean notifyOnPM);
+	void updateUserNotifyOnPM(User user, boolean notifyOnPM);
 }

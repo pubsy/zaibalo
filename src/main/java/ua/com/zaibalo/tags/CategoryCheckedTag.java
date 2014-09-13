@@ -2,8 +2,6 @@ package ua.com.zaibalo.tags;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;

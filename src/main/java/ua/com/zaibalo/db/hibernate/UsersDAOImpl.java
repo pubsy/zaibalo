@@ -24,35 +24,26 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public User getUserByEmail(String email) {
-
-		User user = (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("email", email)).uniqueResult();
-		
-		return user;
+		return (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("email", email)).uniqueResult();
 	}
 
 	@Override
 	public User getUserByLoginName(String name) {
-
-		User user = (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("loginName", name)).uniqueResult();
-		
-		return user;
+		return (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("loginName", name)).uniqueResult();
 	}
 
 	@Override
-	public void updateUserPassword(int userId, String newPassword) {
-		updateUserPassword(userId, newPassword, true);
+	public void updateUserPassword(User user, String newPassword) {
+		updateUserPassword(user, newPassword, true);
 	}
 
 	@Override
-	public void updateUserPassword(int userId, String newPassword, boolean encode) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, userId);
+	public void updateUserPassword(User user, String newPassword, boolean encode) {
 		if(encode){
 			newPassword = MD5Helper.getMD5Of(newPassword);
 		}
 		user.setPassword(newPassword);
 		this.sessionFactory.getCurrentSession().update(user);
-		
 	}
 
 	@Override
@@ -63,91 +54,60 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public User getUserById(int userId) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, userId);
-		
-		return user;
+		return (User)this.sessionFactory.getCurrentSession().get(User.class, userId);
 	}
 
 	@Override
-	public void updateUserDisplayName(int userId, String newDisplayName) {
-		
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, userId);
+	public void updateUserDisplayName(User user, String newDisplayName) {
 		user.setDisplayName(newDisplayName);
 		this.sessionFactory.getCurrentSession().update(user);
-		
 	}
 
 	@Override
-	public void updateUserImage(int id, String bigImg, String smallImg) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, id);
+	public void updateUserImage(User user, String bigImg, String smallImg) {
 		user.setBigImgPath(bigImg);
 		user.setSmallImgPath(smallImg);
 		this.sessionFactory.getCurrentSession().update(user);
-		
 	}
 
 	@Override
-	public void updateUserAbout(int id, String about) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, id);
+	public void updateUserAbout(User user, String about) {
 		user.setAbout(about);
 		this.sessionFactory.getCurrentSession().update(user);
-		
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getAllUserNamesList() {
-
-		List<String> list = (List<String>) this.sessionFactory.getCurrentSession().createCriteria(User.class).setProjection(Projections.property("displayName")).list();
-		
-		return list;
+		return (List<String>) this.sessionFactory.getCurrentSession().createCriteria(User.class).setProjection(Projections.property("displayName")).list();
 	}
 
 	@Override
 	public User getUserByDisplayName(String value) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("displayName", value)).uniqueResult();
-		
-		return user;
+		return (User)this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("displayName", value)).uniqueResult();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
-
-		List<User> list = this.sessionFactory.getCurrentSession().createCriteria(User.class).list();
-		
-		return list;
+		return this.sessionFactory.getCurrentSession().createCriteria(User.class).list();
 	}
 
 	@Override
-	public void updateUserNotifyOnPM(int id, boolean notifyOnPM) {
-
-		User user = (User)this.sessionFactory.getCurrentSession().get(User.class, id);
+	public void updateUserNotifyOnPM(User user, boolean notifyOnPM) {
 		user.setNotifyOnPM(notifyOnPM);
 		this.sessionFactory.getCurrentSession().update(user);
-		
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 	}
 
 	@Override
 	public User getUserByLoginOrDisplayName(String name) {
-
 		SimpleExpression loginNameRestriction = Restrictions.eq("loginName", name);
 		SimpleExpression displayNameRestriction = Restrictions.eq("displayName", name);
 		
-		User user = (User) this.sessionFactory.getCurrentSession().
+		return (User) this.sessionFactory.getCurrentSession().
 				createCriteria(User.class).
 				add(Restrictions.or(loginNameRestriction, displayNameRestriction)).
 				uniqueResult();
-		
-		return user;
 	}
 
 }

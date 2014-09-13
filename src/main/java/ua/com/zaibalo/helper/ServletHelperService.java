@@ -143,7 +143,7 @@ public class ServletHelperService {
 			return;
 		}
 		
-		long count = messagesDAO.getUnreadMessagesCount(user.getId());
+		long count = messagesDAO.getUnreadMessagesCount(user);
 		if(count != 0){			
 			request.getSession().setAttribute("unreadMailCount", " [" + count + "]");
 		}else{

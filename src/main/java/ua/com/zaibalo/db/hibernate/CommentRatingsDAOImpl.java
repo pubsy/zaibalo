@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.CommentRatingsDAO;
+import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.CommentRating;
+import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.model.UserRating;
 
 @Repository
@@ -31,10 +33,10 @@ public class CommentRatingsDAOImpl implements CommentRatingsDAO {
 	}
 
 	@Override
-	public UserRating getUserCommentRatingSum(int userId) {
+	public UserRating getUserCommentRatingSum(User user) {
 
-		Query base = this.sessionFactory.getCurrentSession().createQuery("select count(id), sum(value) from CommentRating cr where cr.commentId in (select id from Comment c where c.author.id = ?)");
-		base.setInteger(0, userId);
+		Query base = this.sessionFactory.getCurrentSession().createQuery("select count(id), sum(value) from CommentRating cr where cr.commentId in (select id from Comment c where c.author = ?)");
+		base.setParameter(0, user);
 		Object[] result = (Object[])base.uniqueResult();
 		
 		
@@ -45,9 +47,9 @@ public class CommentRatingsDAOImpl implements CommentRatingsDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public CommentRating getUserVote(int userId, int commentId) {
-		Criterion a = Restrictions.eq("commentId", commentId);
-		Criterion b = Restrictions.eq("userId", userId);
+	public CommentRating getUserVote(User user, Comment comment) {
+		Criterion a = Restrictions.eq("comment", comment);
+		Criterion b = Restrictions.eq("user", user);
 		
 
 		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(CommentRating.class).add(Restrictions.and(a, b));
@@ -69,8 +71,8 @@ public class CommentRatingsDAOImpl implements CommentRatingsDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CommentRating> getUserCommentRatings(int commentId) {
-		Criterion a = Restrictions.eq("commentId", commentId);
+	public List<CommentRating> getUserCommentRatings(Comment comment) {
+		Criterion a = Restrictions.eq("comment", comment);
 
 		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(CommentRating.class).add(a);
 		

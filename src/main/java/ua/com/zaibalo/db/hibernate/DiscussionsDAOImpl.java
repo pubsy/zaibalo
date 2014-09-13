@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.Message;
+import ua.com.zaibalo.model.User;
 
 @Repository
 @Transactional(propagation=Propagation.MANDATORY)
@@ -26,9 +27,9 @@ public class DiscussionsDAOImpl implements DiscussionsDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Discussion> getAllDiscussions(int id) {
-		SimpleExpression authorE =  Restrictions.eq("authorId", id);
-		SimpleExpression recipientE =  Restrictions.eq("recipientId", id);
+	public List<Discussion> getAllDiscussions(User user) {
+		SimpleExpression authorE =  Restrictions.eq("author", user);
+		SimpleExpression recipientE =  Restrictions.eq("recipient", user);
 		
 
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Discussion.class).add(Restrictions.or(authorE, recipientE));
@@ -39,27 +40,21 @@ public class DiscussionsDAOImpl implements DiscussionsDAO {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public int getDisscussionIdForUsers(int firstId, int secondId) {
-		SimpleExpression authorE =  Restrictions.eq("authorId", firstId);
-		SimpleExpression recipientE =  Restrictions.eq("recipientId", secondId);
-		LogicalExpression first = Restrictions.and(authorE, recipientE);
+	public Discussion getDisscussionIdForUsers(User first, User second) {
+		SimpleExpression authorE =  Restrictions.eq("author", first);
+		SimpleExpression recipientE =  Restrictions.eq("recipient", second);
+		LogicalExpression firstExpression = Restrictions.and(authorE, recipientE);
 		
-		SimpleExpression authorES =  Restrictions.eq("authorId", secondId);
-		SimpleExpression recipientES =  Restrictions.eq("recipientId", firstId);
-		LogicalExpression second = Restrictions.and(authorES, recipientES);
+		SimpleExpression authorES =  Restrictions.eq("author", second);
+		SimpleExpression recipientES =  Restrictions.eq("recipient", first);
+		LogicalExpression secondExpression = Restrictions.and(authorES, recipientES);
 		
 
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Discussion.class).add(Restrictions.or(first, second));
+		Criteria criteria = this.sessionFactory.getCurrentSession()
+				.createCriteria(Discussion.class)
+				.add(Restrictions.or(firstExpression, secondExpression));
 		criteria.setMaxResults(1);
-		List<Discussion> list = criteria.list();
-		
-		
-		if(list.size() > 0){
-			return list.get(0).getId();
-		}else{
-			return -1;
-		}
+		return (Discussion) criteria.uniqueResult();
 	}
 
 	@Override
@@ -72,31 +67,30 @@ public class DiscussionsDAOImpl implements DiscussionsDAO {
 	}
 
 	@Override
-	public boolean isDiscussionAccessible(int discussionId, int userId) {
-
-		Discussion discussion = (Discussion)this.sessionFactory.getCurrentSession().get(Discussion.class, discussionId);
-		
-
+	public boolean isDiscussionAccessible(Discussion discussion, User user) {
 		if(discussion == null){
 			return false;
 		}
-		if(discussion.getAuthorId() == userId || discussion.getRecipientId() == userId){
+		if(discussion.getAuthor().equals(user) || discussion.getRecipient().equals(user)){
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void updateExistingDiscussion(int discussionId, Message message) {
-
-		Discussion discussion = (Discussion)this.sessionFactory.getCurrentSession().get(Discussion.class, discussionId);
+	public void updateExistingDiscussion(Discussion discussion, Message message) {
 		discussion.setLatestMessageDate(message.getDate());
 		discussion.setExtract(message.getText());
-		discussion.setAuthorId(message.getAuthorId());
-		discussion.setRecipientId(message.getRecipientId());
+		discussion.setAuthor(message.getAuthor());
+		discussion.setRecipient(message.getRecipient());
 		discussion.setHasUnreadMessages(true);
 		this.sessionFactory.getCurrentSession().update(discussion);
 		
+	}
+
+	@Override
+	public Discussion getDiscussionById(Integer discussionId) {
+		return (Discussion) this.sessionFactory.getCurrentSession().get(Discussion.class, discussionId);
 	}
 
 }

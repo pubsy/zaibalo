@@ -46,6 +46,15 @@ public class User {
 	@ExcludeFromJson
 	@Column(name = "role")
 	private int role;
+//	
+//	@Column
+//  @ExcludeFromJson
+//	@Enumerated(EnumType.STRING)
+//	private Role role;
+//
+//	public enum Role {
+//		MODERATOR, WRITER, READER;
+//	}
 	
 	@ExcludeFromJson
 	private String token;

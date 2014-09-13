@@ -27,10 +27,12 @@ import ua.com.zaibalo.actions.UnauthorisedActionServlet;
 import ua.com.zaibalo.business.InboxBusinessLogic;
 import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
+import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
+import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.servlets.pages.SinglePostServlet;
@@ -64,6 +66,8 @@ public class PagesController {
 	private ServletHelperService servletHelperService;
 	@Autowired
 	private InboxBusinessLogic inboxBusinessLogic;
+	@Autowired
+	private DiscussionsDAO discussionsDAO;
 	
 	@RequestMapping(value = { "/logout.do", "/logout" }, method = RequestMethod.GET)
 	public String logout(HttpServletRequest request,
@@ -160,8 +164,10 @@ public class PagesController {
 			@RequestParam(value = "discussion_id", required = false) Integer discussionId,
 			HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		ModelAndView mav = dialogPage.run(discussionId, user);
-		long count = inboxBusinessLogic.getUnreadMessagesCount(user.getId());
+		Discussion discussion = discussionsDAO.getDiscussionById(discussionId);
+		
+		ModelAndView mav = dialogPage.run(discussion, user);
+		long count = inboxBusinessLogic.getUnreadMessagesCount(user);
 		String countValue = count != 0 ? " [" + count + "]" : ""; 
 		request.getSession().setAttribute("unreadMailCount", countValue);
 		

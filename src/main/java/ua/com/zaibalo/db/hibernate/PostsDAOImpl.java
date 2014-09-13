@@ -17,6 +17,7 @@ import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.Post.PostOrder;
+import ua.com.zaibalo.model.User;
 
 @Repository
 @Transactional(propagation=Propagation.MANDATORY)
@@ -77,12 +78,12 @@ public class PostsDAOImpl implements PostsDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Post> getLatestUserPosts(int userId, int count) {
+	public List<Post> getLatestUserPosts(User user, int count) {
 
 		List<Post> postsList = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
 		.setMaxResults(count)
 		.addOrder(Order.desc("id"))
-		.add(Restrictions.eq("authorId", userId))
+		.add(Restrictions.eq("author", user))
 		.list();
 		
 		for(Post post: postsList){
@@ -95,10 +96,10 @@ public class PostsDAOImpl implements PostsDAO {
 	}
 
 	@Override
-	public int getUserPostCount(int userId) {
+	public int getUserPostCount(User user) {
 
 		int size = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
-		.add(Restrictions.eq("authorId", userId))
+		.add(Restrictions.eq("author", user))
 		.list().size();
 		
 		return size;
@@ -170,9 +171,8 @@ public class PostsDAOImpl implements PostsDAO {
 	}
 	
 	@Override
-	public void updatePostRatingSum(int value, int count, int postId) {
+	public void updatePostRatingSum(int value, int count, Post post) {
 
-		Post post = (Post)this.sessionFactory.getCurrentSession().get(Post.class, postId);
 		post.setRatingSum(post.getRatingSum() + value);
 		post.setRatingCount(post.getRatingCount() + count);
 		this.sessionFactory.getCurrentSession().update(post);

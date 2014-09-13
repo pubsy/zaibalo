@@ -42,7 +42,7 @@ public class DeleteCommentAction implements Action{
 			return new FailResponse(StringHelper.getLocalString("you.are.not.powerfull.enough"));
 		}
 
-		commentsDAO.delete(commentId);
+		commentsDAO.delete(comment);
 		return new SuccessResponse();
 	}
 }

@@ -56,16 +56,16 @@ public class UserProfileServlet {
 			return mav;
 		}
 
-		List<Post> posts = postsDAO.getLatestUserPosts(id, 10);
+		List<Post> posts = postsDAO.getLatestUserPosts(user, 10);
 
 		List<Post> entrys = new ArrayList<Post>();
 		entrys.addAll(posts);
 
-		int postCount = postsDAO.getUserPostCount(id);
-		int commentCount = commentsDAO.getUserCommentCount(id);
-		UserRating postRating = postRatingsDAO.getUserPostRatingSum(id);
+		int postCount = postsDAO.getUserPostCount(user);
+		int commentCount = commentsDAO.getUserCommentCount(user);
+		UserRating postRating = postRatingsDAO.getUserPostRatingSum(user);
 		UserRating commentRating = commentRatingsDAO
-				.getUserCommentRatingSum(id);
+				.getUserCommentRatingSum(user);
 
 		mav.addObject("post_count", postCount);
 		mav.addObject("comment_count", commentCount);
@@ -73,8 +73,7 @@ public class UserProfileServlet {
 		mav.addObject("comment_rating", commentRating);
 		mav.addObject("user", user);
 		mav.addObject("entrys", entrys);
-		mav.addObject(
-				"pageTitle",
+		mav.addObject("pageTitle",
 				StringHelper.getLocalString("zaibalo_blog") + " "
 						+ user.getDisplayName());
 

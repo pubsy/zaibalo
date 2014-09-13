@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.db.api.CommentRatingsDAO;
+import ua.com.zaibalo.db.api.CommentsDAO;
 import ua.com.zaibalo.db.api.PostRatingsDAO;
+import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
+import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.CommentRating;
+import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.PostRating;
 
 /**
@@ -26,6 +30,10 @@ public class ShowRatingAction implements Action {
 
 	@Autowired
 	private PostRatingsDAO postRatingsDAO;
+	@Autowired
+	private PostsDAO postsDAO;
+	@Autowired
+	private CommentsDAO commentssDAO;
 	@Autowired
 	private CommentRatingsDAO commentRatingsDAO;
 	
@@ -39,13 +47,15 @@ public class ShowRatingAction implements Action {
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
 		if("post".equals(typeParam)){
-			List<PostRating> postRatings = postRatingsDAO.getPostRatings(id);
+			Post post = postsDAO.getObjectById(id);
+			List<PostRating> postRatings = postRatingsDAO.getPostRatings(post);
 			
 			request.setAttribute("postRatings", postRatings);
 			
 			request.getRequestDispatcher("/WEB-INF/jsp/post_ratings.jsp").forward(request, customResponse);
 		}else if("comment".equals(typeParam)){
-			List<CommentRating> commentRatings = commentRatingsDAO.getUserCommentRatings(id);
+			Comment comment = commentssDAO.getObjectById(id);
+			List<CommentRating> commentRatings = commentRatingsDAO.getUserCommentRatings(comment);
 			
 			request.setAttribute("commentRatings", commentRatings);
 			
