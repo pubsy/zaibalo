@@ -17,17 +17,12 @@ public class SinglePostServlet {
 	@Autowired
 	private PostsDAO postsDAO;
 	
-	public ModelAndView getPost(String postIdParam) throws Exception {
+	public ModelAndView getPost(int postId) throws Exception {
 		
-		if(StringHelper.isBlank(postIdParam) || !StringHelper.isDecimal(postIdParam)){
-			throw new RuntimeException(StringHelper.getLocalString("post_not_found_colon", postIdParam));
-		}
-		
-		int postId = Integer.parseInt(postIdParam);
 		Post post = postsDAO.getObjectById(postId);
 		
 		if(post == null){
-			throw new RuntimeException(StringHelper.getLocalString("post_not_found_colon", postIdParam));
+			throw new RuntimeException(StringHelper.getLocalString("post_not_found_colon", postId));
 		}
 		
 		ModelAndView mav = new ModelAndView();

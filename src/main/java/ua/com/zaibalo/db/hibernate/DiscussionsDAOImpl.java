@@ -31,12 +31,11 @@ public class DiscussionsDAOImpl implements DiscussionsDAO {
 		SimpleExpression authorE =  Restrictions.eq("author", user);
 		SimpleExpression recipientE =  Restrictions.eq("recipient", user);
 		
-
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Discussion.class).add(Restrictions.or(authorE, recipientE));
-		criteria.addOrder(Order.desc("latestMessageDate"));
-		List<Discussion> list =  criteria.list();
-		
-		return list;
+		Criteria criteria = this.sessionFactory.getCurrentSession().
+				createCriteria(Discussion.class).
+				add(Restrictions.or(authorE, recipientE)).
+				addOrder(Order.desc("latestMessageDate"));
+		return criteria.list();
 	}
 
 	@Override
@@ -48,7 +47,6 @@ public class DiscussionsDAOImpl implements DiscussionsDAO {
 		SimpleExpression authorES =  Restrictions.eq("author", second);
 		SimpleExpression recipientES =  Restrictions.eq("recipient", first);
 		LogicalExpression secondExpression = Restrictions.and(authorES, recipientES);
-		
 
 		Criteria criteria = this.sessionFactory.getCurrentSession()
 				.createCriteria(Discussion.class)
@@ -59,11 +57,8 @@ public class DiscussionsDAOImpl implements DiscussionsDAO {
 
 	@Override
 	public int insert(Discussion discussion) {
-
 		this.sessionFactory.getCurrentSession().save(discussion);
-		int id = discussion.getId();
-		
-		return id;
+		return discussion.getId();
 	}
 
 	@Override

@@ -1,9 +1,7 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +76,7 @@ public class SavePostAction implements Action{
 			postCategoriesAndTags.add(category);
 		}
 
-		List<Category> list = new ArrayList<Category>();
+		Set<Category> list = new HashSet<Category>();
 		list.addAll(postCategoriesAndTags);
 		
 		post.setCategories(list);

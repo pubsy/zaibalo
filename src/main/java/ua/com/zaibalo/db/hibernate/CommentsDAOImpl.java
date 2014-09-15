@@ -43,10 +43,15 @@ public class CommentsDAOImpl implements CommentsDAO {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Comment> getRecentComments(int count) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Comment.class).
-		setMaxResults(count).
-		addOrder(Order.desc("id")).
-		list();
+		List<Comment> list = this.sessionFactory.getCurrentSession()
+				.createCriteria(Comment.class)
+				.setMaxResults(count)
+				.addOrder(Order.desc("id"))
+				.list();
+		for (Comment comment : list) {
+			comment.getPost().getId();
+		}
+		return list;
 	}
 
 	@Override

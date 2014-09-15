@@ -44,7 +44,7 @@ public class Comment{
 	private User author;
 	
 	@ExcludeFromJson
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	private Post post;
 	

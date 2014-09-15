@@ -2,7 +2,6 @@ package ua.com.zaibalo.db.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
@@ -27,41 +26,35 @@ public class PostRatingsDAOImpl implements PostRatingsDAO {
 	
 	@Override
 	public void savePostRating(PostRating rating) {
-
 		this.sessionFactory.getCurrentSession().save(rating);
 
 		String hqlUpdate = "update Post set ratingSum = ratingSum + :ratingSum, ratingCount = ratingCount + 1 where id = :id"; 
-		this.sessionFactory.getCurrentSession().createQuery( hqlUpdate ) 
-		.setInteger("id", rating.getPost().getId())
-		.setInteger("ratingSum", rating.getValue())
-		.executeUpdate(); 
+		this.sessionFactory.getCurrentSession()
+				.createQuery( hqlUpdate ) 
+				.setInteger("id", rating.getPost().getId())
+				.setInteger("ratingSum", rating.getValue())
+				.executeUpdate(); 
 	}
 
 	@Override
 	public boolean isPostRatedByUser(Post post, User user) {
-
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(PostRating.class);
-		criteria.add(Restrictions.eq("post", post));
-		criteria.add(Restrictions.eq("userId", user));
-		criteria.setProjection(Projections.rowCount());
-		long size = (Long)criteria.uniqueResult();
+		int size = (Integer)this.sessionFactory.getCurrentSession()
+				.createCriteria(PostRating.class)
+				.add(Restrictions.eq("post", post))
+				.add(Restrictions.eq("userId", user))
+				.setProjection(Projections.rowCount())
+				.uniqueResult();
 		
-		
-		if(size > 0){
-			return true;
-		}
-		
-		return false;
+		return size > 0;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public UserRating getUserPostRatingSum(User user) {
-
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
-		criteria.add(Restrictions.eq("author", user));
-		List<Post> list = criteria.list();
-		
+		List<Post> list =  this.sessionFactory.getCurrentSession()
+				.createCriteria(Post.class)
+				.add(Restrictions.eq("author", user))
+				.list();
 		
 		int sum = 0;
 		int count = 0;
@@ -74,21 +67,15 @@ public class PostRatingsDAOImpl implements PostRatingsDAO {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public PostRating getUserVote(User user, Post post) {
 		Criterion a = Restrictions.eq("post", post);
 		Criterion b = Restrictions.eq("user", user);
 		
-		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(PostRating.class).add(Restrictions.and(a, b));
-		base.setMaxResults(1);
-		
-		List<PostRating> list  = base.list();
-		
-		if(list.size() == 1){
-			return list.get(0);
-		}else{
-			return null;
-		}
+		return (PostRating) this.sessionFactory.getCurrentSession()
+				.createCriteria(PostRating.class)
+				.add(Restrictions.and(a, b))
+				.setMaxResults(1)
+				.uniqueResult();
 	}
 
 	@Override
@@ -99,11 +86,10 @@ public class PostRatingsDAOImpl implements PostRatingsDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PostRating> getPostRatings(Post post) {
-		Criterion a = Restrictions.eq("post", post);
-		
-		Criteria base = this.sessionFactory.getCurrentSession().createCriteria(PostRating.class).add(a);
-		
-		return base.list();
+		return this.sessionFactory.getCurrentSession()
+				.createCriteria(PostRating.class)
+				.add(Restrictions.eq("post", post))
+				.list();
 	}
 
 	@Override

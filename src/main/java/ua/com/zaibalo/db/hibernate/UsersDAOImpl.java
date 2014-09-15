@@ -24,12 +24,18 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public User getUserByEmail(String email) {
-		return (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("email", email)).uniqueResult();
+		return (User) this.sessionFactory.getCurrentSession()
+				.createCriteria(User.class)
+				.add(Restrictions.eq("email", email))
+				.uniqueResult();
 	}
 
 	@Override
 	public User getUserByLoginName(String name) {
-		return (User) this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("loginName", name)).uniqueResult();
+		return (User) this.sessionFactory.getCurrentSession()
+				.createCriteria(User.class)
+				.add(Restrictions.eq("loginName", name))
+				.uniqueResult();
 	}
 
 	@Override
@@ -79,18 +85,26 @@ public class UsersDAOImpl implements UsersDAO {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getAllUserNamesList() {
-		return (List<String>) this.sessionFactory.getCurrentSession().createCriteria(User.class).setProjection(Projections.property("displayName")).list();
+		return (List<String>) this.sessionFactory.getCurrentSession()
+				.createCriteria(User.class)
+				.setProjection(Projections.property("displayName"))
+				.list();
 	}
 
 	@Override
 	public User getUserByDisplayName(String value) {
-		return (User)this.sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("displayName", value)).uniqueResult();
+		return (User)this.sessionFactory.getCurrentSession()
+				.createCriteria(User.class)
+				.add(Restrictions.eq("displayName", value))
+				.uniqueResult();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
-		return this.sessionFactory.getCurrentSession().createCriteria(User.class).list();
+		return this.sessionFactory.getCurrentSession()
+				.createCriteria(User.class)
+				.list();
 	}
 
 	@Override

@@ -30,8 +30,7 @@ public class UserDetailDAOImpl implements UserDetailDAO{
 			.uniqueResult();
 		 
 		 if(existing == null){
-			 this.sessionFactory.getCurrentSession().save(userDetail);			 
-			 return userDetail.getId();
+			 return (Integer) this.sessionFactory.getCurrentSession().save(userDetail);			 
 		 }
 		 
 		 return existing.getId();
@@ -40,11 +39,10 @@ public class UserDetailDAOImpl implements UserDetailDAO{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<UserDetail> getUserDetails(User user) {
-		List<UserDetail> list = this.sessionFactory.getCurrentSession()
+		return this.sessionFactory.getCurrentSession()
 				.createCriteria(UserDetail.class)
 				.add(Restrictions.eq("user", user))
 				.list();
-		return list;
 	}
 
 }

@@ -2,6 +2,7 @@ package ua.com.zaibalo.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
 
 import ua.com.zaibalo.helper.gson.ExcludeFromJson;
@@ -44,25 +47,28 @@ public class Post {
 	@JoinColumn(name="author_id", referencedColumnName="id")
 	private User author;
 	
+	//DO we need this?
 	@Column(name="rating_count")
 	private int ratingCount;
-
+	//DO we need this?
 	@Column(name="rating_sum")
 	private int ratingSum;
 
 	@ExcludeFromJson
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade=CascadeType.REMOVE)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 	
 	@ExcludeFromJson
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade=CascadeType.REMOVE)
-	private List<PostRating> ratings;
+	@OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
+	private Set<PostRating> ratings;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany
     @JoinTable(name="post_category", 
                 joinColumns={@JoinColumn(name="post_id")}, 
                 inverseJoinColumns={@JoinColumn(name="category_id")})
-	private List<Category> categories;
+	private Set<Category> categories;
 
 	public String getTitle() {
 		return title;
@@ -96,11 +102,11 @@ public class Post {
 		return comments;
 	}
 
-	public void setCategories(List<Category> categories) {
+	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
 	
-	public List<Category> getCategories() {
+	public Set<Category> getCategories() {
 		return categories;
 	}
 	
@@ -156,11 +162,11 @@ public class Post {
 		this.id = id;
 	}
 
-	public void setRatings(List<PostRating> ratings) {
+	public void setRatings(Set<PostRating> ratings) {
 		this.ratings = ratings;
 	}
 
-	public List<PostRating> getRatings() {
+	public Set<PostRating> getRatings() {
 		return ratings;
 	}
 }

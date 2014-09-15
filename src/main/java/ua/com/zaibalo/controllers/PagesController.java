@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +26,6 @@ import ua.com.zaibalo.actions.UnauthorisedActionServlet;
 import ua.com.zaibalo.business.InboxBusinessLogic;
 import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.db.api.DiscussionsDAO;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
@@ -66,8 +64,6 @@ public class PagesController {
 	private ServletHelperService servletHelperService;
 	@Autowired
 	private InboxBusinessLogic inboxBusinessLogic;
-	@Autowired
-	private DiscussionsDAO discussionsDAO;
 	
 	@RequestMapping(value = { "/logout.do", "/logout" }, method = RequestMethod.GET)
 	public String logout(HttpServletRequest request,
@@ -87,24 +83,14 @@ public class PagesController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = { "/post", "/post.do" }, method = RequestMethod.GET)
-	public ModelAndView singlePost(@RequestParam("id") String postId) throws Exception {
-		return singlePostServlet.getPost(postId);
-	}
-
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
-	public ModelAndView singlePostWithPathParameter(@PathVariable String postId) throws Exception {
-		return singlePost(postId);
-	}
-
-	@RequestMapping(value = { "/userProfile.do", "/user" }, method = RequestMethod.GET)
-	public ModelAndView user(@RequestParam("id") String userId) {
-		return userProfileServlet.getUser(userId);
+	public ModelAndView singlePostWithPathParameter(@PathVariable Integer postId) throws Exception {
+		return singlePostServlet.getPost(postId);
 	}
 
 	@RequestMapping(value = { "/user/{userId}" }, method = RequestMethod.GET)
 	public ModelAndView userWithPathParameter(@PathVariable String userId) {
-		return user(userId);
+		return userProfileServlet.getUser(userId);
 	}
 
 	@RequestMapping(value = { "/feed" }, method = RequestMethod.GET)
@@ -159,25 +145,13 @@ public class PagesController {
 		return inboxPage.run(user);
 	}
 
-	@RequestMapping(value = { "/secure/dialog.do", "/secure/dialog" }, method = RequestMethod.GET)
-	public ModelAndView dialog(
-			@RequestParam(value = "discussion_id", required = false) Integer discussionId,
-			HttpServletRequest request) {
-		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		Discussion discussion = inboxBusinessLogic.getDiscussionById(discussionId);
-		
-		ModelAndView mav = dialogPage.run(discussion, user);
-		long count = inboxBusinessLogic.getUnreadMessagesCount(user);
-		String countValue = count != 0 ? " [" + count + "]" : ""; 
-		request.getSession().setAttribute("unreadMailCount", countValue);
-		
-		return mav;
-	}
-
 	@RequestMapping(value = { "/secure/dialog/{discussionId}" }, method = RequestMethod.GET)
 	public ModelAndView dialogPath(@PathVariable Integer discussionId,
 			HttpServletRequest request) throws IOException, ServletException {
-		return dialog(discussionId, request);
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+		Discussion discussion = inboxBusinessLogic.getDiscussionById(discussionId);
+		
+		return dialogPage.run(discussion, user);
 	}
 
 	@RequestMapping(value = { "/action.do" }, method = RequestMethod.POST)

@@ -1,7 +1,7 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,7 +68,7 @@ public class EditPostAction implements Action {
 		}
 		
 		
-		List<Category> postCategoriesAndTags = new ArrayList<Category>();
+		Set<Category> postCategoriesAndTags = new HashSet<Category>();
 		
 		for (String catName : categoriesStr.split(",")){
 			Category category = categoriesDAO.getCategoryByName(catName.trim());

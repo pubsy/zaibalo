@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.db.api.PostsDAO;
-import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.Post.PostOrder;
 import ua.com.zaibalo.model.User;
@@ -28,157 +27,101 @@ public class PostsDAOImpl implements PostsDAO {
 	
 	@Override
 	public int insert(Post post) {
-
-		this.sessionFactory.getCurrentSession().save(post);
-		int id = post.getId();
-		
-		return id;
+		return (Integer) this.sessionFactory.getCurrentSession().save(post);
 	}
 
 	@Override
 	public void delete(Post post) {
-
-		List<Comment> list = post.getComments();
-		for(Comment c: list){
-			this.sessionFactory.getCurrentSession().delete(c);
-		}
 		this.sessionFactory.getCurrentSession().delete(post);
-		
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Post> getOrderedList(int from, int count, PostOrder order) {
-
-		List<Post> list = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
-		.setFirstResult(from)
-		.setMaxResults(count)
-		.addOrder(Order.desc(order.getPropertyName()))
-		.list();
-		for(Post post: list){
-			post.getComments().size();
-		}
-		
-		return list;
+		return this.sessionFactory.getCurrentSession()
+				.createCriteria(Post.class)
+				.setFirstResult(from)
+				.setMaxResults(count)
+				.addOrder(Order.desc(order.getPropertyName()))
+				.list();
 	}
 
 	@Override
 	public Post getObjectById(int id) {
-
-		Post post = (Post)this.sessionFactory.getCurrentSession().get(Post.class, id);
-		if (post == null){
-			return null;
-		}
-		post.getComments().size();
-		post.getCategories().size();
-
-		
-		return post;
+		return (Post) this.sessionFactory.getCurrentSession().get(Post.class, id);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Post> getLatestUserPosts(User user, int count) {
-
-		List<Post> postsList = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
-		.setMaxResults(count)
-		.addOrder(Order.desc("id"))
-		.add(Restrictions.eq("author", user))
-		.list();
-		
-		for(Post post: postsList){
-			post.getComments().size();
-			post.getCategories().size();
-		}
-		
-		
-		return postsList;
+		return this.sessionFactory.getCurrentSession()
+				.createCriteria(Post.class)
+				.setMaxResults(count)
+				.addOrder(Order.desc("id"))
+				.add(Restrictions.eq("author", user))
+				.list();
 	}
 
 	@Override
 	public int getUserPostCount(User user) {
-
-		int size = this.sessionFactory.getCurrentSession().createCriteria(Post.class)
-		.add(Restrictions.eq("author", user))
-		.list().size();
-		
-		return size;
+		return this.sessionFactory.getCurrentSession()
+				.createCriteria(Post.class)
+				.add(Restrictions.eq("author", user))
+				.list()
+				.size();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Post> getPostsList(List<Integer> ids, Date fromDate, PostOrder order, int from, int count) {
-		List<Post> postsList = null;
-		try{
-			Criteria parent = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
-			if(ids != null && ids.size() > 0){
-				parent.createCriteria("categories").add(Restrictions.in("id", ids));
-			}
-			if(from != -1){
-				parent.setFirstResult(from);
-			}
-			if(fromDate != null){
-				parent.add(Restrictions.gt("date", fromDate));
-			}
-			parent.setMaxResults(count);
-			if(order != null){
-				parent.addOrder(Order.desc(order.getPropertyName()));
-			}
-			postsList = parent.list();			
-			
-			for(Post post: postsList){
-				post.getComments().size();
-				post.getCategories().size();
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
+
+		Criteria parent = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
+
+		if (ids != null && ids.size() > 0) {
+			parent.createCriteria("categories").add(Restrictions.in("id", ids));
 		}
-		
-		return postsList;
+		if (from != -1) {
+			parent.setFirstResult(from);
+		}
+		if (fromDate != null) {
+			parent.add(Restrictions.gt("date", fromDate));
+		}
+		parent.setMaxResults(count);
+		if (order != null) {
+			parent.addOrder(Order.desc(order.getPropertyName()));
+		}
+		return parent.list();
 	}
 
 	@Override
 	public long getPostsListSize(List<Integer> ids, Date fromDate) {
-
-		long size = 0;
-		try{
-			Criteria parent = this.sessionFactory.getCurrentSession().createCriteria(Post.class);
-			if(ids != null && ids.size() > 0){
-				parent.createCriteria("categories").add(Restrictions.in("id", ids));
-			}
-
-			if(fromDate != null){
-				parent.add(Restrictions.gt("date", fromDate));
-			}
-
-			size = (Long)parent.setProjection(Projections.rowCount()).uniqueResult();
-
-		}catch(Exception ex){
-			ex.printStackTrace();
+		Criteria parent = this.sessionFactory.getCurrentSession()
+				.createCriteria(Post.class);
+		if (ids != null && ids.size() > 0) {
+			parent.createCriteria("categories").add(Restrictions.in("id", ids));
 		}
-		
-		return size;
-		
+
+		if (fromDate != null) {
+			parent.add(Restrictions.gt("date", fromDate));
+		}
+
+		return (Long) parent.setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Post> getAllPostsList() {
-
-		List<Post> list = this.sessionFactory.getCurrentSession().createCriteria(Post.class).list();
-		
-		return list;
+		return this.sessionFactory.getCurrentSession().createCriteria(Post.class).list();
 	}
 	
 	@Override
 	public void updatePostRatingSum(int value, int count, Post post) {
-
 		post.setRatingSum(post.getRatingSum() + value);
 		post.setRatingCount(post.getRatingCount() + count);
-		this.sessionFactory.getCurrentSession().update(post);
-		
+		update(post);
 	}
 
+	@Override
 	public void update(Post post) {
 		this.sessionFactory.getCurrentSession().update(post);
 	}

@@ -131,9 +131,10 @@ public class ServletHelperService {
 			userDetail.setUser(cookieUser);
 			userDetail.setValue(ipAddr);
 			userDetailDAO.saveIfNotExists(userDetail);
+			
+			return cookieUser;
 		}
-		
-		return cookieUser;
+		return null;
 	}
 
 	public void updateUnreadMessagesStatus(HttpServletRequest request){
