@@ -1,25 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<import resource="classpath:/zaibalo-core-context.xml" />
-
-	<security:http>
-		<security:intercept-url pattern="/api/**" access="ROLE_USER" />
-		<security:http-basic />
-	</security:http>
-
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:jdbc-user-service data-source-ref="dataSource"
-		  users-by-username-query="select login_name as username, token as password, 'true' as enabled from users where login_name = ?"
-		  authorities-by-username-query="select login_name as username, 'ROLE_USER' as role from users where login_name = ?" />
-		</security:authentication-provider>
-	</security:authentication-manager>
+    <import resource="classpath:/zaibalo-security.xml" />
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
