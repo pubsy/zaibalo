@@ -14,7 +14,7 @@ import ua.com.zaibalo.model.User;
 
 @Component
 @Transactional(propagation=Propagation.REQUIRED)
-public class UserBusinessLogic {
+public class UsersBusinessLogic {
 	
 	@Autowired
 	private UsersDAO usersDAO;
@@ -62,4 +62,8 @@ public class UserBusinessLogic {
 	public User getUserById(int userId){
 		return usersDAO.getUserById(userId);
 	}
+
+    public User getUserByLoginName(String loginName) {
+        return usersDAO.getUserByLoginName(loginName);
+    }
 }

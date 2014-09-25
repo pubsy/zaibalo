@@ -48,9 +48,11 @@ public class Comment{
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable = false)
 	private Post post;
 	
+	//TODO: Remove that field. Just calculate it every time
 	@Column(name="rating_count")
 	private int ratingCount = 0;
 
+	//TODO: Remove that field. Just calculate it every time
 	@Column(name="rating_sum")
 	private int ratingSum = 0;
 	

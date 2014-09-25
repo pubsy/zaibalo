@@ -47,10 +47,10 @@ public class Post {
 	@JoinColumn(name="author_id", referencedColumnName="id")
 	private User author;
 	
-	//DO we need this?
+	//TODO: Remove that field. Just calculate it every time
 	@Column(name="rating_count")
 	private int ratingCount;
-	//DO we need this?
+	//TODO: Remove that field. Just calculate it every time
 	@Column(name="rating_sum")
 	private int ratingSum;
 

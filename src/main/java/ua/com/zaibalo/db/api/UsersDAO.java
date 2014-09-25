@@ -6,7 +6,7 @@ import ua.com.zaibalo.model.User;
 
 public interface UsersDAO{
 	User getUserByEmail(String email);
-	User getUserByLoginName(String ligonName);
+	User getUserByLoginName(String loginName);
 	User getUserByLoginOrDisplayName(String displayName);
 	User getUserByDisplayName(String value);
 	void updateUserPassword(User user, String newPassword);

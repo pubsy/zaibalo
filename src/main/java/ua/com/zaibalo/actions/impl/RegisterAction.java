@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
-import ua.com.zaibalo.business.UserBusinessLogic;
+import ua.com.zaibalo.business.UsersBusinessLogic;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.email.SendEmailService;
 import ua.com.zaibalo.email.templates.RegisterUserMessage;
@@ -24,7 +24,7 @@ public class RegisterAction  implements Action{
 	private UsersDAO usersDAO;
 	
 	@Autowired
-	private UserBusinessLogic userBusinessLogic;
+	private UsersBusinessLogic userBusinessLogic;
 	
 	@Autowired
 	private SendEmailService sendEmailService;

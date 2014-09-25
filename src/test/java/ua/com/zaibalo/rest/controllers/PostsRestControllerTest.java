@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.server.MockMvc;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
 
-import ua.com.zaibalo.business.UserBusinessLogic;
+import ua.com.zaibalo.business.UsersBusinessLogic;
 import ua.com.zaibalo.model.User;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +33,7 @@ public class PostsRestControllerTest {
 	private MockMvc mockMvc;
 
 	@Autowired
-	private UserBusinessLogic userBusinessLogic;
+	private UsersBusinessLogic userBusinessLogic;
 
 	//@Before
 	public void setUp() {

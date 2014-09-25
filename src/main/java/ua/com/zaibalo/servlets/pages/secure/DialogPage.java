@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.business.InboxBusinessLogic;
-import ua.com.zaibalo.business.UserBusinessLogic;
+import ua.com.zaibalo.business.UsersBusinessLogic;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.Message;
 import ua.com.zaibalo.model.User;
@@ -16,7 +16,7 @@ import ua.com.zaibalo.model.User;
 public class DialogPage {
 
 	@Autowired
-	private UserBusinessLogic userBusinessLogic;
+	private UsersBusinessLogic userBusinessLogic;
 	
 	@Autowired
 	private InboxBusinessLogic inboxBusinessLogic;
