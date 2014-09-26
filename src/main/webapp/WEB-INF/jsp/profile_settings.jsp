@@ -22,11 +22,11 @@
 			<div id="right_body">
 				<%@ include file="banner.jsp"%>
 				<div class="content">
-					<c:if test="${update_status != null}">
+					<c:if test="${not empty update_status}">
 						<div class="update_status">${update_status}</div>
 					</c:if>
 					
-					<form action="/secure/update_profile.do" method="post" 
+					<form action="/secure/settings" method="post" 
 					   			enctype="multipart/form-data" 
 					   			name="profileSettingsForm" id="profileSettingsForm">	
 					   			

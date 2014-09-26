@@ -52,21 +52,20 @@ public class EditPostAction implements Action {
 		
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 
-		if(user.getRole() > 2){
+		if(user.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		
 		int postId = Integer.parseInt(postIdStr);
 		Post post = postsDAO.getObjectById(postId);
 		
-		if(user.getRole() >= 2 && post.getAuthor().equals(user)){
+		if(user.isUser() && !post.getAuthor().equals(user)){
 			return new FailResponse(StringHelper.getLocalString("you_cant_edit_other_users_post"));
 		}
 		
-		if(user.getRole() >= 2 && post.getComments().size() > 0){
+		if(user.isUser() && post.getComments().size() > 0){
 			return new FailResponse(StringHelper.getLocalString("you_cant_edit_your_post_after_commented"));
 		}
-		
 		
 		Set<Category> postCategoriesAndTags = new HashSet<Category>();
 		

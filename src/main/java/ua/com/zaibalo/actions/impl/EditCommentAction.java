@@ -35,14 +35,14 @@ public class EditCommentAction implements Action {
 		
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 
-		if(user.getRole() > 2){
+		if(user.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		
 		int commentId = Integer.parseInt(commentIdStr);
 		Comment comment = commentsDAO.getObjectById(commentId);
 		
-		if(user.getRole() == 2 && comment.getAuthor().getId() != user.getId()){
+		if(user.isUser() && comment.getAuthor().getId() != user.getId()){
 			return new FailResponse(StringHelper.getLocalString("you_cant_edit_other_users_post"));
 		}
 

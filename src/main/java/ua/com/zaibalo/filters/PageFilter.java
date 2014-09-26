@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,8 +18,8 @@ public class PageFilter implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object object) throws Exception {
-		
-		pageFilterBusinessLogic.prePage(request, response);
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		pageFilterBusinessLogic.prePage(request, loggedInUserName);
 		
 		return true;
 	}

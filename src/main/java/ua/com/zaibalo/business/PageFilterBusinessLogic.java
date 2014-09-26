@@ -1,24 +1,24 @@
 package ua.com.zaibalo.business;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.CategoriesDAO;
 import ua.com.zaibalo.db.api.CommentsDAO;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Category;
 import ua.com.zaibalo.model.Comment;
+import ua.com.zaibalo.model.User;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -30,14 +30,19 @@ public class PageFilterBusinessLogic {
 	private CategoriesDAO categoriesDAO;
 	@Autowired
 	private CommentsDAO commentsDAO;
+	@Autowired
+	private UsersBusinessLogic userBusinessLogic;
 	
-	public void prePage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		servletHelperService.updateUserAuthenication(request, response);
+	public void prePage(HttpServletRequest request, String loggedInUserName) {
+		if(StringUtils.isNotEmpty(loggedInUserName)) {
+			User user = userBusinessLogic.getUserByLoginName(loggedInUserName);
+			request.getSession().setAttribute(ZaibaloConstants.USER_PARAM_NAME, user);
+		}
 		
 		ServletContext servletContext = request.getServletContext();
-		if(servletContext.getAttribute("categories") == null){
+		if(servletContext.getAttribute("categories") == null) {
 			List<Category> catList = categoriesDAO.getCategoriesList(Category.CategoryType.CATEGORY);
-			request.getServletContext().setAttribute("categories", catList);
+			servletContext.setAttribute("categories", catList);
 		}
 		
 		List<Comment> commentsList = commentsDAO.getRecentComments(15);

@@ -110,32 +110,32 @@ public class ServletHelperService {
 		return null;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
-	public User updateUserAuthenication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		HttpSession session = request.getSession();
-
-		User user = (User)session.getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		if (user != null) {
-			return user;
-		}
-
-		boolean hasRememberMeCookie = hasRememberMeCookie(request);
-		User cookieUser = getCookieUser(request, response);
-
-		if (hasRememberMeCookie) {
-			session.setAttribute(ZaibaloConstants.USER_PARAM_NAME, cookieUser);
-			
-			String ipAddr = ServletHelperService.getClientIpAddr(request);
-			UserDetail userDetail = new UserDetail();
-			userDetail.setDetailType(DetailType.IP);
-			userDetail.setUser(cookieUser);
-			userDetail.setValue(ipAddr);
-			userDetailDAO.saveIfNotExists(userDetail);
-			
-			return cookieUser;
-		}
-		return null;
-	}
+//	@Transactional(propagation=Propagation.REQUIRED)
+//	public User updateUserAuthenication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+//		HttpSession session = request.getSession();
+//
+//		User user = (User)session.getAttribute(ZaibaloConstants.USER_PARAM_NAME);
+//		if (user != null) {
+//			return user;
+//		}
+//
+//		boolean hasRememberMeCookie = hasRememberMeCookie(request);
+//		User cookieUser = getCookieUser(request, response);
+//
+//		if (hasRememberMeCookie) {
+//			session.setAttribute(ZaibaloConstants.USER_PARAM_NAME, cookieUser);
+//			
+//			String ipAddr = ServletHelperService.getClientIpAddr(request);
+//			UserDetail userDetail = new UserDetail();
+//			userDetail.setDetailType(DetailType.IP);
+//			userDetail.setUser(cookieUser);
+//			userDetail.setValue(ipAddr);
+//			userDetailDAO.saveIfNotExists(userDetail);
+//			
+//			return cookieUser;
+//		}
+//		return null;
+//	}
 
 	public void updateUnreadMessagesStatus(HttpServletRequest request){
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);

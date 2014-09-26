@@ -32,13 +32,13 @@ public class DeletePostAction implements Action{
 
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
-		if(user.getRole() > 2){
+		if(user.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		
 		Post post = postsDAO.getObjectById(postId);
 		
-		if(user.equals(post.getAuthor()) && user.getRole() >=2){
+		if(!user.equals(post.getAuthor()) && user.isUser()){
 			LOGGER.error("Rights violation!");
 			return new FailResponse(StringHelper.getLocalString("you.are.not.powerfull.enough"));
 		}

@@ -45,7 +45,7 @@ public class SendMessageAction implements Action {
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		User sender = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
-		if(sender.getRole() > 2){
+		if(sender.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 

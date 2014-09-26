@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -66,20 +66,8 @@ public class PagesController {
 	private InboxBusinessLogic inboxBusinessLogic;
 	
 	@RequestMapping(value = { "/logout.do", "/logout" }, method = RequestMethod.GET)
-	public String logout(HttpServletRequest request,
-			HttpServletResponse response) {
-		request.getSession().removeAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().equals(ZaibaloConstants.USER_NAME_TOKEN)) {
-				cookie.setMaxAge(0);
-				response.addCookie(cookie);
-			}else if (cookie.getName().equals(ZaibaloConstants.REMEBER_ME)) {
-				cookie.setMaxAge(0);
-				response.addCookie(cookie);
-			}
-		}
-		
+	public String logout(HttpSession session) {
+		session.invalidate();
 		return "redirect:/";
 	}
 
@@ -105,11 +93,8 @@ public class PagesController {
 		return mav;
 	}
 
-	@RequestMapping(value = { "/secure/profileSettings.do", "/secure/settings" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/secure/settings" }, method = {RequestMethod.GET})
 	public String profileSettings(HttpServletRequest request) {
-		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-		
-		request.setAttribute("profilePiscturePath", User.USERPHOTO_DIR_PATH + user.getBigImgPath());
 		request.setAttribute("pageTitle",
 				StringHelper.getLocalString("zaibalo_blog") + " " +
 				StringHelper.getLocalString("profile_settings"));
@@ -117,7 +102,7 @@ public class PagesController {
 		return "profile_settings";
 	}
 
-	@RequestMapping(value = { "/secure/update_profile.do" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/secure/settings" }, method = RequestMethod.POST)
 	public String updateProfile(HttpServletRequest request) throws ServletException, FileUploadException, IOException {
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			throw new ServletException(StringHelper.getLocalString("internal_server_error"));
@@ -136,7 +121,7 @@ public class PagesController {
 		String status = updateProfileRedirect.run(user, fileItemsList);
 		request.setAttribute("update_status", status);
 		
-		return "redirect:/secure/settings";
+		return profileSettings(request);
 	}
 
 	@RequestMapping(value = { "/secure/inbox.do", "/secure/inbox" }, method = RequestMethod.GET)
@@ -158,8 +143,6 @@ public class PagesController {
 	@ResponseBody
 	public AjaxResponse action(HttpServletRequest request,
 			HttpServletResponse response) {
-		checkAutenticated(request, response);
-
 		AjaxResponse ajaxResponse = null;
 		try {
 			ajaxResponse = unauthorisedActionServlet.doPost(request, response);
@@ -182,15 +165,6 @@ public class PagesController {
 			ajaxResponse = new FailResponse(e.getMessage());
 		}
 		return ajaxResponse;
-	}
-
-	private void checkAutenticated(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			servletHelperService.updateUserAuthenication(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

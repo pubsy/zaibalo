@@ -131,7 +131,7 @@ public class UpdateProfileRedirect {
 		int userId = user.getId();
 		String ext = savedFile.getName().substring(lastdot + 1);
 		
-		if(!ext.equalsIgnoreCase("gif") && !ext.equalsIgnoreCase("jpg") && !ext.equalsIgnoreCase("png")){
+		if(!ext.equalsIgnoreCase("gif") && !ext.equalsIgnoreCase("jpg") && !ext.equalsIgnoreCase("png") && !ext.equalsIgnoreCase("jpeg")){
 			return StringHelper.getLocalString("usupported_image_format", ext);
 		}
 		

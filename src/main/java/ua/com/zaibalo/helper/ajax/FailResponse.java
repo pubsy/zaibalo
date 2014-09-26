@@ -1,6 +1,6 @@
 package ua.com.zaibalo.helper.ajax;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import ua.com.zaibalo.helper.StringHelper;
 

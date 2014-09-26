@@ -21,6 +21,7 @@ import org.springframework.test.web.server.setup.MockMvcBuilders;
 
 import ua.com.zaibalo.business.UsersBusinessLogic;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.model.User.Role;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = "classpath:test-context.xml")
@@ -67,7 +68,7 @@ public class PostsRestControllerTest {
 		user.setEmail("aaa@aaa.com");
 		user.setDisplayName("DisplayName");
 		user.setLoginName("LoginName");
-		user.setRole(2);
+		user.setRole(Role.USER);
 		user.setPassword("PASSWORD");
 		user.setAbout("AboutMe");
 		user.setDate(new Date(1408793863671L));

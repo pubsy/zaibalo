@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.model.User.Role;
 
 @Component
 @Transactional(propagation=Propagation.REQUIRED)
@@ -35,7 +36,7 @@ public class UsersBusinessLogic {
 		}else{
 			user.setDisplayName(loginName);
 		}
-		user.setRole(2);
+		user.setRole(Role.USER);
 		user.setToken(StringHelper.generateString(32));
 		if(bigImagePath != null){
 			user.setBigImgPath(bigImagePath);

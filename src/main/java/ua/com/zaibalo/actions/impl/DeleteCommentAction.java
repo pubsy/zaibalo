@@ -43,11 +43,11 @@ public class DeleteCommentAction implements Action{
         Comment comment = commentsDAO.getObjectById(commentId);
         User user = (User) request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
         
-        if(user.getRole() > 2){
+        if(user.isGuest()){
             return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
         }
         
-        if(user.getId() != comment.getAuthor().getId() && user.getRole() >=2){
+        if(user.getId() != comment.getAuthor().getId() && user.isUser()){
             return new FailResponse(StringHelper.getLocalString("you.are.not.powerfull.enough"));
         }
 

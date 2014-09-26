@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,18 +45,14 @@ public class User {
 	@Column(name = "email", unique = true)
 	private String email;
 
+	@Column
 	@ExcludeFromJson
-	@Column(name = "role")
-	private int role;
-//	
-//	@Column
-//  @ExcludeFromJson
-//	@Enumerated(EnumType.STRING)
-//	private Role role;
-//
-//	public enum Role {
-//		MODERATOR, WRITER, READER;
-//	}
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
+	public enum Role {
+		ADMINISTRATOR, USER, GUEST;
+	}
 	
 	@ExcludeFromJson
 	private String token;
@@ -186,11 +184,11 @@ public class User {
 		this.id = id;
 	}
 
-	public void setRole(int role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
-	public int getRole() {
+	public Role getRole() {
 		return role;
 	}
 
@@ -208,5 +206,13 @@ public class User {
 
 	public List<Comment> getComments() {
 		return comments;
+	}
+
+	public boolean isGuest() {
+		return role.equals(Role.GUEST);
+	}
+
+	public boolean isUser() {
+		return role.equals(Role.USER);
 	}
 }

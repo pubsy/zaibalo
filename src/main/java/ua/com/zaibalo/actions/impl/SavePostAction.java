@@ -45,7 +45,7 @@ public class SavePostAction implements Action{
 
 		User user = (User) request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 
-		if(user.getRole() > 2){
+		if(user.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		

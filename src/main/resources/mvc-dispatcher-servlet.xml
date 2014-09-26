@@ -17,7 +17,7 @@
 	<mvc:resources mapping="/scripts/**" location="/scripts/" />
 	<mvc:resources mapping="/img/**" location="/img/" />
 	<mvc:resources mapping="/fonts/**" location="/fonts/" />
-	<mvc:resources mapping="/image/**" location="file:/var/lib/tomcat7/userphoto/" />
+	<mvc:resources mapping="/image/**" location="file:${userphoto.path}" />
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
 	<mvc:resources mapping="/robots.txt" location="/robots.txt" />
 
@@ -45,11 +45,6 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean class="ua.com.zaibalo.filters.EncodingFilter" />
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="/secure_action/**" />
-			<mvc:mapping path="/secure/**" />
-			<bean class="ua.com.zaibalo.filters.SecureFilter" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/" />
