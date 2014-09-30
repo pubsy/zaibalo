@@ -6,7 +6,7 @@
 									<li>
 										<form class="form-inline" role="form" action="<c:url value='j_spring_security_check'/>" method="POST">
 											<div class="input-group input-group-sm login-form-element">
-											  <label class="sr-only" for="name"><zmt:message key="login_colon"/></label> 
+											  <label class="sr-only" for="username"><zmt:message key="login_colon"/></label> 
 											  <input type="text" class="form-control" name="username" placeholder="<zmt:message key='login_colon'/>">
 											</div>
 											<div class="input-group input-group-sm login-form-element">

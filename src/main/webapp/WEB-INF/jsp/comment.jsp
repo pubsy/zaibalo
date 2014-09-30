@@ -10,28 +10,28 @@
 			<c:if test="${comment.author.id == 2}">
 				<div class="comment_author"><c:out value="${comment.author.displayName}"/></div>
 			</c:if>
-			
-			<c:if test="${(sessionScope.user.id == comment.author.id and sessionScope.user.role <= 2) || sessionScope.user.role < 2}">
-				<div class="comment_operations">
-					<a href="javascript:editCommentShow(${comment.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
-					<a href="javascript:deleteComment(${comment.id})"><img src="/img/icons/x.png"></a>
-				</div>
-			</c:if>
-			
+			<sec:authorize access="hasRole('USER')">
+				<c:if test="${sessionScope.user.id == comment.author.id}">
+					<div class="comment_operations">
+						<a href="javascript:editCommentShow(${comment.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
+						<a href="javascript:deleteComment(${comment.id})"><img src="/img/icons/x.png"></a>
+					</div>
+				</c:if>
+			</sec:authorize>
 			<div class="comment_context"><xe:escape text="${comment.content}" /></div>
 			
 			<div class="comment_rating">
-				<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
+				<sec:authorize access="hasRole('USER')">
 					<img src="/img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
-				</c:if>
+				</sec:authorize>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/>
 					<span id="comment_rating_sum_${comment.id}" class="rating_sum">${comment.ratingSum}</span>
 					(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
 				</span>
-				<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
+				<sec:authorize access="hasRole('USER')">
 					<img src="/img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
-				</c:if>
+				</sec:authorize>
 			</div>
 			<div class="comment_date">
 				<c:choose>

@@ -53,15 +53,10 @@
 			<mvc:mapping path="/order/**" />
 			<mvc:mapping path="/count/**" />
 			<mvc:mapping path="/post/**" />
-			<mvc:mapping path="/post.do/**" />
-			<mvc:mapping path="/userProfile.do/**" />
 			<mvc:mapping path="/user/**" />
-			<mvc:mapping path="/user.do/**" />
-			<mvc:mapping path="/secure/inbox.do/**" />
 			<mvc:mapping path="/secure/inbox/**" />
-			<mvc:mapping path="/secure/dialog.do/**" />
 			<mvc:mapping path="/secure/dialog/**" />
-			<mvc:mapping path="/secure/update_profile.do/**" />
+			<mvc:mapping path="/secure/settings/**" />
 			<bean class="ua.com.zaibalo.filters.PageFilter" />
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -14,6 +13,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.zaibalo.actions.AuthorisedActionServlet;
 import ua.com.zaibalo.actions.UnauthorisedActionServlet;
 import ua.com.zaibalo.business.InboxBusinessLogic;
-import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.Discussion;
-import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.servlets.pages.SinglePostServlet;
 import ua.com.zaibalo.servlets.pages.UpdateProfileRedirect;
@@ -57,19 +54,9 @@ public class PagesController {
 	@Autowired
 	private AuthorisedActionServlet authorisedActionServlet;
 	@Autowired
-	private PostsBusinessLogic postsBusinessLogic;
-	@Autowired
 	private UpdateProfileRedirect updateProfileRedirect;
 	@Autowired
-	private ServletHelperService servletHelperService;
-	@Autowired
 	private InboxBusinessLogic inboxBusinessLogic;
-	
-	@RequestMapping(value = { "/logout.do", "/logout" }, method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
 
 	@RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
 	public ModelAndView singlePostWithPathParameter(@PathVariable Integer postId) throws Exception {
@@ -81,18 +68,7 @@ public class PagesController {
 		return userProfileServlet.getUser(userId);
 	}
 
-	@RequestMapping(value = { "/feed" }, method = RequestMethod.GET)
-	public ModelAndView feed() {
-		List<Post> items = postsBusinessLogic.getOrderedList(-1, 10,
-				Post.PostOrder.ID);
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("rssViewer");
-		mav.addObject("feedContent", items);
-
-		return mav;
-	}
-
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = { "/secure/settings" }, method = {RequestMethod.GET})
 	public String profileSettings(HttpServletRequest request) {
 		request.setAttribute("pageTitle",
@@ -153,7 +129,7 @@ public class PagesController {
 		return ajaxResponse;
 	}
 
-	@RequestMapping(value = { "/secure_action/action.do", "/secure/action.do" }, method = RequestMethod.POST)
+	@RequestMapping(value = {"/secure/action.do"}, method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResponse secureAction(HttpServletRequest request,
 			HttpServletResponse response) {

@@ -40,7 +40,8 @@
 							<li><a href="/feed"><span class="rss-icon"></span><span class="hide-on-mobile">RSS</span></a></li>
 							<sec:authorize access="isAuthenticated()">
 								<%@include file="login-status-dropdown.jsp" %>
-							</sec:authorize><sec:authorize access="isAnonymous()">
+							</sec:authorize>
+							<sec:authorize access="isAnonymous()">
 								<%@include file="login-dropdown.jsp" %>
 							</sec:authorize>
 						</ul>

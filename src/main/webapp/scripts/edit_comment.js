@@ -69,14 +69,13 @@ function updateComment() {
 	}
 
 	var url = "/api/comments/" + commentId;
-	var method = "PUT"; //PUT for update
+	var method = "PUT";
 	var comment = {content: commentText};
 	var data = JSON.stringify(comment);
 	var dataType = "json";
 	
 	var contentType = "application/json";
-	var headers = getAuthHeader();
 	
-	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, headers);
+	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, null);
 
 }

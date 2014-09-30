@@ -1,5 +1,5 @@
 
-		<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">	
+		<sec:authorize access="hasRole('USER')">
 			<div class="comment_style">
 				<a href="javascript:showAddCommentField('${post.id}');" id='add_comment_text_${post.id}'><zmt:message key="comment_this"/></a>
 				<div id='add_comment_${post.id}' style='display: none;'>
@@ -15,4 +15,4 @@
 					<div style="clear: both;"></div>
 				</div>
 			</div>
-		</c:if>
+		</sec:authorize>

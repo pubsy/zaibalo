@@ -61,9 +61,8 @@ function addComment(postId){
 	var dataType = "json";
 	
 	var contentType = "application/json";
-	var headers = getAuthHeader();
 	
-	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, headers);
+	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, null);
 }
 
 function add_post() {
@@ -247,12 +246,6 @@ function sendMessage(){
 	var dataType = "json";
 
 	sendJQueryAjaxRequest(url, method, params, s, dataType);
-}
-
-function getAuthHeader() {
-	var authorization = getCookie('zaibalo_user');
-	var headers = {"Authorization": "Basic " + btoa(authorization)};
-	return headers;
 }
 
 function getCookie(name) {

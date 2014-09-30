@@ -1,5 +1,5 @@
 
-<c:if test="${sessionScope.user != null and sessionScope.user.role <= 2}">
+<sec:authorize access="hasRole('USER')">
 	<div id="add_post_div">
 		<div id="add_post_form">
 			<input id="post_title" type="text" placeholder='<zmt:message key="post_title"/>'
@@ -24,4 +24,4 @@
 			<div style="clear: both;"></div>
 		</div>
 	</div>
-</c:if>
+</sec:authorize>

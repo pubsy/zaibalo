@@ -1,30 +1,28 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:beans="http://www.springframework.org/schema/beans"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-        
-    <global-method-security pre-post-annotations="enabled" />    
-    
-	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/secure/**" access="hasRole('ROLE_USER')" />
-		<form-login 
-		    login-page="/login" 
-		    default-target-url="/" 
-			authentication-failure-url="/login?error" 
-			username-parameter="username"
+
+	<global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
+
+	<http auto-config="true" use-expressions="true" access-denied-page="/login">
+		<intercept-url pattern="/secure/**" access="isAuthenticated()" />
+		<intercept-url pattern="/api/**" access="isAuthenticated()" />
+		<form-login login-page="/login" default-target-url="/"
+			authentication-failure-url="/login?error" username-parameter="username"
 			password-parameter="password" />
-		<logout logout-success-url="/logout" />
-		<remember-me/>
+		<logout invalidate-session="true" logout-success-url="/"
+			logout-url="/ogout" />
+		<remember-me />
 	</http>
 
-    <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
-          users-by-username-query="select login_name as username, password, 'true' as enabled from users where login_name = ?"
-          authorities-by-username-query="select login_name as username, 'ROLE_USER' as role from users where login_name = ?" />
-        <password-encoder hash="md5" />
-        </authentication-provider>
-    </authentication-manager>        
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select login_name as username, password, 'true' as enabled from users where login_name = ?"
+				authorities-by-username-query="select login_name as username, role from users where login_name = ?" />
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
 
 </beans:beans>
