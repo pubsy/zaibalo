@@ -26,29 +26,28 @@
 			<div id="right_body">
 				<%@ include file="banner.jsp"%>
 				<div class="content">
-					<form class="form-inline" role="form" action="<c:url value='j_spring_security_check' />" method="POST">
-			            <c:if test="${not empty param.err}">
-			                <div><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></div>
-			            </c:if>
-			            <c:if test="${not empty param.out}">
-			                <div>You've logged out successfully.</div>
-			            </c:if>
-			            <c:if test="${not empty param.time}">
-			                <div>You've been logged out due to inactivity.</div>
-			            </c:if>
-			            <div class="input-group input-group-sm">
-							<label class="sr-only" for="name"><zmt:message key="login_colon"/></label> 
-							<input type="text" class="form-control" name="username" placeholder="<zmt:message key='login_colon'/>">
-						</div>
-						<div class="input-group input-group-sm">
-							<label class="sr-only" for="password"><zmt:message key="password_colon"/></label>
-							<input type="password" class="form-control"	name="password" placeholder='<zmt:message key="password_colon"/>'>
-						</div>
-						<div class="checkbox">
-							<label> <input type="checkbox" name="_spring_security_remember_me" ><zmt:message key="remember_me"/></label>
-						</div>
-						<button type="submit" class="btn btn-default login-form-element" id="submit_login_btn"><zmt:message key="login"/></button>
-			        </form>
+					<div class="centered login-form">
+						<form role="form" action="<c:url value='j_spring_security_check' />" method="POST">
+				            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+							      <div class="login-error">
+							        <zmt:message key="login_unsuccessful_due_to"/>
+							        <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+							      </div>
+							</c:if>
+				            <div class="form-group">
+								<label class="sr-only" for="username"><zmt:message key="login_colon"/></label> 
+								<input type="text" class="form-control" name="username" id="username" placeholder="<zmt:message key='login_colon'/>">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="password"><zmt:message key="password_colon"/></label>
+								<input type="password" class="form-control"	name="password" id="password"placeholder='<zmt:message key="password_colon"/>'>
+							</div>
+							<div class="checkbox">
+								<label> <input type="checkbox" name="_spring_security_remember_me" ><zmt:message key="remember_me"/></label>
+							</div>
+							<button type="submit" class="btn btn-custom btn-lg btn-block" id="submit-btn"><zmt:message key="login"/></button>
+				        </form>
+			        </div>
 				</div>
 			</div>
 		</div>

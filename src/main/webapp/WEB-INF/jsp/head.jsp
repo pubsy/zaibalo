@@ -9,11 +9,11 @@
 		<script type="text/javascript" src="/scripts/jquery.js"></script>
 		<script type="text/javascript" src="/scripts/mustache.js"></script>
 		<script type="text/javascript" src="/scripts/login.js?8"></script>
-		<script type="text/javascript" src="/scripts/scripts.js?12"></script>
+		<script type="text/javascript" src="/scripts/scripts.js?14"></script>
 		<script type="text/javascript" src="/scripts/ajax.js?10"></script>
 		<script type="text/javascript" src="/scripts/textarea.js?8"></script>
 		<script type="text/javascript" src="/scripts/editpost.js?11"></script>
-		<script type="text/javascript" src="/scripts/edit_comment.js?2"></script>
+		<script type="text/javascript" src="/scripts/edit_comment.js?3"></script>
 		<script type="text/javascript" src="/scripts/combobox.js?8"></script>
 		<script type="text/javascript" src="/scripts/message.js?8"></script>
 		<script type="text/javascript" src="/scripts/category_checkoxes.js?9"></script>

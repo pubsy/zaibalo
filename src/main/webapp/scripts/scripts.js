@@ -54,15 +54,15 @@ function addComment(postId){
 		
 	$('#loading_gif_' + + postId).show("slow");
 	
-	var url = "/api/comments";
-	var method = "POST"; //POST for saving new
-	var comment = {content: textarea.val(), post: {id: postId}};
-	var data = JSON.stringify(comment);
+	var url = "/secure/comment";
+	var method = "POST";
+	var params = {
+			postId: postId,
+			content: textarea.val()
+	}
 	var dataType = "json";
 	
-	var contentType = "application/json";
-	
-	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, null);
+	sendJQueryAjaxRequest(url, method, params, s, dataType);
 }
 
 function add_post() {
@@ -149,15 +149,11 @@ function deleteComment(id){
 			   $("#comment_" + id).hide("slow");
 			}else if(obj.status == "fail"){
 				showMessageDialog({title: "Хай йому грець!", message: obj.message});
-				//alert(obj.message);
 			}
 	}
-	var url = "/secure/action.do";
-	var method = "POST";
-	var params = {
-			commentId: id,
-			action: 'delete_comment'
-	}
+	var url = "/secure/comment/" + id;
+	var method = "DELETE";
+	var params = {}
 	var dataType = "json";
 	
 	sendJQueryAjaxRequest(url, method, params, s, dataType);

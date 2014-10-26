@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import ua.com.zaibalo.db.api.CommentsDAO;
 import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.db.api.UsersDAO;
+import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
@@ -28,20 +29,10 @@ public class CommentsBusinessLogic {
 	@Autowired
 	private UsersDAO usersDAO;
 
-	public Comment saveComment(String authorLoginName, String content, int postId){
-		Assert.notNull(authorLoginName);
-		Assert.notNull(content);
-		Assert.isTrue(postId > 0);
-		
-		Post post = postsDAO.getObjectById(postId);
-		if(post == null){
-			throw new RuntimeException("Post with id: " + postId + " does not exist");
-		}
-		
-		User author = usersDAO.getUserByLoginName(authorLoginName);
-		if(author == null){
-			throw new RuntimeException("User with loginName: " + authorLoginName + " does not exist");
-		}
+	public Comment saveComment(User author, Post post, String content){
+		Assert.notNull(author, "Auhtor cannot be null");
+		Assert.notNull(content, "Content cannot be null");
+		Assert.notNull(post, "Post cannot be null");
 		
 		Comment comment = new Comment();
 		comment.setAuthor(author);
@@ -53,22 +44,16 @@ public class CommentsBusinessLogic {
 		return commentsDAO.persist(comment);
 	}
 	
-	public Comment updateComment(String authorLoginName, int commentId, String content){
-		Comment comment = commentsDAO.getObjectById(commentId);
-		if(comment == null){
-			throw new RuntimeException("Comment with id: " + commentId + " does not exist");
-		}
-		
-		User author = usersDAO.getUserByLoginName(authorLoginName);
-		if(author == null){
-			throw new RuntimeException("User with loginName: " + authorLoginName + " does not exist");
-		}
-		
+	public Comment updateComment(User author, Comment comment, String newContent){
+		Assert.notNull(author, "Auhtor cannot be null");
+		Assert.notNull(newContent, "Content cannot be null");
+		Assert.notNull(comment, "Comment cannot be null");
+
 		if(author.getId() != comment.getAuthor().getId()){
-			throw new RuntimeException("You do not owe comment with id: " + commentId + ". This will be reported.");
+			throw new RuntimeException("You do not owe comment with id: " + comment.getId() + ". This will be reported.");
 		}
 		
-		comment.setContent(content);
+		comment.setContent(newContent);
 		return commentsDAO.update(comment);
 	}
 
@@ -78,5 +63,16 @@ public class CommentsBusinessLogic {
 			throw new RuntimeException("Comment with id: " + commentId + " does not exist");
 		}
 		return comment;
+	}
+	
+	public void deleteComment(Comment comment, User user) {
+		Assert.notNull(comment);
+		Assert.notNull(user);
+		
+		if(!user.equals(comment.getAuthor())){
+			throw new RuntimeException(StringHelper.getLocalString("you.are.not.powerfull.enough"));
+		}
+
+		commentsDAO.delete(comment);
 	}
 }

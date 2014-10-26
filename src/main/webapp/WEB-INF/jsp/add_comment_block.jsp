@@ -1,5 +1,5 @@
 
-		<sec:authorize access="hasRole('USER')">
+		<sec:authorize access="hasRole('ROLE_USER')">
 			<div class="comment_style">
 				<a href="javascript:showAddCommentField('${post.id}');" id='add_comment_text_${post.id}'><zmt:message key="comment_this"/></a>
 				<div id='add_comment_${post.id}' style='display: none;'>

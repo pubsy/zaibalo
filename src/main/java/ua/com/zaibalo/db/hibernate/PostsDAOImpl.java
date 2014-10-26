@@ -26,8 +26,9 @@ public class PostsDAOImpl implements PostsDAO {
     protected SessionFactory sessionFactory;
 	
 	@Override
-	public int insert(Post post) {
-		return (Integer) this.sessionFactory.getCurrentSession().save(post);
+	public Post insert(Post post) {
+		this.sessionFactory.getCurrentSession().save(post);
+		return post;
 	}
 
 	@Override

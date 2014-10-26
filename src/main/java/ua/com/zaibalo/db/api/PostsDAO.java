@@ -7,7 +7,7 @@ import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 
 public interface PostsDAO{
-	int insert(Post post);
+	Post insert(Post post);
 	void delete(Post post);
 	List<Post> getOrderedList(int from, int count, Post.PostOrder order);
 	Post getObjectById(int id);

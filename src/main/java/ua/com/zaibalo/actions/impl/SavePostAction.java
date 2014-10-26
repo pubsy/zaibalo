@@ -1,25 +1,21 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ua.com.zaibalo.actions.Action;
+import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.CategoriesDAO;
-import ua.com.zaibalo.db.api.PostsDAO;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.helper.ajax.SuccessResponse;
-import ua.com.zaibalo.model.Category;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.social.VKPostToGroup;
@@ -35,62 +31,32 @@ public class SavePostAction implements Action{
 	@Autowired
 	private CategoriesDAO categoriesDAO;
 	@Autowired
-	private PostsDAO postsDAO;
+	private PostsBusinessLogic postsBusinessLogic;
 	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String postTitle = (String) request.getParameter(POST_TITLE);
-		String postText = (String) request.getParameter(POST_TEXT);
-		String postCategories = (String) request.getParameter(POST_CATEGORIES);
+		String title = (String) request.getParameter(POST_TITLE);
+		String content = (String) request.getParameter(POST_TEXT);
+		String postCategoriesStr = (String) request.getParameter(POST_CATEGORIES);
 
 		User user = (User) request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
-
 		if(user.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		
-		// save post
-		Post post = new Post();
-		post.setAuthor(user);
-		post.setContent(postText);
-		post.setTitle(postTitle);
-		post.setAuthor(user);
-		post.setRatingCount(0);
-		post.setRatingSum(0);
-		
-		Set<Category> postCategoriesAndTags = new HashSet<Category>();
-		if(postCategories == null || postCategories.equals("")){
-			Category otherCategory = categoriesDAO.getCategoryById(6);
-			postCategoriesAndTags.add(otherCategory);
+		String[] postCategories;
+		if(StringUtils.isEmpty(postCategoriesStr)){
+			postCategories = new String[0];
+		} else {
+			postCategories = postCategoriesStr.split(",");
 		}
-		
-		int id = 0;
-
-
-		for (String catName : postCategories.split(",")) {
-			Category category = categoriesDAO.getCategoryByName(catName.trim());
-			if(category == null){
-				category = new Category(catName.trim(), Category.CategoryType.TAG);
-				categoriesDAO.insert(category);
-			}
-			postCategoriesAndTags.add(category);
-		}
-
-		Set<Category> list = new HashSet<Category>();
-		list.addAll(postCategoriesAndTags);
-		
-		post.setCategories(list);
-		post.setDate(new Date());
 
 		Validator validator = new Validator();
-		if (!validator.validatePost(post)) {
+		if (!validator.validatePost(content, title, postCategories)) {
 			return new FailResponse(validator.getErrors());
-
-		} else {
-			id = postsDAO.insert(post);
 		}
-
-		post.setId(id);
+		
+		Post post = postsBusinessLogic.createPost(title, content, user, postCategories);
 
 		request.setAttribute("post", post);
 		

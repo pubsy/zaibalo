@@ -627,9 +627,7 @@ pre {
 }
 
 .centered{
-	text-align: justify;
-	/* overflow: hidden; */
-	width: 100%;
+	margin: auto;
 }
 
 .dropdown-menu>li>a{
@@ -718,6 +716,24 @@ input[type="checkbox"] {
 .dialog-validation{
 	padding-bottom: 10px;
 	color: red;
+}
+
+.login-form{
+	width: 325px;
+	border: 1px solid#555555;
+	border-radius: 6px;
+	padding: 15px;
+	margin: 60px auto;
+}
+
+.login-error{
+	padding-bottom: 10px;
+	color: red;
+}
+
+#submit-btn{
+	background-color: #555555;
+	color: white;
 }
 
 @media all and (max-width: 620px) {

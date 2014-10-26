@@ -3,22 +3,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<global-method-security pre-post-annotations="enabled" secured-annotations="enabled" />
+	<global-method-security pre-post-annotations="enabled"
+		secured-annotations="enabled" />
 
-	<http auto-config="true" use-expressions="true" access-denied-page="/login">
+	<http auto-config="true" use-expressions="true"
+		access-denied-page="/login">
 		<intercept-url pattern="/secure/**" access="isAuthenticated()" />
-		<intercept-url pattern="/api/**" access="isAuthenticated()" />
 		<form-login login-page="/login" default-target-url="/"
 			authentication-failure-url="/login?error" username-parameter="username"
 			password-parameter="password" />
 		<logout invalidate-session="true" logout-success-url="/"
-			logout-url="/ogout" />
-		<remember-me />
+			logout-url="/logout" />
+		<remember-me user-service-ref="userService" />
 	</http>
 
-	<authentication-manager>
+	<authentication-manager alias="authenticationManager">
 		<authentication-provider>
-			<jdbc-user-service data-source-ref="dataSource"
+			<jdbc-user-service data-source-ref="dataSource" id="userService"
 				users-by-username-query="select login_name as username, password, 'true' as enabled from users where login_name = ?"
 				authorities-by-username-query="select login_name as username, role from users where login_name = ?" />
 			<password-encoder hash="md5" />

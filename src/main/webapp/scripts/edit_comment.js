@@ -68,14 +68,11 @@ function updateComment() {
 		$("#edit_comment_dialog").dialog("close");
 	}
 
-	var url = "/api/comments/" + commentId;
-	var method = "PUT";
-	var comment = {content: commentText};
-	var data = JSON.stringify(comment);
+	var url = "/secure/comment/" + commentId;
+	var method = "POST";
+	var params = {content: commentText}
 	var dataType = "json";
 	
-	var contentType = "application/json";
-	
-	sendJQueryAjaxRequest(url, method, data, s, dataType, contentType, null);
+	sendJQueryAjaxRequest(url, method, params, s, dataType);
 
 }

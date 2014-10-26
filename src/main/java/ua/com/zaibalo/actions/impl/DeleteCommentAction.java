@@ -22,17 +22,6 @@ public class DeleteCommentAction implements Action{
 
 	@Autowired
 	private CommentsDAO commentsDAO; 
-	
-	public void deleteComment(Comment comment, User user) {
-		Assert.notNull(comment);
-		Assert.notNull(user);
-		
-		if(!user.equals(comment.getAuthor())){
-			throw new RuntimeException(StringHelper.getLocalString("you.are.not.powerfull.enough"));
-		}
-
-		commentsDAO.delete(comment);
-	}
 
     @Override
     @Deprecated

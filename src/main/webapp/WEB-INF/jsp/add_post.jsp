@@ -1,5 +1,5 @@
 
-<sec:authorize access="hasRole('USER')">
+<sec:authorize access="hasRole('ROLE_USER')">
 	<div id="add_post_div">
 		<div id="add_post_form">
 			<input id="post_title" type="text" placeholder='<zmt:message key="post_title"/>'

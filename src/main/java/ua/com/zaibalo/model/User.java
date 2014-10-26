@@ -48,10 +48,10 @@ public class User {
 	@Column
 	@ExcludeFromJson
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Role role = Role.ROLE_USER;
 
 	public enum Role {
-		ADMINISTRATOR, USER, GUEST;
+		ROLE_ADMIN, ROLE_USER, ROLE_GUEST;
 	}
 	
 	@ExcludeFromJson
@@ -209,10 +209,10 @@ public class User {
 	}
 
 	public boolean isGuest() {
-		return role.equals(Role.GUEST);
+		return role.equals(Role.ROLE_GUEST);
 	}
 
 	public boolean isUser() {
-		return role.equals(Role.USER);
+		return role.equals(Role.ROLE_USER);
 	}
 }

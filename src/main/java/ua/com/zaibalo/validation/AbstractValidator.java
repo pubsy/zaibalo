@@ -1,7 +1,6 @@
 package ua.com.zaibalo.validation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractValidator {
@@ -17,8 +16,8 @@ public abstract class AbstractValidator {
 		}
 	}
 	
-	public void validateNotEmptyCollection(Collection<?> col, String message){
-		if(col == null || col.isEmpty()){
+	public void validateNotEmptyArray(String[] array, String message){
+		if(array == null || array.length == 0){
 			validationErrors.add(message);
 		}
 	}

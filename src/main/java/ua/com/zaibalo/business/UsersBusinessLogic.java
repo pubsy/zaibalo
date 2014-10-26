@@ -36,7 +36,7 @@ public class UsersBusinessLogic {
 		}else{
 			user.setDisplayName(loginName);
 		}
-		user.setRole(Role.USER);
+		user.setRole(Role.ROLE_USER);
 		user.setToken(StringHelper.generateString(32));
 		if(bigImagePath != null){
 			user.setBigImgPath(bigImagePath);
