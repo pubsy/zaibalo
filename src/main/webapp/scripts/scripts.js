@@ -103,7 +103,7 @@ function add_post() {
 		$(post_text).trigger('keydown');
 	}
 
-	var url = "/secure/action.do";
+	var url = "secure/action.do";
 	var method = "POST";
 	var params = {
 			post_title	: post_title.value,
@@ -132,7 +132,7 @@ function removePost(id){
 				//alert(obj.message);
 			}
 	}
-	var url = "/secure/action.do";
+	var url = "secure/action.do";
 	var method = "POST";
 	var params = {
 			postId: id,
@@ -173,7 +173,7 @@ function ratePost(id, how){
 				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 			}
 	}
-	var url = "/secure/action.do";
+	var url = "secure/action.do";
 	var method = "POST";
 	var params = {
 			postId: id,
@@ -200,7 +200,7 @@ function rateComment(id, how){
 				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 			}
 	}
-	var url = "/secure/action.do";
+	var url = "secure/action.do";
 	var method = "POST";
 	var params = {
 			action: "rate_comment",
@@ -237,7 +237,7 @@ function sendMessage(){
 		recipient_name : otherUserName,
 		text : $("#text").val()
 	}
-	var url = "/secure/action.do";
+	var url = "secure/action.do";
 	var method = "POST";
 	var dataType = "json";
 

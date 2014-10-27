@@ -2,8 +2,6 @@
 <c:if test="${results_size != 0}">
 <div class="paging_pages">
 
-	<c:set var="url_base" value="/" />
-
 	<c:if test="${not empty paramValues}">
 		<c:if test="${param.categoryId ne null}">
 			<c:set var="url_base" value="${url_base}category/${param.categoryId}/" />

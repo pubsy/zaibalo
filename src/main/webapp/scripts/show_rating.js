@@ -48,7 +48,7 @@ function sendShowRatingRequest(type, id){
 				id		: id,
 			   	action	: 'show_rating'
 	   		}
-	   var url = "/action.do";
+	   var url = "action.do";
 	   var method = "POST";	
 	   var dataType = "json";
 

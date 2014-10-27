@@ -3,6 +3,7 @@
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="cat" uri="CategoryChecker" %>
 <%@taglib prefix="t" uri="Trimer" %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
@@ -34,7 +35,7 @@
 						</c:when>
 						<c:otherwise>
 							
-							<div class="new_message_write_a_message"><a href="/secure/dialog"><span class="glyphicon glyphicon-pencil"></span><zmt:message key="write_a_message" /></a></div>
+							<div class="new_message_write_a_message"><a href="secure/dialog"><span class="glyphicon glyphicon-pencil"></span><zmt:message key="write_a_message" /></a></div>
 						
 							<table id="mail">
 							  	<col width="5%">
@@ -46,10 +47,10 @@
 												<div class="comment_avatar">
 													<c:choose>
 														<c:when test="${discussion.author.id eq sessionScope.user.id}">
-																<img src='/image/<c:out value="${discussion.recipient.smallImgPath}" />' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
+																<img src='image/<c:out value="${discussion.recipient.smallImgPath}" />' alt='<c:out value="${discussion.recipient.displayName}"/>' width="24px" height="24px">
 														</c:when>
 														<c:otherwise>
-																<img src='/image/<c:out value="${discussion.author.smallImgPath}" />' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
+																<img src='image/<c:out value="${discussion.author.smallImgPath}" />' alt='<c:out value="${discussion.author.displayName}"/>' width="24px" height="24px">
 														</c:otherwise>
 													</c:choose>
 												</div>

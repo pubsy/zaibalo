@@ -8,7 +8,7 @@ $(document).ready(function() {
 			    timeZone : timeZone,
 			   	action	 : 'set_time_zone'
 	   		}
-	   var url = "/action.do";
+	   var url = "action.do";
 	   var method = "POST";	
 	   var dataType = "json";
 

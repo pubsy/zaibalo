@@ -3,13 +3,14 @@
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="cat" uri="CategoryChecker" %>
 <%@taglib prefix="t" uri="Trimer" %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:if test="${sessionScope.timeZone != null}">
-	<fmt:setTimeZone value="${sessionScope.timeZone}" />
+    <fmt:setTimeZone value="${sessionScope.timeZone}" />
 </c:if>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

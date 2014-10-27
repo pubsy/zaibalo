@@ -24,14 +24,14 @@
 		<div class="post_cat_rat">
 			<div class="post_rating">
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<img src="/img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
+					<img src="img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
 				</sec:authorize>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
 					(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
 				</span>
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<img src="/img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
+					<img src="img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
 				</sec:authorize>
 			</div>
 			<div>
@@ -50,7 +50,7 @@
 
 		<div class="post_author_info">
 			<div>
-				<img src="/image/${post.author.smallImgPath}" alt="${post.author.displayName}">
+				<img src="image/${post.author.smallImgPath}" alt="${post.author.displayName}">
 			</div>
 			<c:if test="${post.author.id != 2}">
 				<div>

@@ -2,7 +2,7 @@
 					<div id="header_menu">
 						<ul class="nav nav-pills">
 						
-							<li class="active"><a href="/"><span class="glyphicon glyphicon-home"></span><span class="hide-on-mobile"><zmt:message key="main" /></span></a></li>
+							<li class="active"><a href="${pageContext.request.contextPath}"><span class="glyphicon glyphicon-home"></span><span class="hide-on-mobile"><zmt:message key="main" /></span></a></li>
 
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -12,7 +12,7 @@
 									<c:forEach var="comment" items="${recentComments}">
 										<li class="recent_comment">
 											<a href='<c:url value="/user/${comment.author.id}" />'>
-											<img src="/image/${comment.author.smallImgPath}" width="16px" >
+											<img src="image/${comment.author.smallImgPath}" width="16px" >
 											<t:trimer text="${comment.author.displayName}" maxWords="12"/></a>
 											<zmt:message key="on" />
 											<a href="<c:url value="/post/${comment.post.id}" />"><t:trimer text="${comment.post.title}" maxWords="19"/></a>
@@ -37,7 +37,7 @@
 								</ul>
 							</li>
 							
-							<li><a href="/feed"><span class="rss-icon"></span><span class="hide-on-mobile">RSS</span></a></li>
+							<li><a href="feed"><span class="rss-icon"></span><span class="hide-on-mobile">RSS</span></a></li>
 							<sec:authorize access="isAuthenticated()">
 								<%@include file="login-status-dropdown.jsp" %>
 							</sec:authorize>
@@ -47,8 +47,8 @@
 						</ul>
 					</div>
 					<div id="header_banner">
-						<div id="vk_icon"><a target="_blank" href="http://vk.com/club10793353"><img src="/img/icons/vk.png" /></a></div>					
-						<div id="header_banner_image"><img src="/img/banners/banner.png"></div>
+						<div id="vk_icon"><a target="_blank" href="http://vk.com/club10793353"><img src="img/icons/vk.png" /></a></div>					
+						<div id="header_banner_image"><img src="img/banners/banner.png"></div>
 					</div>
 				</div>	
 						

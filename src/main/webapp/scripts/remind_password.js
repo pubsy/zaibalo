@@ -44,7 +44,7 @@ function sendForgotPasswordRequest(){
 			   	userName 	: $("#userName").val(),
 			   	action		: 'remind_password'
 	   		}
-	   var url = "/action.do";
+	   var url = "action.do";
 	   var method = "POST";	
 	   var dataType = "json";
 

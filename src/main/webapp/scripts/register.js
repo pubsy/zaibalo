@@ -46,7 +46,7 @@ function register(){
 	   			register_login	: $("#register_login").val(),
 	   			action			: 'register'
 	   		}
-	   var url = "/action.do";
+	   var url = "action.do";
 	   var method = "POST";	
 	   var dataType = "json";
 

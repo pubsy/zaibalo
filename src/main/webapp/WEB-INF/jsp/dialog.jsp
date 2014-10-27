@@ -3,6 +3,7 @@
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="cat" uri="CategoryChecker" %>
 <%@taglib prefix="t" uri="Trimer" %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
@@ -49,13 +50,13 @@
 					<br>
 					<div class="comment_style">
 						<div class="comment_avatar">
-							<img src="/image/${sessionScope.user.smallImgPath}" width="32">
+							<img src="image/${sessionScope.user.smallImgPath}" width="32">
 						</div>
 						<div class="comment_content">
 								<textarea placeholder="<zmt:message key="message_text_three_dots"/>" rows="1" id="text"></textarea>
 								<input type="button" onclick="javascript:sendMessage(); return;" value="<zmt:message key='send' />" style="float: right;">
 								<div id="loading_gif_${param.post_id}" class="add_comment_loading" style="display: none;">
-									<img src="/img/icons/loading.gif" />
+									<img src="img/icons/loading.gif" />
 								</div>
 						</div>
 						<div style="clear: both;"></div>

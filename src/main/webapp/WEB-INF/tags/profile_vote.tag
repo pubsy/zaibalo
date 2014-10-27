@@ -7,10 +7,10 @@
 <div class="vote">
 	<div class="vote_icon">
 		<c:if test="${rating.value == -1}">
-			<img src="/img/icons/rating_1_off.gif">
+			<img src="img/icons/rating_1_off.gif">
 		</c:if>
 		<c:if test="${rating.value == 1}">
-			<img src="/img/icons/rating_2_off.gif">
+			<img src="img/icons/rating_2_off.gif">
 		</c:if>
 	</div>
 	<div class="vote_text">

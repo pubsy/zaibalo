@@ -1,6 +1,6 @@
 	<div id="comment_${comment.id}" class="comment_style">
 		<div class="comment_avatar">
-			<img src="/image/${comment.author.smallImgPath}" width="32" alt="${comment.author.displayName}">
+			<img src="image/${comment.author.smallImgPath}" width="32" alt="${comment.author.displayName}">
 		</div>
 		
 		<div class="comment_content">
@@ -14,7 +14,7 @@
 				<c:if test="${sessionScope.user.id == comment.author.id}">
 					<div class="comment_operations">
 						<a href="javascript:editCommentShow(${comment.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
-						<a href="javascript:deleteComment(${comment.id})"><img src="/img/icons/x.png"></a>
+						<a href="javascript:deleteComment(${comment.id})"><img src="img/icons/x.png"></a>
 					</div>
 				</c:if>
 			</sec:authorize>
@@ -22,7 +22,7 @@
 			
 			<div class="comment_rating">
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<img src="/img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
+					<img src="img/icons/comment_down.png" class="rating-button" id="commentRatingDown_${comment.id}" onclick="javascript:rateComment(${comment.id}, '-1');">
 				</sec:authorize>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/>
@@ -30,7 +30,7 @@
 					(<span id="comment_rating_count_${comment.id}" class="rating_text">${comment.ratingCount}</span>)
 				</span>
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<img src="/img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
+					<img src="img/icons/comment_up.png" class="rating-button" id="commentRatingUp_${comment.id}" onclick="javascript:rateComment(${comment.id}, '1');">
 				</sec:authorize>
 			</div>
 			<div class="comment_date">

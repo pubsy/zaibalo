@@ -1,4 +1,4 @@
-	<c:set var="pre_order_url_base" value="/" />
+	<c:set var="pre_order_url_base" value="${url_base}" />
 	<c:set var="post_order_url_base" value="" />
 
 	<c:if test="${not empty param}">
@@ -24,7 +24,7 @@
 		</c:if>
 	</c:if>
 
-	<c:set var="pre_count_url_base" value="/" />
+	<c:set var="pre_count_url_base" value="${url_base}" />
 	<c:set var="post_count_url_base" value="" />
 
 	<c:if test="${not empty param}">

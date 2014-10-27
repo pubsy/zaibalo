@@ -3,6 +3,7 @@
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="cat" uri="CategoryChecker" %>
 <%@taglib prefix="t" uri="Trimer" %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
@@ -32,7 +33,7 @@
 					   			name="profileSettingsForm" id="profileSettingsForm">	
 					   			
 						<div class="profile_settings_section_title"><zmt:message key="change_picure"/></div>
-						<img src="/image/${sessionScope.user.bigImgPath}"/>
+						<img src="image/${sessionScope.user.bigImgPath}"/>
 						<div class="profile_settings_attributes">
 							<zmt:message key="upload_new_avatar"/>
 							<div class="setting_detail"><zmt:message key="upload_new_avatar_restrictions"/></div>

@@ -2,13 +2,13 @@
 				<div id="login_block">
 					<div id="login_status" class="sidebar_block_body">
 						<div class="login_avatar">
-							<img src="/image/${sessionScope.user.bigImgPath}">
+							<img src="image/${sessionScope.user.bigImgPath}">
 						</div>
 						<div class="login_text">
 							<a href='<c:url value="/user/${sessionScope.user.id}" />'><c:out value="${sessionScope.user.displayName}" /></a><br>
-							<a href="/secure/inbox"><zmt:message key="messages"/>${sessionScope.unreadMailCount}</a><br>
-							<a href="/secure/settings"><zmt:message key="profile_settings"/></a><br>
-							<a href="/logout"><zmt:message key="logout"/></a>
+							<a href="secure/inbox"><zmt:message key="messages"/>${sessionScope.unreadMailCount}</a><br>
+							<a href="secure/settings"><zmt:message key="profile_settings"/></a><br>
+							<a href="logout"><zmt:message key="logout"/></a>
 						</div>
 						<div style="clear:both;"></div>
 					</div>

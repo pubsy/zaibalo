@@ -3,6 +3,7 @@
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="cat" uri="CategoryChecker" %>
 <%@taglib prefix="t" uri="Trimer" %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
@@ -25,7 +26,7 @@
 				<%@ include file="banner.jsp"%>
 				<div class="content">
 					<div class="profile_user_name"><c:out value="${user.displayName}" /></div>
-					<div class="profile_user_avatar"><img src="/image/${user.bigImgPath}" /></div>
+					<div class="profile_user_avatar"><img src="image/${user.bigImgPath}" /></div>
 			
 					<div class="profile_info_entry">
 						<span class="profile_info_field"><zmt:message key="who_where"/></span> <span class="profile_info_value"><c:out value="${user.about}"/></span>
@@ -47,7 +48,7 @@
 					</div>
 					
 					<c:if test="${sessionScope.user != null}">
-						<a href="/secure/dialog?to=${user.displayName}"><zmt:message key="write_a_message_to_user" /></a>
+						<a href="secure/dialog?to=${user.displayName}"><zmt:message key="write_a_message_to_user" /></a>
 					</c:if>
 					<br><br>
 					<div id="profile_entries">

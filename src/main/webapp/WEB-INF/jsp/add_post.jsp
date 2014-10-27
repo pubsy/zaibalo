@@ -17,7 +17,7 @@
 				<input type="text" id="tags_input" placeholder='<zmt:message key="write_tags_separated"/>' />
 				<div id="apButton" >
 					<input type="button" id="addPostButton" value='<zmt:message key="send"/>' onclick="add_post();" />
-					<span id="loadingScreen"><img src="/img/icons/loading.gif" /></span>
+					<span id="loadingScreen"><img src="img/icons/loading.gif" /></span>
 				</div>
 			</div>
 			

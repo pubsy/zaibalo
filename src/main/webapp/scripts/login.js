@@ -16,7 +16,7 @@ function login() {
 		   password: document.getElementById("password").value,
 		   remember: document.getElementById("remember").checked
    }
-   var url = "/action.do";
+   var url = "action.do";
    var method = "POST";	
    var dataType = "json";
 
