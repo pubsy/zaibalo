@@ -5,7 +5,6 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<import resource="classpath:/zaibalo-core-context.xml" />
-    <import resource="classpath:/zaibalo-security.xml" />
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
@@ -42,6 +41,10 @@
 	<bean id="ua.com.zaibalo.email.SendEmailService" class="ua.com.zaibalo.email.impl.SendEmailServiceImpl" />
 
 	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/secure/**" />
+			<bean class="ua.com.zaibalo.filters.SecurityFilter" />
+		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<bean class="ua.com.zaibalo.filters.EncodingFilter" />

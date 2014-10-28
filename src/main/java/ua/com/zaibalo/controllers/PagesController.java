@@ -13,7 +13,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +29,7 @@ import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.Discussion;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.security.Secured;
 import ua.com.zaibalo.servlets.pages.SinglePostServlet;
 import ua.com.zaibalo.servlets.pages.UpdateProfileRedirect;
 import ua.com.zaibalo.servlets.pages.UserProfileServlet;
@@ -68,7 +68,7 @@ public class PagesController {
 		return userProfileServlet.getUser(userId);
 	}
 
-	@PreAuthorize("isAuthenticated()")
+	@Secured
 	@RequestMapping(value = { "/secure/settings" }, method = {RequestMethod.GET})
 	public String profileSettings(HttpServletRequest request) {
 		request.setAttribute("pageTitle",
@@ -78,6 +78,7 @@ public class PagesController {
 		return "profile_settings";
 	}
 
+	@Secured
 	@RequestMapping(value = { "/secure/settings" }, method = RequestMethod.POST)
 	public String updateProfile(HttpServletRequest request) throws ServletException, FileUploadException, IOException {
 		if (!ServletFileUpload.isMultipartContent(request)) {

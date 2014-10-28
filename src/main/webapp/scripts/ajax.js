@@ -19,4 +19,5 @@ function sendJQueryAjaxRequest(url, type, params, successMethod, dataType, conte
 		console.log("ERROR: %s", textStatus);
 		showMessageDialog({title: jqXHR.status, message: "HTTP error. Status: " + textStatus});
 	});
+
 }

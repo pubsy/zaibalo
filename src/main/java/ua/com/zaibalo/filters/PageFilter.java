@@ -18,8 +18,8 @@ public class PageFilter implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object object) throws Exception {
-		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-		pageFilterBusinessLogic.prePage(request, loggedInUserName);
+		//String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		pageFilterBusinessLogic.prePage(request, null);
 		
 		return true;
 	}
