@@ -1,4 +1,4 @@
-package ua.com.zaibalo.filters;
+package ua.com.zaibalo.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +8,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
-import ua.com.zaibalo.security.Secured;
 
 public class SecurityFilter  implements HandlerInterceptor {
 

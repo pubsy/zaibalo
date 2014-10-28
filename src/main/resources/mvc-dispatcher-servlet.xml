@@ -43,7 +43,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/secure/**" />
-			<bean class="ua.com.zaibalo.filters.SecurityFilter" />
+			<bean class="ua.com.zaibalo.security.SecurityFilter" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />

@@ -28,7 +28,7 @@
 				<%@ include file="banner.jsp"%>
 				<div class="content">
 					<div class="centered login-form">
-						<form role="form" action="<c:url value='j_spring_security_check' />" method="POST">
+						<form role="form" action="<c:url value='authenticate' />" method="POST">
 				            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
 							      <div class="login-error">
 							        <zmt:message key="login_unsuccessful_due_to"/>
