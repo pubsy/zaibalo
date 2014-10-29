@@ -7,11 +7,11 @@
 	<div class="post_header">
 		<div class="post_header_title">
 			<a href='<c:url value="/post/${post.id}" />'><c:out value="${post.title}"/></a>
-			<sec:authorize access="hasRole('ROLE_USER')">
+			<security:check>
 				<c:if test="${sessionScope.user.id == post.author.id}">
 					<a href="javascript:editPostShow(${post.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
 				</c:if>
-			</sec:authorize>
+			</security:check>
 		</div>
 		<div class="post_header_date">
 			<fmt:formatDate type="date" dateStyle="SHORT" value="${post.date}" />
@@ -23,16 +23,16 @@
 		<div class="post_content_text"><xe:escape text="${post.content}" /></div>
 		<div class="post_cat_rat">
 			<div class="post_rating">
-				<sec:authorize access="hasRole('ROLE_USER')">
+				<security:check>
 					<img src="img/icons/rating_1_off.gif" id="ratingDown_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'down');">
-				</sec:authorize>
+				</security:check>
 				<span class="rating-text">
 					<zmt:message key="rating_colon"/> <span id="rating_sum_${post.id}" class="rating_sum">${post.ratingSum}</span> 
 					(<span id="rating_count_${post.id}">${post.ratingCount}</span>)
 				</span>
-				<sec:authorize access="hasRole('ROLE_USER')">
+				<security:check>
 					<img src="img/icons/rating_2_off.gif" id="ratingUp_${post.id}" class="rating-button" onclick="javascript:ratePost(${post.id}, 'up');">
-				</sec:authorize>
+				</security:check>
 			</div>
 			<div>
 				<zmt:message key="categories_colon"/>
@@ -43,9 +43,9 @@
 					</c:forEach>
 				</span>
 			</div>
-			<sec:authorize access="hasRole('ROLE_USER')">
+			<security:check>
 				<span id="remove_post_${post.id}"><a href="javascript:removePost(${post.id});"><zmt:message key="delete"/></a></span>
-			</sec:authorize>
+			</security:check>
 		</div>
 
 		<div class="post_author_info">

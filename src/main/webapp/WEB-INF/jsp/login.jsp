@@ -44,7 +44,7 @@
 								<input type="password" class="form-control"	name="password" id="password"placeholder='<zmt:message key="password_colon"/>'>
 							</div>
 							<div class="checkbox">
-								<label> <input type="checkbox" name="_spring_security_remember_me" ><zmt:message key="remember_me"/></label>
+								<label> <input type="checkbox" name="remember_me" ><zmt:message key="remember_me"/></label>
 							</div>
 							<button type="submit" class="btn btn-custom btn-lg btn-block" id="submit-btn"><zmt:message key="login"/></button>
 				        </form>

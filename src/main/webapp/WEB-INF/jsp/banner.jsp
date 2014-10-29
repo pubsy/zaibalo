@@ -38,9 +38,9 @@
 							</li>
 							
 							<li><a href="feed"><span class="rss-icon"></span><span class="hide-on-mobile">RSS</span></a></li>
-							<sec:authorize access="isAuthenticated()">
+							<security:check>
 								<%@include file="login-status-dropdown.jsp" %>
-							</sec:authorize>
+							</security:check>
 							<sec:authorize access="isAnonymous()">
 								<%@include file="login-dropdown.jsp" %>
 							</sec:authorize>

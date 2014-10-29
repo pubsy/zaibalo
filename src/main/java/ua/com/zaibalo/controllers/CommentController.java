@@ -2,6 +2,8 @@ package ua.com.zaibalo.controllers;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.zaibalo.business.CommentsBusinessLogic;
 import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.business.UsersBusinessLogic;
+import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
@@ -44,8 +47,8 @@ public class CommentController {
     
 	@RequestMapping(value = "/comment", method = RequestMethod.POST)
 	@ResponseBody
-	public Comment addComment(@RequestParam Integer postId, @RequestParam String content, Principal principal) {
-		User user = usersBusinessLogic.getUserByLoginName(principal.getName());
+	public Comment addComment(@RequestParam Integer postId, @RequestParam String content, HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		Post post = postsBusinessLogic.getPostById(postId);
 		
 		return commentsBusinessLogic.saveComment(user, post, content);

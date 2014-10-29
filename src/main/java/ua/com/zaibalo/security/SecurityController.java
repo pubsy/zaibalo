@@ -34,7 +34,7 @@ public class SecurityController {
     public String authenticate(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String rememberMe = request.getParameter("_spring_security_remember_me");
+        String rememberMe = request.getParameter("remember_me");
         
         if(StringHelper.isBlank(username) || StringHelper.isBlank(password)){
             return "redirect:/login";

@@ -1,5 +1,5 @@
 
-		<sec:authorize access="hasRole('ROLE_USER')">
+		<security:check>
 			<div class="comment_style">
 				<a href="javascript:showAddCommentField('${post.id}');" id='add_comment_text_${post.id}'><zmt:message key="comment_this"/></a>
 				<div id='add_comment_${post.id}' style='display: none;'>
@@ -15,4 +15,4 @@
 					<div style="clear: both;"></div>
 				</div>
 			</div>
-		</sec:authorize>
+		</security:check>
