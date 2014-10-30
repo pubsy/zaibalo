@@ -69,7 +69,7 @@ public class PagesController {
 	}
 
 	@Secured
-	@RequestMapping(value = { "/secure/settings" }, method = {RequestMethod.GET})
+	@RequestMapping(value = { "/secure/settings" }, method = {RequestMethod.GET}, produces = "text/html; charset=UTF-8")
 	public String profileSettings(HttpServletRequest request) {
 		request.setAttribute("pageTitle",
 				StringHelper.getLocalString("zaibalo_blog") + " " +
@@ -132,7 +132,8 @@ public class PagesController {
 		return ajaxResponse;
 	}
 
-	@RequestMapping(value = {"/secure/action.do"}, method = RequestMethod.POST, produces="application/json")
+	@Secured
+	@RequestMapping(value = {"/secure/action.do"}, method = RequestMethod.POST, produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public AjaxResponse secureAction(HttpServletRequest request, HttpServletResponse response) {
 		return authorisedActionServlet.doPost(request, response);

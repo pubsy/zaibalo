@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import ua.com.zaibalo.constants.ZaibaloConstants;
+import ua.com.zaibalo.exceptions.RedirectToErrorPageExceptions;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.model.User;
 
@@ -17,7 +18,7 @@ public class ErrorController {
 
 	private final static Logger LOGGER = Logger.getLogger(ErrorController.class);
 	
-	//@ExceptionHandler({RuntimeException.class})
+	@ExceptionHandler({RedirectToErrorPageExceptions.class})
 	public String handleError(HttpServletRequest request, Exception exception) {
 		LOGGER.error("Request: " + request.getRequestURL() + ((request.getQueryString() == null) ? "" : "?" + request.getQueryString()));
 		LOGGER.error("From IP: " + ServletHelperService.getClientIpAddr(request));
@@ -43,4 +44,5 @@ public class ErrorController {
 		
 		return "error/error";
 	}
+	
 }

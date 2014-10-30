@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,10 @@ public class SecurityControllerTest {
     public static final MediaType APPLICATION_HTML_UTF8 = new MediaType(
         MediaType.TEXT_HTML.getType(),
         MediaType.TEXT_HTML.getSubtype(), Charset.forName("utf8"));
+
+    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
+        MediaType.APPLICATION_JSON.getType(),
+        MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
     
     @Autowired
     private UsersDAO usersDAO;
@@ -155,6 +160,7 @@ public class SecurityControllerTest {
                 .param("categories", "Test")
                 .param("action", "save_post")
                 .body("".getBytes()))
+                .andExpect(content().mimeType(APPLICATION_JSON_UTF8))
                 .andExpect(content().string("{\"object\":\"\",\"status\":\"success\"}"))
                 .andExpect(status().is(200));
     }
@@ -171,6 +177,21 @@ public class SecurityControllerTest {
                 .andExpect(content().string(""))
                 .andExpect(status().isUnauthorized());
     }
-    
+
+    @Test
+    public void testCommentCreationSecured() throws IOException, Exception{
+        mockMvc.perform(post("/secure/comment")
+                .contentType(APPLICATION_JSON_UTF8)
+                .param("postId", "1")
+                .param("content", "Comment text")
+                .body("".getBytes()))
+                .andExpect(content().string(""))
+                .andExpect(status().isUnauthorized());
+    }
+
+    public byte[] convertObjectToJsonBytes(Object object) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsBytes(object);
+    }
 
 }

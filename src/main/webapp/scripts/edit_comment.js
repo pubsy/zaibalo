@@ -68,7 +68,7 @@ function updateComment() {
 		$("#edit_comment_dialog").dialog("close");
 	}
 
-	var url = "/secure/comment/" + commentId;
+	var url = "secure/comment/" + commentId;
 	var method = "POST";
 	var params = {content: commentText}
 	var dataType = "json";

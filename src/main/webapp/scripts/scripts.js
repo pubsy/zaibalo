@@ -54,7 +54,7 @@ function addComment(postId){
 		
 	$('#loading_gif_' + + postId).show("slow");
 	
-	var url = "/secure/comment";
+	var url = "secure/comment";
 	var method = "POST";
 	var params = {
 			postId: postId,
@@ -151,7 +151,7 @@ function deleteComment(id){
 				showMessageDialog({title: "Хай йому грець!", message: obj.message});
 			}
 	}
-	var url = "/secure/comment/" + id;
+	var url = "secure/comment/" + id;
 	var method = "DELETE";
 	var params = {}
 	var dataType = "json";

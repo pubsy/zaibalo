@@ -21,6 +21,7 @@ import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.security.Secured;
 
 @Controller
 @RequestMapping("/secure")
@@ -43,7 +44,8 @@ public class CommentController {
 		return new ResponseEntity<String>("{\"status\":\"success\"}", HttpStatus.OK);
     }
     
-	@RequestMapping(value = "/comment", method = RequestMethod.POST)
+    @Secured
+	@RequestMapping(value = "/comment", method = RequestMethod.POST, produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public Comment addComment(@RequestParam Integer postId, @RequestParam String content, HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);

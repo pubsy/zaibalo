@@ -17,7 +17,11 @@ function sendJQueryAjaxRequest(url, type, params, successMethod, dataType, conte
 
 	request.fail(function(jqXHR, textStatus) {
 		console.log("ERROR: %s", textStatus);
-		showMessageDialog({title: jqXHR.status, message: "HTTP error. Status: " + textStatus});
+		if(jqXHR.status == 401){
+			showMessageDialog({title: jqXHR.status, message: "Please log in"});
+		}else{
+			showMessageDialog({title: jqXHR.status, message: "HTTP error. Status: " + textStatus});
+		}
 	});
 
 }
