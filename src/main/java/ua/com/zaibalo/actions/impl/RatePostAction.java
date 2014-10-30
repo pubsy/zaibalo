@@ -32,7 +32,7 @@ public class RatePostAction implements Action {
 	private PostRatingsDAO postRatingsDAO;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		
 		String action = request.getParameter("how");
 		int value;

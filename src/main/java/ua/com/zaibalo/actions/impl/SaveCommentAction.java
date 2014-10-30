@@ -1,7 +1,9 @@
 package ua.com.zaibalo.actions.impl;
 
+import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +36,7 @@ public class SaveCommentAction implements Action{
 	private CommentsDAO commentsDAO;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 
 		String pIDVal = (String) request.getParameter(POST_ID_PARAM_NAME);
 		int postId = Integer.parseInt(pIDVal);
@@ -70,7 +72,13 @@ public class SaveCommentAction implements Action{
 		request.setAttribute("comment", comment);
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/WEB-INF/jsp/comment_wrapper.jsp").forward(request, customResponse);
+	    try {
+			request.getRequestDispatcher("/WEB-INF/jsp/comment_wrapper.jsp").forward(request, customResponse);
+		} catch (ServletException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	    
 	    return new SuccessResponse(customResponse.getOutput());
 	}

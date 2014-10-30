@@ -20,7 +20,7 @@ public abstract class AbstractAction {
 	protected abstract Action getActionByName(String actionName);
 
 	@Transactional(propagation=Propagation.REQUIRED)
-	public AjaxResponse doPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse doPost(HttpServletRequest request, HttpServletResponse response) {
 		String actionName = request.getParameter(ACTION_PARAMETER);
 		
 		AjaxResponse ajaxResponse;

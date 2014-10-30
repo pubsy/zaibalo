@@ -30,7 +30,7 @@ public class RegisterAction  implements Action{
 	private SendEmailService sendEmailService;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		
 		final String email = request.getParameter("email");
 		final String login = request.getParameter("register_login");

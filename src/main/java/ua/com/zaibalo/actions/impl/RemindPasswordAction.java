@@ -1,9 +1,5 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.io.IOException;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,7 +26,7 @@ public class RemindPasswordAction implements Action {
 	private SendEmailService sendEmailService;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws IOException, AddressException, MessagingException {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		String userName = request.getParameter("userName");
 
 		final User user = usersDAO.getUserByLoginName(userName);

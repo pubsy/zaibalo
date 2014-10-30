@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -17,8 +16,8 @@ import ua.com.zaibalo.model.User;
 public class ErrorController {
 
 	private final static Logger LOGGER = Logger.getLogger(ErrorController.class);
-
-	@ExceptionHandler({RuntimeException.class})
+	
+	//@ExceptionHandler({RuntimeException.class})
 	public String handleError(HttpServletRequest request, Exception exception) {
 		LOGGER.error("Request: " + request.getRequestURL() + ((request.getQueryString() == null) ? "" : "?" + request.getQueryString()));
 		LOGGER.error("From IP: " + ServletHelperService.getClientIpAddr(request));
@@ -44,11 +43,4 @@ public class ErrorController {
 		
 		return "error/error";
 	}
-	
-	@ExceptionHandler({AuthenticationException.class})
-	public String handleAuthError(HttpServletRequest request, Exception exception) {
-		System.out.println("auth");
-		return null;
-	}
-
 }

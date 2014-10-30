@@ -7,5 +7,5 @@ import ua.com.zaibalo.helper.ajax.AjaxResponse;
 
 public interface Action {
 	
-	public abstract AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public abstract AjaxResponse run(HttpServletRequest request, HttpServletResponse response);
 }

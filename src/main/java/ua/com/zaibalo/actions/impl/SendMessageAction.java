@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,7 +41,7 @@ public class SendMessageAction implements Action {
 
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		User sender = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		
 		if(sender.isGuest()){
@@ -105,13 +104,18 @@ public class SendMessageAction implements Action {
 		}
 
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/WEB-INF/jsp/messagesBlock.jsp").forward(request, customResponse);
+	    try {
+			request.getRequestDispatcher("/WEB-INF/jsp/messagesBlock.jsp").forward(request, customResponse);
+		} catch (ServletException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	    
 	    return new SuccessResponse(customResponse.getOutput());
 	}
 
-	private void sendNotification(HttpServletRequest request, String text, String recipientEmail, String senderName)
-			throws IOException, AddressException, MessagingException, Exception {
+	private void sendNotification(HttpServletRequest request, String text, String recipientEmail, String senderName) {
 		
 		PrivateMessageNotificationMessage message = new PrivateMessageNotificationMessage(recipientEmail);
 		message.setSenderName(senderName);

@@ -1,8 +1,10 @@
 package ua.com.zaibalo.actions.impl;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +33,7 @@ public class EditPostAction implements Action {
 	private CategoriesDAO categoriesDAO;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		
 		String title = request.getParameter("post_title");
 		String text = request.getParameter("post_text");
@@ -90,7 +92,13 @@ public class EditPostAction implements Action {
 		request.setAttribute("post", post);
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
-	    request.getRequestDispatcher("/WEB-INF/jsp/post_wrapper.jsp").forward(request, customResponse);
+	    try {
+			request.getRequestDispatcher("/WEB-INF/jsp/post_wrapper.jsp").forward(request, customResponse);
+		} catch (ServletException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	    Object postHTML = customResponse.getOutput();
 		
 	    return new SuccessResponse(postHTML);

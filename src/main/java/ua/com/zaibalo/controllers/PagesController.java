@@ -101,12 +101,14 @@ public class PagesController {
 		return profileSettings(request);
 	}
 
+	@Secured
 	@RequestMapping(value = { "/secure/inbox.do", "/secure/inbox" }, method = RequestMethod.GET)
 	public ModelAndView inbox(HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		return inboxPage.run(user);
 	}
 
+	@Secured
 	@RequestMapping(value = { "/secure/dialog/{discussionId}" }, method = RequestMethod.GET)
 	public ModelAndView dialogPath(@PathVariable Integer discussionId,
 			HttpServletRequest request) throws IOException, ServletException {
@@ -130,18 +132,10 @@ public class PagesController {
 		return ajaxResponse;
 	}
 
-	@RequestMapping(value = {"/secure/action.do"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/secure/action.do"}, method = RequestMethod.POST, produces="application/json")
 	@ResponseBody
-	public AjaxResponse secureAction(HttpServletRequest request,
-			HttpServletResponse response) {
-		AjaxResponse ajaxResponse = null;
-		try {
-			ajaxResponse = authorisedActionServlet.doPost(request, response);
-		} catch (Exception e) {
-			LOGGER.error("Secure Action Exception", e);
-			ajaxResponse = new FailResponse(e.getMessage());
-		}
-		return ajaxResponse;
+	public AjaxResponse secureAction(HttpServletRequest request, HttpServletResponse response) {
+		return authorisedActionServlet.doPost(request, response);
 	}
 
 }

@@ -26,7 +26,7 @@ public class DeletePostAction implements Action{
 	private PostsDAO postsDAO;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		String postIdParamValue = request.getParameter("postId");
 		int postId = Integer.parseInt(postIdParamValue);
 

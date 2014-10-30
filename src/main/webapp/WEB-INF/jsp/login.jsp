@@ -8,7 +8,6 @@
 <%@taglib prefix="cat" uri="CategoryChecker" %>
 <%@taglib prefix="t" uri="Trimer" %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:if test="${sessionScope.timeZone != null}">
 	<fmt:setTimeZone value="${sessionScope.timeZone}" />

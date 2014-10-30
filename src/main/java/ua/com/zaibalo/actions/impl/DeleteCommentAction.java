@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.constants.ZaibaloConstants;
@@ -25,7 +24,7 @@ public class DeleteCommentAction implements Action{
 
     @Override
     @Deprecated
-    public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
         String commentIdParamValue = request.getParameter("commentId");
         int commentId = Integer.parseInt(commentIdParamValue);
         

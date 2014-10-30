@@ -2,9 +2,12 @@ package ua.com.zaibalo.security;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.springframework.test.web.server.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.view;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -37,7 +40,7 @@ import ua.com.zaibalo.model.User.Role;
 @ContextConfiguration(locations = "classpath:test-context.xml")
 public class SecurityControllerTest {
     
-    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
+    public static final MediaType APPLICATION_HTML_UTF8 = new MediaType(
         MediaType.TEXT_HTML.getType(),
         MediaType.TEXT_HTML.getSubtype(), Charset.forName("utf8"));
     
@@ -48,12 +51,14 @@ public class SecurityControllerTest {
     private WebApplicationContext wac;
     
     private MockMvc mockMvc;
-
+    
+    private User author;
+    
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webApplicationContextSetup(this.wac).build();
         
-        User author = new User();
+        author = new User();
         author.setPassword(MD5Helper.getMD5Of("1234"));
         author.setToken("blablabla");
         author.setEmail("aaa@aaa.com");
@@ -66,7 +71,7 @@ public class SecurityControllerTest {
     @Test
     public void testLoginSuccess() throws IOException, Exception{
         ResultActions resultActions = mockMvc.perform(post("/authenticate")
-                .contentType(APPLICATION_JSON_UTF8)
+                .contentType(APPLICATION_HTML_UTF8)
                 .param("username", "LoginName")
                 .param("password", "1234")
                 .body("".getBytes()))
@@ -80,7 +85,7 @@ public class SecurityControllerTest {
     @Test
     public void testLoginWithouUsernamePassword() throws IOException, Exception{
         ResultActions resultActions = mockMvc.perform(post("/authenticate")
-                .contentType(APPLICATION_JSON_UTF8)
+                .contentType(APPLICATION_HTML_UTF8)
                 .body("".getBytes()))
                 .andExpect(status().is(302))
                 .andExpect(redirectedUrl("/login"));
@@ -93,7 +98,7 @@ public class SecurityControllerTest {
     @Test
     public void testLoginFailWithWrongPassword() throws IOException, Exception{
         ResultActions resultActions = mockMvc.perform(post("/authenticate")
-                .contentType(APPLICATION_JSON_UTF8)
+                .contentType(APPLICATION_HTML_UTF8)
                 .param("username", "LoginName")
                 .param("password", "WrongPasswod")
                 .body("".getBytes()))
@@ -102,4 +107,70 @@ public class SecurityControllerTest {
         HttpSession session = resultActions.andReturn().getRequest().getSession();
         assertNull(session.getAttribute(ZaibaloConstants.USER_PARAM_NAME));
     }
+    
+    @Test
+    public void testSettingsPageRedirectsToLoginPageWhenNotAuthenticated() throws IOException, Exception{
+        mockMvc.perform(get("/secure/settings")
+                .contentType(APPLICATION_HTML_UTF8)
+                .body("".getBytes()))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrl("/login"));
+    }
+    
+    @Test
+    public void testSettingsPageAccesedWhenAuthenticated() throws IOException, Exception{
+        mockMvc.perform(get("/secure/settings")
+        		.sessionAttr("user", author)
+                .contentType(APPLICATION_HTML_UTF8)
+                .body("".getBytes()))
+                .andExpect(status().is(200))
+                .andExpect(view().name("profile_settings"));
+    }
+    
+    @Test
+    public void testInboxPageRedirectsToLoginPageWhenNotAuthenticated() throws IOException, Exception{
+        mockMvc.perform(get("/secure/inbox")
+                .contentType(APPLICATION_HTML_UTF8)
+                .body("".getBytes()))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrl("/login"));
+    }
+    
+    @Test
+    public void testDialogPageRedirectsToLoginPageWhenNotAuthenticated() throws IOException, Exception{
+        mockMvc.perform(get("/secure/dialog/1")
+                .contentType(APPLICATION_HTML_UTF8)
+                .body("".getBytes()))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrl("/login"));
+    }
+    
+    @Test
+    public void testSecureActionSuccessWhenNotAuthenticated() throws IOException, Exception{
+        mockMvc.perform(post("/secure/action.do")
+                .contentType(APPLICATION_HTML_UTF8)
+                .sessionAttr("user", author)
+                .param("post_title", "ttt")
+                .param("post_text", "ccc")
+                .param("categories", "Test")
+                .param("action", "save_post")
+                .body("".getBytes()))
+                .andExpect(content().string("{\"object\":\"\",\"status\":\"success\"}"))
+                .andExpect(status().is(200));
+    }
+    
+    @Test
+    public void testSecureActionFailWhenNotAuthenticated() throws IOException, Exception{
+        mockMvc.perform(post("/secure/action.do")
+                .contentType(APPLICATION_HTML_UTF8)
+                .param("post_title", "ttt")
+                .param("post_text", "ccc")
+                .param("categories", "Test")
+                .param("action", "save_post")
+                .body("".getBytes()))
+                .andExpect(content().string(""))
+                .andExpect(status().isUnauthorized());
+    }
+    
+
 }

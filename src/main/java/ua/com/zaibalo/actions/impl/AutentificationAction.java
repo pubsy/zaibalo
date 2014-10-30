@@ -1,5 +1,6 @@
 package ua.com.zaibalo.actions.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import javax.servlet.http.Cookie;
@@ -38,7 +39,7 @@ public class AutentificationAction implements Action{
 	private UserDetailDAO userDetailDAO;
 
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
@@ -67,7 +68,13 @@ public class AutentificationAction implements Action{
 			servletHelperService.updateUnreadMessagesStatus(request);
 			
 			String value = user.getLoginName() + ":" + user.getToken();
-			Cookie cookie = new Cookie(ZaibaloConstants.USER_NAME_TOKEN, URLEncoder.encode(value, "UTF-8"));
+			String encode;
+			try {
+				encode = URLEncoder.encode(value, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+			Cookie cookie = new Cookie(ZaibaloConstants.USER_NAME_TOKEN, encode);
 			cookie.setMaxAge(90*24*60*60);
 			response.addCookie(cookie);
 			

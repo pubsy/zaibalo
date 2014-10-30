@@ -16,7 +16,7 @@ public class SetTimeZoneAction implements Action {
 
 	@Override
 	public AjaxResponse run(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response) {
 		DecimalFormat format = new DecimalFormat();
 		format.setDecimalSeparatorAlwaysShown(false);
 

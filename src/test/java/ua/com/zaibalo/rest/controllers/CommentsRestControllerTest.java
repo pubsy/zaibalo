@@ -20,12 +20,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -58,8 +52,6 @@ public class CommentsRestControllerTest {
 	@Autowired
 	private CommentsBusinessLogic commentsBusinessLogic;
 
-	@Autowired
-    private FilterChainProxy springSecurityFilterChain;
     @Autowired
     private WebApplicationContext wac;
 
@@ -68,7 +60,7 @@ public class CommentsRestControllerTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webApplicationContextSetup(this.wac)
-            .addFilters(this.springSecurityFilterChain).build();
+            .build();
     }
     
     @Test
@@ -155,7 +147,7 @@ public class CommentsRestControllerTest {
 		CommentsServiceRequest request = new CommentsServiceRequest();
 		request.setContent("comment text test 4563x");
 		
-		auth("LoginName", "1234", "ROLE_USER");
+//		auth("LoginName", "1234", "ROLE_USER");
 		
 		mockMvc.perform(put("/api/comments/" + saveComment.getId())
 				.contentType(APPLICATION_JSON_UTF8)
@@ -172,12 +164,4 @@ public class CommentsRestControllerTest {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsBytes(object);
 	}
-	
-	private void auth(String userName, String password, String role){
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new GrantedAuthorityImpl(role));
-        Authentication authToken = new UsernamePasswordAuthenticationToken (userName, password, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-	}
-
 }

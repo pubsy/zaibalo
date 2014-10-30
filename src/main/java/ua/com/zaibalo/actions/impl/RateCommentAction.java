@@ -29,7 +29,7 @@ public class RateCommentAction implements Action{
 	private CommentRatingsDAO commentRatingsDAO;
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		
 		String valueStr = request.getParameter("how");
 		

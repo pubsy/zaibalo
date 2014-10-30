@@ -1,7 +1,9 @@
 package ua.com.zaibalo.actions.impl;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +41,7 @@ public class ShowRatingAction implements Action {
 	
 	
 	@Override
-	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
 		String typeParam = request.getParameter("type");
 		String idParam = request.getParameter("id");
 		
@@ -52,14 +54,26 @@ public class ShowRatingAction implements Action {
 			
 			request.setAttribute("postRatings", postRatings);
 			
-			request.getRequestDispatcher("/WEB-INF/jsp/post_ratings.jsp").forward(request, customResponse);
+			try {
+				request.getRequestDispatcher("/WEB-INF/jsp/post_ratings.jsp").forward(request, customResponse);
+			} catch (ServletException e) {
+				throw new RuntimeException();
+			} catch (IOException e) {
+				throw new RuntimeException();
+			}
 		}else if("comment".equals(typeParam)){
 			Comment comment = commentssDAO.getObjectById(id);
 			List<CommentRating> commentRatings = commentRatingsDAO.getUserCommentRatings(comment);
 			
 			request.setAttribute("commentRatings", commentRatings);
 			
-			request.getRequestDispatcher("/WEB-INF/jsp/comment_ratings.jsp").forward(request, customResponse);
+			try {
+				request.getRequestDispatcher("/WEB-INF/jsp/comment_ratings.jsp").forward(request, customResponse);
+			} catch (ServletException e) {
+				throw new RuntimeException();
+			} catch (IOException e) {
+				throw new RuntimeException();
+			}
 		}
 		
 	    
