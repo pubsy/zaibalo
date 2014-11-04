@@ -1,12 +1,8 @@
 package ua.com.zaibalo.controllers;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +14,8 @@ import ua.com.zaibalo.business.CommentsBusinessLogic;
 import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.business.UsersBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
+import ua.com.zaibalo.helper.ajax.AjaxResponse;
+import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
@@ -34,14 +32,16 @@ public class CommentController {
     @Autowired
     private PostsBusinessLogic postsBusinessLogic;
     
-    @RequestMapping(value = "/comment/{commentId}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteComment(@PathVariable Integer commentId, Principal principal) {
-        User user = usersBusinessLogic.getUserByLoginName(principal.getName());
+    @Secured
+    @RequestMapping(value = "/comment/{commentId}", method = RequestMethod.DELETE, produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public AjaxResponse deleteComment(@PathVariable Integer commentId, HttpServletRequest request) {
+    	User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
         Comment comment = commentsBusinessLogic.getCommentById(commentId);
         
         commentsBusinessLogic.deleteComment(comment, user);
         
-		return new ResponseEntity<String>("{\"status\":\"success\"}", HttpStatus.OK);
+		return new SuccessResponse();
     }
     
     @Secured
@@ -56,8 +56,8 @@ public class CommentController {
 	
 	@RequestMapping(value = "/comment/{commentId}", method = RequestMethod.POST)
 	@ResponseBody
-	public Comment updateComment(@PathVariable Integer commentId, @RequestParam String content, Principal principal) {
-		User user = usersBusinessLogic.getUserByLoginName(principal.getName());
+	public Comment updateComment(@PathVariable Integer commentId, @RequestParam String content, HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		Comment comment = commentsBusinessLogic.getCommentById(commentId);
 		
 		return commentsBusinessLogic.updateComment(user, comment, content);

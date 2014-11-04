@@ -1,27 +1,3 @@
-function login() {
-   var s = function sendLoginRequestSuccess(response){
-
-	   if(response.status =="fail"){
-		   showMessageDialog({title: "Помилка!", message: response.message});
-		   $("password").val("");
-		   return;
-	   }else if(response.status =="success"){
-		   document.location.reload(true);
-	   }
-   }
-
-   var params = {
-		   action: "authenticate", 
-		   name: document.getElementById("name").value,
-		   password: document.getElementById("password").value,
-		   remember: document.getElementById("remember").checked
-   }
-   var url = "action.do";
-   var method = "POST";	
-   var dataType = "json";
-
-   sendJQueryAjaxRequest(url, method, params, s, dataType);
-}
 
 function showLoginForm(){
 	if(document.getElementById("login_form").style.display == "none"){

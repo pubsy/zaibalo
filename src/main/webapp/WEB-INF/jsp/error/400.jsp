@@ -1,4 +1,4 @@
-<%@page import="java.util.*, ua.com.zaibalo.model.*" contentType="text/html; charset=UTF-8" isErrorPage="true" %>
+<%@page import="java.util.*, ua.com.zaibalo.model.*" contentType="text/html; charset=UTF-8" %>
 
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="security" uri="Security" %>
@@ -13,6 +13,7 @@
 <c:set var="uri" value="${req.requestURI}" />
 <c:set var="url_base" value="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/" />
 
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
@@ -24,9 +25,9 @@
 			<div id="right_body">
 				<%@ include file="../banner.jsp"%>
 				<div class="content">
-					<H2><zmt:message key="error_colon" /><%=exception.getMessage()%></H2>
+					<H2><zmt:message key="error_colon" /><zmt:message key="bad_request" /></H2>
 					<br>
-					<a href='<c:url value="/" />'><zmt:message key="go_to_main_page" /></a>
+					<a href='<c:url value="/" />'>Go to main page</a>
 				</div>
 			</div>
 		</div>

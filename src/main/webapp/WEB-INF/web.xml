@@ -49,7 +49,17 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	</servlet-mapping>
 
 	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
+		<exception-type>java.lang.RuntimeException</exception-type>
 		<location>/error</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>400</error-code>
+		<location>/400</location>
 	</error-page>
 </web-app>

@@ -123,10 +123,5 @@ public class IndexController {
 			@PathVariable("page") String page) {
 		return main(categoryId, order, count, page);
 	}
-	
-	@RequestMapping(value = { "/error" }, method = RequestMethod.GET)
-	public String errorPage(){
-		return "error/error";
-	}
 
 }

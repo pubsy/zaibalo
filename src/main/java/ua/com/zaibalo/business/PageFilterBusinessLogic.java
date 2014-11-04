@@ -5,13 +5,11 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.CategoriesDAO;
 import ua.com.zaibalo.db.api.CommentsDAO;
 import ua.com.zaibalo.helper.ServletHelperService;
@@ -30,14 +28,8 @@ public class PageFilterBusinessLogic {
 	private CategoriesDAO categoriesDAO;
 	@Autowired
 	private CommentsDAO commentsDAO;
-	@Autowired
-	private UsersBusinessLogic userBusinessLogic;
 	
-	public void prePage(HttpServletRequest request, String loggedInUserName) {
-		if(StringUtils.isNotEmpty(loggedInUserName)) {
-			User user = userBusinessLogic.getUserByLoginName(loggedInUserName);
-			request.getSession().setAttribute(ZaibaloConstants.USER_PARAM_NAME, user);
-		}
+	public void prePage(HttpServletRequest request, User user) {
 		
 		ServletContext servletContext = request.getServletContext();
 		if(servletContext.getAttribute("categories") == null) {
@@ -56,6 +48,7 @@ public class PageFilterBusinessLogic {
 		}
 		
 		request.setAttribute("visitorIP", ServletHelperService.getClientIpAddr(request));
+		request.setAttribute("successRedirectURL", request.getRequestURI());
 		
 		servletHelperService.updateUnreadMessagesStatus(request);
 	}

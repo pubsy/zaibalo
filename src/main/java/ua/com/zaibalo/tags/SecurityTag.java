@@ -10,13 +10,35 @@ public class SecurityTag extends BodyTagSupport {
 
 	private static final long serialVersionUID = 1L;
 	
+	private String access;
+	
 	@Override
 	public int doStartTag() throws JspException {
-		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-		if(request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME) != null){
-			return EVAL_BODY_INCLUDE;
+		boolean evalBodyInclude = false;
+		
+		if("isAnonymous()".equals(access)){
+			evalBodyInclude = !isAuthenticated();
 		} else {
-			return SKIP_BODY;
+			evalBodyInclude = isAuthenticated();
 		}
+		
+		if(evalBodyInclude){
+			return EVAL_BODY_INCLUDE;
+		}
+		return SKIP_BODY;
 	}
+
+	private boolean isAuthenticated() {
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+		return request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME) != null;
+	}
+
+	public String getAccess() {
+		return access;
+	}
+
+	public void setAccess(String access) {
+		this.access = access;
+	}
+	
 }

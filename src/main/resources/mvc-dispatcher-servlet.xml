@@ -51,6 +51,7 @@
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/" />
+			<mvc:mapping path="/login" />
 			<mvc:mapping path="/category/**" />
 			<mvc:mapping path="/page/**" />
 			<mvc:mapping path="/order/**" />

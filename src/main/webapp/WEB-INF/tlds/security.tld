@@ -9,5 +9,10 @@
 		<name>check</name>
 		<tag-class>ua.com.zaibalo.tags.SecurityTag</tag-class>
 		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>access</name>
+			<rtexprvalue>false</rtexprvalue>
+			<required>false</required>
+    	</attribute>
 	</tag>
 </taglib>  

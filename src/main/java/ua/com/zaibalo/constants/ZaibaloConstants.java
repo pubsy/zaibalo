@@ -8,7 +8,6 @@ package ua.com.zaibalo.constants;
 public class ZaibaloConstants {
 	public static final String REDIRECT = "redirect";
 	public static final String USER_PARAM_NAME = "user";
-	public static final String USER_NAME_TOKEN = "zaibalo_user";
 	public static final String REMEBER_ME = "zaibalo_remebmer_me";
 	
 	public static final String COMMENT_HTML_PATH = "comment.html";

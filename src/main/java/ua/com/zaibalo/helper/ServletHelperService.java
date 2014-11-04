@@ -68,47 +68,6 @@ public class ServletHelperService {
 		
 		return false;
 	}
-	
-	private User getCookieUser(HttpServletRequest request, HttpServletResponse response){
-
-		Cookie[] cookies = request.getCookies();
-		if (cookies == null) {
-			return null;
-		}
-
-		String userNameAndToken = null;
-
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(ZaibaloConstants.USER_NAME_TOKEN)) {
-				try {
-					userNameAndToken = URLDecoder.decode(cookie.getValue(), "UTF-8");
-				} catch (UnsupportedEncodingException e) {}
-			}
-		}
-		if (userNameAndToken == null) {
-			return null;
-		}
-
-		int colonIndex = userNameAndToken.indexOf(":");
-		if (colonIndex == -1) {
-			response.addCookie(new Cookie(ZaibaloConstants.USER_NAME_TOKEN, ""));
-			return null;
-		}
-		String userName = userNameAndToken.substring(0, colonIndex);
-		String userToken = userNameAndToken.substring(colonIndex + 1);
-
-		User cookieUser = null;
-
-		cookieUser = usersDAO.getUserByLoginName(userName);
-
-
-		if (cookieUser != null && cookieUser.getToken().equals(userToken)) {
-			return cookieUser;
-		}
-
-		response.addCookie(new Cookie(ZaibaloConstants.USER_NAME_TOKEN, ""));
-		return null;
-	}
 
 //	@Transactional(propagation=Propagation.REQUIRED)
 //	public User updateUserAuthenication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

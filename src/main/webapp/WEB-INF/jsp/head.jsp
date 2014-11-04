@@ -1,8 +1,4 @@
-<c:set var="req" value="${pageContext.request}" />
-<c:set var="url">${req.requestURL}</c:set>
-<c:set var="uri" value="${req.requestURI}" />
-<c:set var="url_base" value="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/" />
-		
+
         <base href="${url_base}">
 
 		<title>${pageTitle}</title>

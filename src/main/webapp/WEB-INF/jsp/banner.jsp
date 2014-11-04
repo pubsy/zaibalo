@@ -41,9 +41,13 @@
 							<security:check>
 								<%@include file="login-status-dropdown.jsp" %>
 							</security:check>
-							<sec:authorize access="isAnonymous()">
-								<%@include file="login-dropdown.jsp" %>
-							</sec:authorize>
+							<security:check access="isAnonymous()">
+								<li class="login-dropdown">
+									<a href="login?redirect=${successRedirectURL}">
+										<span class="glyphicon glyphicon-log-in"></span><span class="hide-on-mobile"><zmt:message key="login_join"/></span>
+									</a>
+								</li>
+							</security:check>
 						</ul>
 					</div>
 					<div id="header_banner">

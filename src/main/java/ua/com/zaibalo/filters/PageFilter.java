@@ -8,18 +8,22 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import ua.com.zaibalo.business.PageFilterBusinessLogic;
+import ua.com.zaibalo.model.User;
+import ua.com.zaibalo.security.SecurityService;
 
 public class PageFilter implements HandlerInterceptor{
 
 	@Autowired
 	private PageFilterBusinessLogic pageFilterBusinessLogic;
 	
+	@Autowired
+	private SecurityService securityService;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object object) throws Exception {
-		//String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-		pageFilterBusinessLogic.prePage(request, null);
-		
+		User user = securityService.getAuthenticatedUser(request);
+		pageFilterBusinessLogic.prePage(request, user);
 		return true;
 	}
 
