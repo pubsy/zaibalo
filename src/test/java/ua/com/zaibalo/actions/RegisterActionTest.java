@@ -27,7 +27,7 @@ import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:test-context.xml")
+@ContextConfiguration(locations = {"classpath:test-context.xml" , "classpath:mvc-dispatcher-servlet.xml"})
 public class RegisterActionTest {
 
 	@Autowired

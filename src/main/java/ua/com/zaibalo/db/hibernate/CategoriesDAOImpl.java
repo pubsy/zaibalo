@@ -18,7 +18,7 @@ import ua.com.zaibalo.model.Category;
 @Transactional(propagation = Propagation.MANDATORY)
 public class CategoriesDAOImpl implements CategoriesDAO {
 
-	@Autowired
+    @Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
@@ -40,11 +40,10 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 		return (Integer) this.sessionFactory.getCurrentSession().save(category);
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Category> getCategoriesList(Category.CategoryType catType) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Category.class)
-				.add(Restrictions.eq("type", catType)).list();
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Category> getMostPopularCategoriesList(int count) {
+        return this.sessionFactory.getCurrentSession().getNamedQuery("CATEGORY_MOST_POPULAR_LIST").setMaxResults(count).list();
+    }
 
 }

@@ -76,7 +76,7 @@ public class EditPostAction implements Action {
 			if(category != null){
 				postCategoriesAndTags.add(category);
 			}else{
-				Category newTag = new Category(catName.trim(), Category.CategoryType.TAG);
+				Category newTag = new Category(catName.trim());
 				int catId = categoriesDAO.insert(newTag);
 				newTag.setId(catId);
 				postCategoriesAndTags.add(newTag);

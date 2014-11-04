@@ -36,7 +36,7 @@ import ua.com.zaibalo.model.User.Role;
 @Transactional
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:test-context.xml")
+@ContextConfiguration(locations = {"classpath:test-context.xml" , "classpath:mvc-dispatcher-servlet.xml"})
 public class CommentsRestControllerTest {
 
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(

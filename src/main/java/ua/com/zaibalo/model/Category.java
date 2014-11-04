@@ -2,17 +2,19 @@ package ua.com.zaibalo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "categories")
+@NamedQueries({ @NamedQuery(name = "CATEGORY_MOST_POPULAR_LIST", 
+query = "select p.categories from Post p right outer join p.categories c group by c.id order by count(p) desc") })
 public class Category {
 
-	@Id
+    @Id
 	@GeneratedValue
 	@Column
 	private int id;
@@ -20,21 +22,13 @@ public class Category {
 	@Column(unique = true)
 	private String name;
 
-	@Column
-	@Enumerated(EnumType.STRING)
-	private CategoryType type;
 
-	public enum CategoryType {
-		CATEGORY, TAG;
-	}
+    public Category() {
+    }
 
-	public Category() {
-	}
-
-	public Category(String name, CategoryType type) {
-		this.name = name;
-		this.type = type;
-	}
+    public Category(String name) {
+        this.name = name;
+    }
 
 	public String getName() {
 		return name;
@@ -50,14 +44,6 @@ public class Category {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setType(CategoryType type) {
-		this.type = type;
-	}
-
-	public CategoryType getType() {
-		return type;
 	}
 
 	public boolean equals(Object other) {

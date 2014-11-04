@@ -8,6 +8,6 @@ public interface CategoriesDAO {
 	
 	Category getCategoryByName(String name);
 	int insert(Category category);
-	List<Category> getCategoriesList(Category.CategoryType catType);
+	List<Category> getMostPopularCategoriesList(int count);
 	Category getCategoryById(int id);
 }

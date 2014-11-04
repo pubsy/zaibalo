@@ -17,7 +17,6 @@ import ua.com.zaibalo.db.api.CommentsDAO;
 import ua.com.zaibalo.helper.ServletHelperService;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.Category;
-import ua.com.zaibalo.model.Category.CategoryType;
 import ua.com.zaibalo.model.Comment;
 import ua.com.zaibalo.model.User;
 
@@ -42,9 +41,9 @@ public class PageFilterBusinessLogic {
 		
 		ServletContext servletContext = request.getServletContext();
 		if(servletContext.getAttribute("categories") == null) {
-			List<Category> catList = categoriesDAO.getCategoriesList(Category.CategoryType.CATEGORY);
+			List<Category> catList = categoriesDAO.getMostPopularCategoriesList(10);
 			if(catList.isEmpty()){
-				catList.add(new Category("Test", CategoryType.CATEGORY));
+				catList.add(new Category("Test"));
 			}
 			servletContext.setAttribute("categories", catList);
 		}

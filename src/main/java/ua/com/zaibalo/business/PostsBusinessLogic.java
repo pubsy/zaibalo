@@ -48,7 +48,7 @@ public class PostsBusinessLogic {
 		for (String catName : postCategories) {
 			Category category = categoriesDAO.getCategoryByName(catName.trim());
 			if(category == null){
-				category = new Category(catName.trim(), Category.CategoryType.TAG);
+				category = new Category(catName.trim());
 				categoriesDAO.insert(category);
 			}
 			postCategoriesAndTags.add(category);

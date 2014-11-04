@@ -2,8 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="classpath:/mvc-dispatcher-servlet.xml" />
-
 	<bean id="ua.com.zaibalo.email.SendEmailService" class="ua.com.zaibalo.email.stub.SendEmailServiceStub" />
 
 	<bean id="dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource" >
