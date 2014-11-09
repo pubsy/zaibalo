@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -14,12 +18,15 @@ import javax.mail.internet.InternetAddress;
 import org.apache.commons.lang.StringUtils;
 
 import ua.com.zaibalo.i18n.I18nResources;
+import ua.com.zaibalo.model.Category;
 
 public class StringHelper {
 	private static final String UTF_8 = "utf-8";
 	private static final String RESOURCE_BUNDLE_UK_UA_PROPERTIES = "ResourceBundle_uk_UA.properties";
 	private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static final Properties ukUAproperties = new Properties();
+	private static final String HASH_TAG_REGEX = "(^|\\s|\\b)[\\#]\\p{L}+";
+	
 	static{
 		try {
 			Reader reader = new BufferedReader(new InputStreamReader(
@@ -54,10 +61,9 @@ public class StringHelper {
 	}
 	
 	public static String escapeXML(String str){
-		String escaped =  StringUtils.replaceEach(str, 
+		return StringUtils.replaceEach(str, 
 				new String[]{"&", "\"", "<", ">"}, 
 				new String[]{"&amp;", "&quot;", "&lt;", "&gt;"});
-		return escaped.replaceAll("\n", "<\\br>");
 	}
 	
 	public static String getLocalString(String key, Object... params){
@@ -136,6 +142,25 @@ public class StringHelper {
 	
 	public static String extract(String text, int maxWords){
 		return extract(text, maxWords, "");
+	}
+
+	public static String replaceTagsWithLinks(Set<Category> categories, String content) {
+		for(Category tag: categories){
+			content = content.replaceAll(tag.getName(), "<a href=\"category/" + tag.getId() + "\">"+ tag.getName() + "</a>");
+		}
+		return content;
+	}
+	
+	public static Set<String> parseTags(String text) {
+		Set<String> postTags = new HashSet<String>();
+		
+		Pattern pattern = Pattern.compile(HASH_TAG_REGEX);
+		Matcher matcher = pattern.matcher(text);
+		
+		while (matcher.find()) {
+			postTags.add(matcher.group(0).trim());
+		}
+		return postTags;
 	}
 
 }

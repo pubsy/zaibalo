@@ -38,6 +38,7 @@ function addComment(postId){
 			
 		var template = $('#comment-template').html();
 		Mustache.parse(template);
+		
 		var comment = $(Mustache.render(template, response));
 		
 		comment.css("display", "none");
@@ -66,20 +67,7 @@ function addComment(postId){
 }
 
 function add_post() {
-	//content = document.getElementById('new_posts');
-
-	post_title = document.getElementById('post_title');
 	post_text = document.getElementById('post_text');
-	post_tags = document.getElementById('tags_input');
-	category_select = document.getElementById('category_select');
-	categories = "";
-	for ( var i = 0; i < category_select.options.length; i++) {
-		if (category_select.options[i].selected) {
-			categories += category_select.options[i].value + ",";
-		}
-	}
-
-	//categories_cb_block = document.getElementById('categories_checkboxes');
 
 	var s = function addPostSuccess(response) {
 		if(response.status == "fail"){
@@ -96,9 +84,7 @@ function add_post() {
 		$(ppp).css("display", "none");
 		$(ppp).show("slow");
 
-		post_title.value = "";
 		post_text.value = "";
-		post_tags.value = "";
 		$('#loadingScreen').hide("slow");
 		$(post_text).trigger('keydown');
 	}
@@ -106,9 +92,7 @@ function add_post() {
 	var url = "secure/action.do";
 	var method = "POST";
 	var params = {
-			post_title	: post_title.value,
 			post_text	: post_text.value,
-			categories	: categories + post_tags.value,
 			action		: 'save_post'
 	}
 	var dataType = "json";

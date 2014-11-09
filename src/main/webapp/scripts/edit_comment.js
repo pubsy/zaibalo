@@ -9,7 +9,7 @@ $(document).ready(function() {
 		autoOpen: false,
 		dialogClass: "editComment",
 		closeOnEscape: false,
-		draggable: false,
+		draggable: true,
 		minHeight: 50,
 		buttons: {
 			"Зберегти": function() {

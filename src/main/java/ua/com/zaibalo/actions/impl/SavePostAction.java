@@ -1,12 +1,8 @@
 package ua.com.zaibalo.actions.impl;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +10,7 @@ import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.CategoriesDAO;
+import ua.com.zaibalo.exceptions.ValidationException;
 import ua.com.zaibalo.helper.CharArrayWriterResponse;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
@@ -22,14 +19,11 @@ import ua.com.zaibalo.helper.ajax.SuccessResponse;
 import ua.com.zaibalo.model.Post;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.social.VKPostToGroup;
-import ua.com.zaibalo.validation.Validator;
 
 @Component
 public class SavePostAction implements Action{
 
-	private static final String POST_TITLE = "post_title";
 	private static final String POST_TEXT = "post_text";
-	private static final String POST_CATEGORIES = "categories";
 	
 	@Autowired
 	private CategoriesDAO categoriesDAO;
@@ -38,28 +32,19 @@ public class SavePostAction implements Action{
 	
 	@Override
 	public AjaxResponse run(HttpServletRequest request, HttpServletResponse response) {
-		String title = (String) request.getParameter(POST_TITLE);
 		String content = (String) request.getParameter(POST_TEXT);
-		String postCategoriesStr = (String) request.getParameter(POST_CATEGORIES);
 
 		User user = (User) request.getSession().getAttribute(ZaibaloConstants.USER_PARAM_NAME);
 		if(user.isGuest()){
 			return new FailResponse(StringHelper.getLocalString("operation_forbidden"));
 		}
 		
-		String[] postCategories;
-		if(StringUtils.isEmpty(postCategoriesStr)){
-			postCategories = new String[0];
-		} else {
-			postCategories = postCategoriesStr.split(",");
+		Post post;
+		try {
+			post = postsBusinessLogic.createPost(content, user);
+		} catch (ValidationException e) {
+			return new FailResponse(e.getMessage());
 		}
-
-		Validator validator = new Validator();
-		if (!validator.validatePost(content, title, postCategories)) {
-			return new FailResponse(validator.getErrors());
-		}
-		
-		Post post = postsBusinessLogic.createPost(title, content, user, postCategories);
 
 		request.setAttribute("post", post);
 		
@@ -70,16 +55,13 @@ public class SavePostAction implements Action{
 			@Override
 			public void run() {
 				VKPostToGroup.postToVKGroup(text);
-				//FBPostToGroup.postToFBGroup(text);
 			}
 		}).start();
 		
 		CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
 	    try {
 			request.getRequestDispatcher("/WEB-INF/jsp/post_wrapper.jsp").forward(request, customResponse);
-		} catch (ServletException e) {
-			throw new RuntimeException(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	    

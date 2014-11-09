@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.com.zaibalo.business.PostsBusinessLogic;
 import ua.com.zaibalo.db.api.CategoriesDAO;
 import ua.com.zaibalo.db.api.UsersDAO;
+import ua.com.zaibalo.exceptions.ValidationException;
 import ua.com.zaibalo.model.Category;
 import ua.com.zaibalo.model.User;
 import ua.com.zaibalo.model.User.Role;
@@ -35,7 +36,7 @@ public class CategoriesDaoTest {
     private PostsBusinessLogic postsBusinessLogic;
 
     @Before
-    public void before(){
+    public void before() throws ValidationException{
         User author = new User();
         author.setPassword("1234");
         author.setToken("81dc9bdb52d04dc20036dbd8313ed055");
@@ -49,10 +50,10 @@ public class CategoriesDaoTest {
         categoriesDAO.insert(new Category("EvenLessPopular"));
         categoriesDAO.insert(new Category("LessPopular"));
         
-        postsBusinessLogic.createPost("title2", "content2", author, new String[]{"EvenLessPopular"});
-        postsBusinessLogic.createPost("title3", "content2", author, new String[]{"MorePopular"});
-        postsBusinessLogic.createPost("title", "content", author, new String[]{"LessPopular"});
-        postsBusinessLogic.createPost("title2", "content2", author, new String[]{"MorePopular"});
+        postsBusinessLogic.createPost("content2 #EvenLessPopular", author);
+        postsBusinessLogic.createPost("content2 #MorePopular", author);
+        postsBusinessLogic.createPost("#LessPopular content", author);
+        postsBusinessLogic.createPost("#MorePopular content2", author);
     }
     
     @Test

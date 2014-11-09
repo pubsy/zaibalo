@@ -8,6 +8,7 @@
 <%@taglib prefix="cat" uri="CategoryChecker"  %>
 <%@taglib prefix="t" uri="Trimer"  %>
 <%@taglib prefix="xe" uri="XmlEscape" %>
+<%@taglib prefix="te" uri="PostText" %>
 
 <c:set var="req" value="${pageContext.request}" />
 <c:set var="url">${req.requestURL}</c:set>
@@ -31,7 +32,6 @@
 				<%@ include file="banner.jsp"%>
 				<div class="content">		
 					<div id="posts">
-						<c:set var="hideComments" value="false" />
 						<%@ include file="post.jsp"%>
 					</div>
 				</div>

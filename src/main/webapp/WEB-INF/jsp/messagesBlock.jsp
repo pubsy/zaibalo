@@ -2,6 +2,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="zmt" uri="ZMT" %>
 <%@taglib prefix="xe" uri="XmlEscape"  %>
+<%@taglib prefix="te" uri="PostText" %>
 
 <c:if test="${sessionScope.timeZone != null}">
 	<fmt:setTimeZone value="${sessionScope.timeZone}" />

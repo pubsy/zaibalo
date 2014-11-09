@@ -16,12 +16,6 @@ public abstract class AbstractValidator {
 		}
 	}
 	
-	public void validateNotEmptyArray(String[] array, String message){
-		if(array == null || array.length == 0){
-			validationErrors.add(message);
-		}
-	}
-	
 	public String getErrors(){
 		StringBuffer buf = new StringBuffer();
 		for(String error: validationErrors){

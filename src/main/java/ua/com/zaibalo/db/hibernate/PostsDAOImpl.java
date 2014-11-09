@@ -123,8 +123,9 @@ public class PostsDAOImpl implements PostsDAO {
 	}
 
 	@Override
-	public void update(Post post) {
+	public Post update(Post post) {
 		this.sessionFactory.getCurrentSession().update(post);
+		return post;
 	}
 
 }

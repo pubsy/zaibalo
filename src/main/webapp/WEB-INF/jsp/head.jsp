@@ -39,17 +39,14 @@
 		<script type="text/javascript">
 		
 			$(document).ready(function() {
-		
-				var emptyText = '<zmt:message key="please_select"/>';
-				if ($("#category_select").length > 0) {
-					$("#category_select").dropdownchecklist({
-						emptyText : emptyText,
-						width : 150
-					});
-				}
-		
-				$('#edit_post_dialog').on('click', '.edit-cat-del', function() {
-					onClickToCatName($(this).parent());
+				$('body').on('click', '.edit-post-action', function() {
+					var postId = $(this).closest(".post").find(".post_id_hidden").attr("value");
+					editPostShow(postId);
+				});
+				
+				$('body').on('click', '.delete-post-action', function() {
+					var postId = $(this).closest(".post").find(".post_id_hidden").attr("value");
+					removePost(postId);
 				});
 			});
 		</script>
@@ -73,15 +70,15 @@
 		
 		<script id="comment-template" type="x-tmpl-mustache">
 			<div id="comment_{{ id }}" class="comment_style">
+				<div class="comment_operations">
+					<a href="javascript:editCommentShow({{ id }});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
+					<a href="javascript:deleteComment({{ id }})"><img src="img/icons/x.png"></a>
+				</div>
 				<div class="comment_avatar">
 					<img src="{{ author.smallImgPath }}" width="32" alt="{{ author.displayName }}">
 				</div>
 				<div class="comment_content">
 					<div class="comment_author" onclick="location.href='/user/{{ author.id }}';">{{ author.displayName }}</div>
-					<div class="comment_operations">
-						<a href="javascript:editCommentShow({{ id }});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
-						<a href="javascript:deleteComment({{ id }})"><img src="img/icons/x.png"></a>
-					</div>
 					<div class="comment_context">{{ content }}</div>
 					<div class="comment_rating">
 						<img src="img/icons/comment_down.png" class="rating-button" id="commentRatingDown_{{ id }}" onclick="javascript:rateComment({{ id }}, '-1');">

@@ -1,4 +1,12 @@
 	<div id="comment_${comment.id}" class="comment_style">
+		<security:check>
+			<c:if test="${sessionScope.user.id == comment.author.id}">
+				<div class="comment_operations">
+					<a href="javascript:editCommentShow(${comment.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
+					<a href="javascript:deleteComment(${comment.id})"><img src="img/icons/x.png"></a>
+				</div>
+			</c:if>
+		</security:check>
 		<div class="comment_avatar">
 			<img src="image/${comment.author.smallImgPath}" width="32" alt="${comment.author.displayName}">
 		</div>
@@ -10,14 +18,6 @@
 			<c:if test="${comment.author.id == 2}">
 				<div class="comment_author"><c:out value="${comment.author.displayName}"/></div>
 			</c:if>
-			<security:check>
-				<c:if test="${sessionScope.user.id == comment.author.id}">
-					<div class="comment_operations">
-						<a href="javascript:editCommentShow(${comment.id});"><span class="glyphicon glyphicon-wrench edit-post-icon"></span></a>
-						<a href="javascript:deleteComment(${comment.id})"><img src="img/icons/x.png"></a>
-					</div>
-				</c:if>
-			</security:check>
 			<div class="comment_context"><xe:escape text="${comment.content}" /></div>
 			
 			<div class="comment_rating">
@@ -43,6 +43,5 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<div style="clear:both;"></div>
 		</div>
 	</div>

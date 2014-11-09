@@ -107,7 +107,7 @@ public class CommentsRestControllerTest {
 		author.setLoginName("LoginName");
 		author = usersDAO.insert(author);
 
-		Post post = postsBusinessLogic.createPost("title", "content", author, new String[]{"category"});
+		Post post = postsBusinessLogic.createPost("content #category", author);
 
 		CommentsServiceRequest request = new CommentsServiceRequest();
 		request.setPostId(post.getId());
@@ -138,7 +138,7 @@ public class CommentsRestControllerTest {
 		author.setLoginName("LoginName");
 		author = usersDAO.insert(author);
 
-		Post post = postsBusinessLogic.createPost("title", "content", author, new String[]{"category"});
+		Post post = postsBusinessLogic.createPost("content #category", author);
 
 		Comment saveComment = commentsBusinessLogic.saveComment(author, post, "uxuxux");
 		

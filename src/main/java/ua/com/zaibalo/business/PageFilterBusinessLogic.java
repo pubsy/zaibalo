@@ -34,9 +34,6 @@ public class PageFilterBusinessLogic {
 		ServletContext servletContext = request.getServletContext();
 		if(servletContext.getAttribute("categories") == null) {
 			List<Category> catList = categoriesDAO.getMostPopularCategoriesList(10);
-			if(catList.isEmpty()){
-				catList.add(new Category("Test"));
-			}
 			servletContext.setAttribute("categories", catList);
 		}
 		

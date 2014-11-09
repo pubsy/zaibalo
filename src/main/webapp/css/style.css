@@ -103,27 +103,15 @@ ul.nav>li>a{
 	padding-bottom: 10px;
 }
 
-.post_header{
-	clear: both;
-	padding-top: 5px;	
-}
-
 #post_text{
 	overflow: auto;
 	text-align: justify;
 }
 
-.post_header_title{
-	float:left;
+.post_header{
 	padding: 5px;
-	font-weight: bold; 
-}
-
-.post_header_date, .post_author_info{
-	float:right;
-	padding: 5px;
-	font-weight: bold; 
-	text-align: center;
+	font-weight: bold;
+	position: relative;
 }
 
 .post_cat_rat{
@@ -136,22 +124,20 @@ ul.nav>li>a{
 }
 
 .comment_style{
-	margin-top:5px;
 	background-color: #EDEFF4;
-	margin: 5px;
+	margin: 5px 0px 5px 5px;
+	position: relative;
 }
 
 .comment_author{
 	font-weight: bold; 
-	float: left;
 	padding-right: 5px;
 	cursor: pointer;
 	text-decoration: underline;
 }
 
 .comment_avatar{
-	float:left;
-	width: 0;
+	position: absolute;
 }
 
 .comment_content{
@@ -160,6 +146,7 @@ ul.nav>li>a{
 
 .comment_context{
 	word-wrap: break-word;
+	white-space: pre;
 }
 
 textarea{
@@ -202,12 +189,6 @@ textarea{
 	float:right; 
 	text-align: right;
 	margin: 5px 0px 5px 10px;
-}
-
-#category_select{
-	border: 1px solid black;
-	margin: 5px 0px 5px 0px;
-	cursor: default;
 }
 
 #categories_checkboxes label{
@@ -255,8 +236,10 @@ textarea{
 }
 
 .comment_operations{
-	float:right;
 	height: 15px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 
 .comment_operations a {
@@ -349,19 +332,20 @@ input[type=password] {
 
 .comment_rating{
 	padding-top: 2px;
-	float: left;
 }
 
 .comment_date{
-	float: right;
     font-size: 8px;
     margin: 3px;	
-	/* clear: both; */
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
 }
 
 .post_content_text{
 	font-size: 13px;
 	overflow: hidden;
+	white-space: pre;
 }
 
 .editPost{
@@ -380,11 +364,6 @@ input[type=password] {
     margin-top: 10px;
 }
 
-.edit-cat-del{
-	cursor: hand; 
-	cursor: pointer;
-}
-
 .rss-icon {
 background-image: url("../img/icons/feed.png");
     background-position: left center;
@@ -398,10 +377,6 @@ background-image: url("../img/icons/feed.png");
 
 .online_users_img{
 	
-}
-
-.post_header_title a{
-		
 }
 
 #users_online_block{
@@ -729,6 +704,30 @@ input[type="checkbox"] {
 .login-error{
 	margin-top: 10px;
 	color: red;
+}
+
+div.post_header > div > ul{
+	min-width: 80px;
+	padding-left: 5px;
+}
+
+div.post_header > div > ul > li > button{
+	border: none;
+	background-color: white;
+}
+
+div.post-actions-dropdown{
+	position: absolute;
+	right: 0px;
+}
+
+div.post-actions-dropdown > .dropdown-toggle{
+	cursor: pointer;
+}
+
+div.post_content_text > a {
+	text-decoration: none;
+	color: #0084B4;
 }
 
 #submit-btn{

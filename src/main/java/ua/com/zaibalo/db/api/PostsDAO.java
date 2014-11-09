@@ -20,6 +20,6 @@ public interface PostsDAO{
 	long getPostsListSize(List<Integer> ids, Date fromDate);
 	List<Post> getAllPostsList();
 	void updatePostRatingSum(int value, int count, Post post);
-	public abstract void update(Post post);
+	public abstract Post update(Post post);
 
 }
