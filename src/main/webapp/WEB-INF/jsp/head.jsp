@@ -10,20 +10,20 @@
 		
 		<script type="text/javascript" src="scripts/jquery.js"></script>
 		<script type="text/javascript" src="scripts/mustache.js"></script>
-		<script type="text/javascript" src="scripts/login.js?8"></script>
-		<script type="text/javascript" src="scripts/scripts.js?14"></script>
-		<script type="text/javascript" src="scripts/ajax.js?10"></script>
-		<script type="text/javascript" src="scripts/textarea.js?8"></script>
-		<script type="text/javascript" src="scripts/editpost.js?11"></script>
-		<script type="text/javascript" src="scripts/edit_comment.js?3"></script>
-		<script type="text/javascript" src="scripts/combobox.js?8"></script>
-		<script type="text/javascript" src="scripts/message.js?8"></script>
-		<script type="text/javascript" src="scripts/category_checkoxes.js?9"></script>
-		<script type="text/javascript" src="scripts/posts_sorting.js?9"></script>
-		<script type="text/javascript" src="scripts/register.js?2"></script>
-		<script type="text/javascript" src="scripts/remind_password.js?1"></script>
-		<script type="text/javascript" src="scripts/show_rating.js?2"></script>
-		<script type="text/javascript" src="scripts/set_time_zone.js?1"></script>
+		<script type="text/javascript" src="scripts/login.js?9"></script>
+		<script type="text/javascript" src="scripts/scripts.js?15"></script>
+		<script type="text/javascript" src="scripts/ajax.js?11"></script>
+		<script type="text/javascript" src="scripts/textarea.js?9"></script>
+		<script type="text/javascript" src="scripts/editpost.js?12"></script>
+		<script type="text/javascript" src="scripts/edit_comment.js?4"></script>
+		<script type="text/javascript" src="scripts/combobox.js?9"></script>
+		<script type="text/javascript" src="scripts/message.js?9"></script>
+		<script type="text/javascript" src="scripts/category_checkoxes.js?10"></script>
+		<script type="text/javascript" src="scripts/posts_sorting.js?10"></script>
+		<script type="text/javascript" src="scripts/register.js?3"></script>
+		<script type="text/javascript" src="scripts/remind_password.js?2"></script>
+		<script type="text/javascript" src="scripts/show_rating.js?3"></script>
+		<script type="text/javascript" src="scripts/set_time_zone.js?2"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/dropdown/jquery-ui-1.8.13.custom.css">
 		<link rel="stylesheet" type="text/css" href="css/dropdown/ui.dropdownchecklist.themeroller.css">
@@ -34,7 +34,7 @@
 		<script type="text/javascript" src="scripts/dropdown/jquery-ui-1.8.13.custom.min.js"></script>
 		<script type="text/javascript" src="scripts/dropdown/ui.dropdownchecklist.js"></script>
 		
-		<link rel="stylesheet" type="text/css"  href="css/style.css?22"/>
+		<link rel="stylesheet" type="text/css"  href="css/style.css?23"/>
 		
 		<script type="text/javascript">
 		

@@ -146,7 +146,7 @@ ul.nav>li>a{
 
 .comment_context{
 	word-wrap: break-word;
-	white-space: pre;
+	white-space: pre-line;
 }
 
 textarea{
@@ -345,7 +345,8 @@ input[type=password] {
 .post_content_text{
 	font-size: 13px;
 	overflow: hidden;
-	white-space: pre;
+	white-space: pre-line;
+	word-wrap: break-word;
 }
 
 .editPost{
