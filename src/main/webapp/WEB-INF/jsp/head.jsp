@@ -34,7 +34,7 @@
 		<script type="text/javascript" src="scripts/dropdown/jquery-ui-1.8.13.custom.min.js"></script>
 		<script type="text/javascript" src="scripts/dropdown/ui.dropdownchecklist.js"></script>
 		
-		<link rel="stylesheet" type="text/css"  href="css/style.css?23"/>
+		<link rel="stylesheet" type="text/css"  href="css/style.css?24"/>
 		
 		<script type="text/javascript">
 		
@@ -48,6 +48,12 @@
 					var postId = $(this).closest(".post").find(".post_id_hidden").attr("value");
 					removePost(postId);
 				});
+				
+				$('body').on('click', '.post-link', function() {
+					var postId = $(this).closest(".post").find(".post_id_hidden").attr("value");
+					location.href = "post/" + postId;
+				});
+				
 			});
 		</script>
 		

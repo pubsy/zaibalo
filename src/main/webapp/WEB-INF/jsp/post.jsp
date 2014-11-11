@@ -4,23 +4,26 @@
 <div id='post_${post.id}' class="post">
 	<input type="hidden" name="post_id" value="${post.id}" class="post_id_hidden" />
 	<div class="post_header">
-		<security:check>
-			<c:if test="${sessionScope.user.id == post.author.id}">
 				<div class="dropdown post-actions-dropdown">
 					<span class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
 						<span class="caret"></span>
 					</span>
 					<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+						<security:check>
+							<c:if test="${sessionScope.user.id == post.author.id}">
+								<li role="presentation">
+									<button role="menuitem" tabindex="-1" class="edit-post-action"><zmt:message key="edit.post" /></button>
+								</li>
+								<li role="presentation">
+									<button role="menuitem" tabindex="-1" class="delete-post-action"><zmt:message key="delete.post" /></button>
+								</li>
+							</c:if>
+						</security:check>
 						<li role="presentation">
-							<button role="menuitem" tabindex="-1" class="edit-post-action"><zmt:message key="edit.post" /></button>
-						</li>
-						<li role="presentation">
-							<button role="menuitem" tabindex="-1" class="delete-post-action"><zmt:message key="delete.post" /></button>
+							<button role="menuitem" tabindex="-1" class="post-link"><zmt:message key="direct.link" /></button>
 						</li>
 					</ul>
 				</div>
-			</c:if>
-		</security:check>
 		<img src="image/${post.author.smallImgPath}" alt="${post.author.displayName}"> 
 		<a href='<c:url value="/user/${post.author.id}" />'><c:out value="${post.author.displayName}" /></a>
 	</div>
