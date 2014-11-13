@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="scripts/scripts.js?15"></script>
 		<script type="text/javascript" src="scripts/ajax.js?11"></script>
 		<script type="text/javascript" src="scripts/textarea.js?9"></script>
-		<script type="text/javascript" src="scripts/editpost.js?12"></script>
+		<script type="text/javascript" src="scripts/editpost.js?13"></script>
 		<script type="text/javascript" src="scripts/edit_comment.js?4"></script>
 		<script type="text/javascript" src="scripts/combobox.js?9"></script>
 		<script type="text/javascript" src="scripts/message.js?9"></script>

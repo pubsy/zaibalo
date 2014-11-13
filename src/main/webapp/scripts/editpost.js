@@ -29,10 +29,9 @@ $(document).ready(function() {
 function editPostShow(id){
 	$('#edit_post_id').val(id);
 	$("#edit_post_validation").html("");
-	
-	var regex = /<br\s*[\/]?>/gi;
-	var content = $("#post_" + id).find(".post_content_text").html().replace(regex, "\n");
 
+	var content = $("#post_" + id).find(".post_content_text").text();
+	
 	$("#edit_post_content").val(content);
 	$("#edit_post_dialog").dialog('option', 'title', 'Змінити пост');
 	$("#edit_post_dialog").dialog('open');
