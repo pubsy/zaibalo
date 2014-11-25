@@ -24,6 +24,7 @@
 		<script type="text/javascript" src="scripts/remind_password.js?2"></script>
 		<script type="text/javascript" src="scripts/show_rating.js?3"></script>
 		<script type="text/javascript" src="scripts/set_time_zone.js?2"></script>
+        <script type="text/javascript" src="scripts/showdown.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/dropdown/jquery-ui-1.8.13.custom.css">
 		<link rel="stylesheet" type="text/css" href="css/dropdown/ui.dropdownchecklist.themeroller.css">

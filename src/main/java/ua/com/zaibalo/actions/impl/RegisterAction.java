@@ -55,13 +55,13 @@ public class RegisterAction  implements Action{
 			return new FailResponse(StringHelper.getLocalString("user_name_taken"));
 		}
 		
-		String newPassword = StringHelper.generateString(10);
+		String newPassword = "1234";//StringHelper.generateString(10);
 		userBusinessLogic.createUser(login, email, MD5Helper.getMD5Of(newPassword), login, null, null);
 
-		RegisterUserMessage message = new RegisterUserMessage(email);
-		message.setLogin(login);
-		message.setNewPassword(newPassword);
-		sendEmailService.sendEmail(message);
+//		RegisterUserMessage message = new RegisterUserMessage(email);
+//		message.setLogin(login);
+//		message.setNewPassword(newPassword);
+//		sendEmailService.sendEmail(message);
 
 		return new SuccessMessageResponse(StringHelper.getLocalString("check_your_mail_box"));
 	}

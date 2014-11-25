@@ -186,7 +186,6 @@ textarea{
 	display:none;
 }
 #add_post_button{
-	float:right; 
 	text-align: right;
 	margin: 5px 0px 5px 10px;
 }
@@ -260,10 +259,6 @@ textarea{
 
 #loadingScreen{
 	display: none;
-}
-
-#apButton{
-    /* float: right; */
 }
 
 .form_input {
@@ -736,6 +731,9 @@ div.post_content_text > a {
 	color: white;
 }
 
+#post_preview{
+    word-wrap: break-word;
+}
 @media all and (max-width: 620px) {
 	.hide-on-mobile {
 		display: none;
