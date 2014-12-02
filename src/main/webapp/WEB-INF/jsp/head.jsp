@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="scripts/jquery.js"></script>
 		<script type="text/javascript" src="scripts/mustache.js"></script>
 		<script type="text/javascript" src="scripts/login.js?9"></script>
-		<script type="text/javascript" src="scripts/scripts.js?15"></script>
+		<script type="text/javascript" src="scripts/scripts.js?16"></script>
 		<script type="text/javascript" src="scripts/ajax.js?11"></script>
 		<script type="text/javascript" src="scripts/textarea.js?9"></script>
 		<script type="text/javascript" src="scripts/editpost.js?13"></script>
@@ -36,7 +36,7 @@
 		<script type="text/javascript" src="scripts/dropdown/jquery-ui-1.8.13.custom.min.js"></script>
 		<script type="text/javascript" src="scripts/dropdown/ui.dropdownchecklist.js"></script>
 		
-		<link rel="stylesheet" type="text/css"  href="css/style.css?24"/>
+		<link rel="stylesheet" type="text/css"  href="css/style.css?25"/>
 		
 		<script type="text/javascript">
 		
