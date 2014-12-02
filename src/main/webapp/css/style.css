@@ -150,7 +150,7 @@ ul.nav>li>a{
 }
 
 textarea{
-	font-size: 11px;
+	font-size: 12px;
 	line-height: 1.28;
 	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
 }
@@ -163,6 +163,7 @@ textarea{
 
 #add_post_form textarea{
 	width: 100%;
+	resize: vertical;
 }
 
 .comment_content #text{
@@ -338,10 +339,12 @@ input[type=password] {
 }
 
 .post_content_text{
-	font-size: 13px;
+	font-size: 12px;
 	overflow: hidden;
 	white-space: pre-line;
 	word-wrap: break-word;
+    margin: 3px;
+    text-align: justify;
 }
 
 .editPost{
@@ -731,9 +734,6 @@ div.post_content_text > a {
 	color: white;
 }
 
-#post_preview{
-    word-wrap: break-word;
-}
 @media all and (max-width: 620px) {
 	.hide-on-mobile {
 		display: none;

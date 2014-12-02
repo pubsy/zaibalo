@@ -12,9 +12,6 @@
 						<security:check>
 							<c:if test="${sessionScope.user.id == post.author.id}">
 								<li role="presentation">
-									<button role="menuitem" tabindex="-1" class="edit-post-action"><zmt:message key="edit.post" /></button>
-								</li>
-								<li role="presentation">
 									<button role="menuitem" tabindex="-1" class="delete-post-action"><zmt:message key="delete.post" /></button>
 								</li>
 							</c:if>

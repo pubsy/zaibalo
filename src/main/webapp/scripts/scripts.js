@@ -66,42 +66,6 @@ function addComment(postId){
 	sendJQueryAjaxRequest(url, method, params, s, dataType);
 }
 
-function add_post() {
-	post_text = document.getElementById('post_text');
-
-	var s = function addPostSuccess(response) {
-		if(response.status == "fail"){
-			$('#loadingScreen').hide("slow");
-			showMessageDialog({title: "Хай йому грець!", message: response.message});
-			return;
-		}
-		
-		var newPost = document.createElement("div");
-		newPost.innerHTML = response.object;
-		var ppp = newPost.children[0];
-
-		$('#posts').prepend(ppp);
-		$(ppp).css("display", "none");
-		$(ppp).show("slow");
-
-		post_text.value = "";
-		$('#loadingScreen').hide("slow");
-		$(post_text).trigger('keydown');
-	}
-
-	var url = "secure/action.do";
-	var method = "POST";
-	var params = {
-			post_text	: post_text.value,
-			action		: 'save_post'
-	}
-	var dataType = "json";
-	
-	$('#loadingScreen').show("slow");
-	sendJQueryAjaxRequest(url, method, params, s, dataType);
-	
-}
-
 function showAddCommentField(id){
 	$("#add_comment_text_" + id).hide();
 	$("#add_comment_" + id).show("slow");

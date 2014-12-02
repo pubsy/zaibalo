@@ -146,7 +146,7 @@ public class StringHelper {
 
 	public static String replaceTagsWithLinks(Set<Category> categories, String content) {
 		for(Category tag: categories){
-			content = content.replaceAll(tag.getName(), "<a href=\"category/" + tag.getId() + "\">"+ tag.getName() + "</a>");
+			content = content.replaceAll(tag.getName(), "<a href=\"/category/" + tag.getId() + "\">"+ tag.getName() + "</a>");
 		}
 		return content;
 	}
