@@ -55,7 +55,7 @@ public class RegisterAction  implements Action{
 			return new FailResponse(StringHelper.getLocalString("user_name_taken"));
 		}
 		
-		String newPassword = "1234";//StringHelper.generateString(10);
+		String newPassword = StringHelper.generateString(10);
 		userBusinessLogic.createUser(login, email, MD5Helper.getMD5Of(newPassword), login, null);
 
 		RegisterUserMessage message = new RegisterUserMessage(email);
