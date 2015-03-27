@@ -57,9 +57,6 @@ public class User {
 	@ExcludeFromJson
 	private String token;
 
-	@Column(name = "small_img_path")
-	private String smallImgPath;
-
 	@Column(name = "big_img_path")
 	private String bigImgPath;
 
@@ -110,17 +107,6 @@ public class User {
 
 	public String getToken() {
 		return token;
-	}
-
-	public void setSmallImgPath(String smallImgPath) {
-		this.smallImgPath = smallImgPath;
-	}
-
-	public String getSmallImgPath() {
-		if (smallImgPath == null) {
-			return DEFAULT_SMALL_IMG_PATH;
-		}
-		return smallImgPath;
 	}
 
 	public void setBigImgPath(String bigImgPath) {

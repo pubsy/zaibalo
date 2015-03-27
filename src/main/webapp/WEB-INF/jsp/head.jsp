@@ -16,7 +16,7 @@
 		<script type="text/javascript" src="scripts/textarea.js?9"></script>
 		<script type="text/javascript" src="scripts/editpost.js?13"></script>
 		<script type="text/javascript" src="scripts/edit_comment.js?4"></script>
-		<script type="text/javascript" src="scripts/combobox.js?9"></script>
+		<script type="text/javascript" src="scripts/combobox.js?10"></script>
 		<script type="text/javascript" src="scripts/message.js?9"></script>
 		<script type="text/javascript" src="scripts/category_checkoxes.js?10"></script>
 		<script type="text/javascript" src="scripts/posts_sorting.js?10"></script>
@@ -83,7 +83,7 @@
 					<a href="javascript:deleteComment({{ id }})"><img src="img/icons/x.png"></a>
 				</div>
 				<div class="comment_avatar">
-					<img src="{{ author.smallImgPath }}" width="32" alt="{{ author.displayName }}">
+					<img src="{{ author.bigImgPath }}?size=small" width="32" alt="{{ author.displayName }}">
 				</div>
 				<div class="comment_content">
 					<div class="comment_author" onclick="location.href='/user/{{ author.id }}';">{{ author.displayName }}</div>

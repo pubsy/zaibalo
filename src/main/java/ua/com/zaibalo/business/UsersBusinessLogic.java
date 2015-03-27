@@ -21,7 +21,7 @@ public class UsersBusinessLogic {
 	private UsersDAO usersDAO;
 	
 	public User createUser(String loginName, String email, String password,
-								String displayName, String smallImagePath, String bigImagePath){
+								String displayName, String bigImagePath){
 		User user = new User();
 		user.setLoginName(loginName);
 		user.setEmail(email);
@@ -43,17 +43,12 @@ public class UsersBusinessLogic {
 		}else{
 			user.setBigImgPath(null);
 		}
-		if(smallImagePath != null){
-			user.setSmallImgPath(smallImagePath);
-		}else{
-			user.setSmallImgPath(null);
-		}
 
 		return usersDAO.insert(user);
 	}
 	
 	public User addUser(User user){
-		return createUser(user.getLoginName(), user.getEmail(), user.getPassword(), user.getDisplayName(), user.getSmallImgPath(), user.getBigImgPath());
+		return createUser(user.getLoginName(), user.getEmail(), user.getPassword(), user.getDisplayName(), user.getBigImgPath());
 	}
 	
 	public List<String> getAllUserNamesList(){

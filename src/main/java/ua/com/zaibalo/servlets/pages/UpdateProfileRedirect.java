@@ -155,9 +155,8 @@ public class UpdateProfileRedirect {
 		ImageIO.write(smallThumbnail, ext, smallOutputfile);
 		
 		user.setBigImgPath(userId  + "." + ext);
-		user.setSmallImgPath(userId + ".thumbnail" + "." + ext);
 		
-		usersDAO.updateUserImage(user, userId  + "." + ext, userId + ".thumbnail" + "." + ext);
+		usersDAO.updateUserImage(user, userId  + "." + ext);
 		
 		return StringHelper.getLocalString("user_image_successfully_updated");
 	}

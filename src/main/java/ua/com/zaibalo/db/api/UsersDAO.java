@@ -14,7 +14,7 @@ public interface UsersDAO{
 	User insert(User user);
 	User getUserById(int userId);
 	void updateUserDisplayName(User user, String newDisplayName);
-	void updateUserImage(User user, String bigImg, String smallImg);
+	void updateUserImage(User user, String bigImg);
 	void updateUserAbout(User user, String about);
 	List<String> getAllUserNamesList();
 	List<User> getAllUsers();

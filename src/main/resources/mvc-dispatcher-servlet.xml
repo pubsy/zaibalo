@@ -16,7 +16,6 @@
 	<mvc:resources mapping="/scripts/**" location="/scripts/" />
 	<mvc:resources mapping="/img/**" location="/img/" />
 	<mvc:resources mapping="/fonts/**" location="/fonts/" />
-	<mvc:resources mapping="/image/**" location="file:/home/ubuntu/userphoto/" />
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
 	<mvc:resources mapping="/robots.txt" location="/robots.txt" />
 

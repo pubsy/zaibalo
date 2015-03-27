@@ -70,9 +70,8 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public void updateUserImage(User user, String bigImg, String smallImg) {
+	public void updateUserImage(User user, String bigImg) {
 		user.setBigImgPath(bigImg);
-		user.setSmallImgPath(smallImg);
 		this.sessionFactory.getCurrentSession().update(user);
 	}
 
