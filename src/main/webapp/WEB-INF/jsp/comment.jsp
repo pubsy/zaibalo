@@ -8,7 +8,7 @@
 			</c:if>
 		</security:check>
 		<div class="comment_avatar">
-			<img src="image/${comment.author.bigImgPath}?size=small" width="32" alt="${comment.author.displayName}">
+			<img src="${comment.author.bigImgPath}?size=small" width="32" alt="${comment.author.displayName}">
 		</div>
 		
 		<div class="comment_content">

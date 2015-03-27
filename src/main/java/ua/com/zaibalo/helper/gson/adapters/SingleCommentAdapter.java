@@ -28,7 +28,7 @@ public class SingleCommentAdapter implements JsonSerializer<Comment> {
         Gson gson = GsonHelper.getGsonWithExclusionStrategy();
         User u = new User();
         u.setDisplayName(comment.getAuthor().getDisplayName());
-        u.setBigImgPath("/image/" + comment.getAuthor().getBigImgPath());
+        u.setBigImgPath(comment.getAuthor().getBigImgPath());
         JsonElement author = gson.toJsonTree(u);
         obj.add("author", author);
 

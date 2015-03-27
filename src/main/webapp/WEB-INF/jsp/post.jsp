@@ -21,7 +21,7 @@
 						</li>
 					</ul>
 				</div>
-		<img src="image/${post.author.bigImgPath}?size=small" alt="${post.author.displayName}"> 
+		<img src="${post.author.bigImgPath}?size=small" alt="${post.author.displayName}"> 
 		<a href='<c:url value="/user/${post.author.id}" />'><c:out value="${post.author.displayName}" /></a>
 	</div>
 	<div class="post_content">

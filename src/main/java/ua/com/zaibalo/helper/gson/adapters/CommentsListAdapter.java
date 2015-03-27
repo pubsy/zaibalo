@@ -21,9 +21,7 @@ public class CommentsListAdapter implements JsonSerializer<Comment>{
         obj.addProperty("ratingSum", comment.getRatingSum());
         obj.addProperty("ratingCount", comment.getRatingCount());
         
-        //String avatarUrl = "http://10.0.2.2:8080" + post.getAuthor().getSmallImgAbsolutePath();
-        String avatarUrl = "http://" + SpringPropertiesUtil.getProperty("app.server.domain") + "/image/" + 
-        		comment.getAuthor().getBigImgPath() + "?size=small";
+        String avatarUrl = comment.getAuthor().getBigImgPath() + "?size=small";
         obj.addProperty("authorAvatarUrl", avatarUrl);
         
         obj.addProperty("content", comment.getContent());

@@ -40,15 +40,9 @@ public class UsersBusinessLogic {
 		user.setToken(StringHelper.generateString(32));
 		if(bigImagePath != null){
 			user.setBigImgPath(bigImagePath);
-		}else{
-			user.setBigImgPath(null);
 		}
 
 		return usersDAO.insert(user);
-	}
-	
-	public User addUser(User user){
-		return createUser(user.getLoginName(), user.getEmail(), user.getPassword(), user.getDisplayName(), user.getBigImgPath());
 	}
 	
 	public List<String> getAllUserNamesList(){

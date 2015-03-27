@@ -1,6 +1,6 @@
 							<li class="dropdown login-dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-									<img src="image/${sessionScope.user.bigImgPath}?size=small" class="login_avatar" width="24px" >
+									<img src="${sessionScope.user.bigImgPath}?size=small" class="login_avatar" width="24px" >
 									<span class="hide-on-mobile"><c:out value="${sessionScope.user.displayName}" /></span><span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu login-menu">

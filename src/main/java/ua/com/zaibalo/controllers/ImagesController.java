@@ -41,7 +41,13 @@ public class ImagesController {
 		String userphotoPath = SpringPropertiesUtil.getProperty("userphoto.path");
 	    
 	    Path path = Paths.get(userphotoPath + name);
-	    InputStream in = Files.newInputStream(path);
+		InputStream in = null;
+		try {
+			in = Files.newInputStream(path);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("Image Not Found: " + name);
+		}
 
 	    final HttpHeaders headers = new HttpHeaders();
 	    if(name.toLowerCase().endsWith(".jpg")){

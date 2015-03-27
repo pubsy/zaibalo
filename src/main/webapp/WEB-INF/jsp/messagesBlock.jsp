@@ -12,7 +12,7 @@
 		<div class="comment_style">
 			<div>
 				<div class="comment_avatar">
-					<img src="image/${message.author.bigImgPath}?size=small" width="32" alt='<c:out value="${message.author.displayName}"/>'>
+					<img src="${message.author.bigImgPath}?size=small" width="32" alt='<c:out value="${message.author.displayName}"/>'>
 				</div>
 
 				<div class="comment_content">

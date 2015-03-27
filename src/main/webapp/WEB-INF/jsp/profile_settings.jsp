@@ -39,7 +39,7 @@
 					   			name="profileSettingsForm" id="profileSettingsForm">	
 					   			
 						<div class="profile_settings_section_title"><zmt:message key="change_picure"/></div>
-						<img src="image/${sessionScope.user.bigImgPath}"/>
+						<img src="${sessionScope.user.bigImgPath}"/>
 						<div class="profile_settings_attributes">
 							<zmt:message key="upload_new_avatar"/>
 							<div class="setting_detail"><zmt:message key="upload_new_avatar_restrictions"/></div>

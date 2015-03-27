@@ -21,9 +21,8 @@ import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 @Table(name = "users")
 public class User {
 
-	public static final String USERPHOTO_DIR_PATH = "/image/";
-	public static final String DEFAULT_BIG_IMG_PATH = "default.jpg";
-	public static final String DEFAULT_SMALL_IMG_PATH = "default.thumbnail.jpg";
+	private static final String DAFULT_JPG = "dafult.jpg";
+	public static final String IMAGES_PATH_URL = "http://zaibalo.com.ua/image/";
 
 	@Id
 	@GeneratedValue
@@ -57,8 +56,8 @@ public class User {
 	@ExcludeFromJson
 	private String token;
 
-	@Column(name = "big_img_path")
-	private String bigImgPath;
+	@Column(name = "photo")
+	private String bigImgPath = IMAGES_PATH_URL + DAFULT_JPG;
 
 	private String about;
 
@@ -114,9 +113,6 @@ public class User {
 	}
 
 	public String getBigImgPath() {
-		if (bigImgPath == null) {
-			return DEFAULT_BIG_IMG_PATH;
-		}
 		return bigImgPath;
 	}
 

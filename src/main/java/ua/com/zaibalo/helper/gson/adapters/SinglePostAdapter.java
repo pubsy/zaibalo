@@ -31,7 +31,7 @@ public class SinglePostAdapter implements JsonSerializer<Post>{
         obj.addProperty("ratingCount", post.getRatingCount());
         obj.addProperty("commentCount", post.getComments().size());
         
-        String avatarUrl = "http://" + SpringPropertiesUtil.getProperty("app.server.domain")  + "/image/" +  post.getAuthor().getBigImgPath() + "?size=small";
+        String avatarUrl = post.getAuthor().getBigImgPath() + "?size=small";
         obj.addProperty("authorAvatarUrl", avatarUrl);
         
         Gson gson = GsonHelper.getGsonWithExclusionStrategy();

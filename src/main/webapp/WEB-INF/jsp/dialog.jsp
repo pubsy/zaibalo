@@ -56,7 +56,7 @@
 					<br>
 					<div class="comment_style">
 						<div class="comment_avatar">
-							<img src="image/${sessionScope.user.bigImgPath}?size=small" width="32">
+							<img src="${sessionScope.user.bigImgPath}?size=small" width="32">
 						</div>
 						<div class="comment_content">
 								<textarea placeholder="<zmt:message key="message_text_three_dots"/>" rows="1" id="text"></textarea>
