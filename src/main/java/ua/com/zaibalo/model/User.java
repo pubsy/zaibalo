@@ -21,7 +21,7 @@ import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 @Table(name = "users")
 public class User {
 
-	private static final String DAFAULT_JPG = "dafault.jpg";
+	private static final String DEFAULT_JPG = "default.jpg";
 	public static final String IMAGES_PATH_URL = "http://zaibalo.com.ua/image/";
 
 	@Id
@@ -57,7 +57,7 @@ public class User {
 	private String token;
 
 	@Column(name = "photo")
-	private String bigImgPath = IMAGES_PATH_URL + DAFAULT_JPG;
+	private String bigImgPath = IMAGES_PATH_URL + DEFAULT_JPG;
 
 	private String about;
 
