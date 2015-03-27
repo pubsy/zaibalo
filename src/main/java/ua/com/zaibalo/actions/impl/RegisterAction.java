@@ -10,6 +10,7 @@ import ua.com.zaibalo.actions.Action;
 import ua.com.zaibalo.business.UsersBusinessLogic;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.email.SendEmailService;
+import ua.com.zaibalo.email.templates.RegisterUserMessage;
 import ua.com.zaibalo.helper.MD5Helper;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.helper.ajax.AjaxResponse;
@@ -57,6 +58,11 @@ public class RegisterAction  implements Action{
 		String newPassword = "1234";//StringHelper.generateString(10);
 		userBusinessLogic.createUser(login, email, MD5Helper.getMD5Of(newPassword), login, null);
 
+		RegisterUserMessage message = new RegisterUserMessage(email);
+		message.setLogin(login);
+		message.setNewPassword(newPassword);
+		sendEmailService.sendEmail(message);
+		
 		return new SuccessMessageResponse(StringHelper.getLocalString("check_your_mail_box"));
 	}
 	

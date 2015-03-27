@@ -17,6 +17,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.zaibalo.controllers.PagesController;
@@ -28,8 +29,9 @@ import ua.com.zaibalo.helper.ajax.AjaxResponse;
 import ua.com.zaibalo.helper.ajax.FailResponse;
 import ua.com.zaibalo.model.User;
 
+@WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:test-context.xml" , "classpath:mvc-dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"classpath:test-context.xml" , "classpath:mvc-dispatcher-servlet.xml", "classpath:email-service-stub.xml"})
 public class RemindPasswordActionTest {
     
     @Autowired
@@ -48,6 +50,7 @@ public class RemindPasswordActionTest {
         user.setLoginName("SomeLoginName");
         user.setDisplayName("CoolGuy");
         user.setPassword(oldPassword);
+        user.setToken("bla");
         usersDAO.insert(user);
         
         MockHttpServletRequest request = new MockHttpServletRequest();
