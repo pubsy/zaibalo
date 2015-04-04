@@ -42,11 +42,15 @@ public class ImagesController {
 	    
 	    Path path = Paths.get(userphotoPath + name);
 		InputStream in = null;
+		byte[] byteArray = null;
 		try {
 			in = Files.newInputStream(path);
+		    byteArray = IOUtils.toByteArray(in);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException("Image Not Found: " + name);
+		} finally {
+			in.close();
 		}
 
 	    final HttpHeaders headers = new HttpHeaders();
@@ -58,8 +62,6 @@ public class ImagesController {
 	    	headers.setContentType(MediaType.IMAGE_PNG);
 	    }
 
-	    byte[] byteArray = IOUtils.toByteArray(in);
-	    
 	    return new ResponseEntity<byte[]>(byteArray, headers, HttpStatus.OK);
 	}
 }
