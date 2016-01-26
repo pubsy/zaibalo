@@ -15,17 +15,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.zaibalo.constants.ZaibaloConstants;
 import ua.com.zaibalo.db.api.UsersDAO;
 import ua.com.zaibalo.helper.MD5Helper;
 import ua.com.zaibalo.helper.StringHelper;
 import ua.com.zaibalo.model.User;
-import ua.com.zaibalo.spring.SpringPropertiesUtil;
+
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Component
 @Transactional(propagation=Propagation.REQUIRED)
 public class UpdateProfileRedirect {
 
+	private static final String TEMP_FOLDER_PATH = "/tmp/";
 	@Autowired
 	private UsersDAO usersDAO;
 	
@@ -54,16 +57,7 @@ public class UpdateProfileRedirect {
 				notifyOnPM = "notify_on_pm".equals(name) ? "on".equals(value) : notifyOnPM;
 
 			} else {
-				File tempFolder = new File("tmp");
-				if (tempFolder.exists()) {
-					recursiveDeleteFolder(tempFolder);
-				}
-				boolean mkdir = tempFolder.mkdir();
-				if(!mkdir){
-					throw new ServletException("Could not create a directory: " + tempFolder.getAbsolutePath());
-				}
-
-				newAvatar = new File("tmp" + File.separator + item.getName());
+				newAvatar = new File(TEMP_FOLDER_PATH + item.getName());
 				try {
 					item.write(newAvatar);
 				} catch (Exception e) {
@@ -140,22 +134,27 @@ public class UpdateProfileRedirect {
 		BufferedImage bigThumbnail = Scalr.resize(img, 100);
 		BufferedImage smallThumbnail = Scalr.resize(img, 50);
 
-		//File bigOutputfile = new File(path + File.separator + "img/userphoto/" + name  + "." + ext);
-		String userPhoteDirPath = SpringPropertiesUtil.getProperty(ZaibaloConstants.USERPHOTO_DIR_PROP_NAME) + File.separator;
-		File bigOutputfile = new File(userPhoteDirPath + userId  + "." + ext);
+		//String userPhoteDirPath = SpringPropertiesUtil.getProperty(ZaibaloConstants.USERPHOTO_DIR_PROP_NAME) + File.separator;
+		String bigOutputFileKey = TEMP_FOLDER_PATH + userId  + "." + ext;
+		File bigOutputfile = new File(bigOutputFileKey);
 		if(bigOutputfile.exists()){
 			bigOutputfile.delete();
 		}
 		ImageIO.write(bigThumbnail, ext, bigOutputfile);
-
-		File smallOutputfile = new File(userPhoteDirPath + userId + ".thumbnail" + "." + ext);
+		
+		AmazonS3 s3Client = new AmazonS3Client();
+		String bucketName = "z-avatars";
+		s3Client.putObject(new PutObjectRequest(bucketName, userId  + "." + ext, bigOutputfile));
+		
+		File smallOutputfile = new File(TEMP_FOLDER_PATH + userId + ".thumbnail" + "." + ext);
 		if(smallOutputfile.exists()){
 			smallOutputfile.delete();
 		}
 		ImageIO.write(smallThumbnail, ext, smallOutputfile);
 		
-		user.setBigImgPath(User.IMAGES_PATH_URL + userId  + "." + ext);
+		s3Client.putObject(new PutObjectRequest(bucketName, userId + ".thumbnail" + "." + ext, smallOutputfile));		
 		
+		user.setBigImgPath(User.IMAGES_PATH_URL + userId  + "." + ext);
 		usersDAO.updateUserImage(user, User.IMAGES_PATH_URL + userId  + "." + ext);
 		
 		return StringHelper.getLocalString("user_image_successfully_updated");
@@ -213,17 +212,5 @@ public class UpdateProfileRedirect {
 		
 		return "";
 	}
-	
-	private void recursiveDeleteFolder(File dirPath) {
-		String[] ls = dirPath.list();
 
-		for (int idx = 0; idx < ls.length; idx++) {
-			File file = new File(dirPath, ls[idx]);
-			if (file.isDirectory())
-				recursiveDeleteFolder(file);
-			file.delete();
-		}
-		
-		dirPath.delete();
-	}
 }

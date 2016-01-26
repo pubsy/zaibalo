@@ -3,7 +3,6 @@ package ua.com.zaibalo.helper.gson.adapters;
 import java.lang.reflect.Type;
 
 import ua.com.zaibalo.model.Comment;
-import ua.com.zaibalo.spring.SpringPropertiesUtil;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

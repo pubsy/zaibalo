@@ -9,7 +9,7 @@ public class RegisterUserMessage extends AbstractMessage{
 	
 	public RegisterUserMessage(String recipientAddress){
 		super(recipientAddress);
-		this.subjectKey = "thank_you_for_reg";
+		this.subjectKey = "zaibalo_registration";
 		this.templatePath = "templates/register.html";
 	}
 

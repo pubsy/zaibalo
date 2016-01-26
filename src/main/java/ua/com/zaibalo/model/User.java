@@ -22,7 +22,7 @@ import ua.com.zaibalo.helper.gson.ExcludeFromJson;
 public class User {
 
 	private static final String DEFAULT_JPG = "default.jpg";
-	public static final String IMAGES_PATH_URL = "http://zaibalo.com.ua/image/";
+	public static final String IMAGES_PATH_URL = "https://s3.eu-central-1.amazonaws.com/z-avatars/";
 
 	@Id
 	@GeneratedValue
