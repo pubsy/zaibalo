@@ -25,7 +25,7 @@ public class PostsListAdapter implements JsonSerializer<Post>{
         obj.addProperty("ratingCount", post.getRatingCount());
         obj.addProperty("commentCount", post.getComments().size());
         
-        String avatarUrl = post.getAuthor().getBigImgPath() + "?size=small";
+        String avatarUrl = post.getAuthor().getSmallImgPath();
         obj.addProperty("authorAvatarUrl", avatarUrl);
         
         Gson gson = GsonHelper.getGsonWithExclusionStrategy();

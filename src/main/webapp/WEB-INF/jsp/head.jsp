@@ -83,7 +83,7 @@
 					<a href="javascript:deleteComment({{ id }})"><img src="img/icons/x.png"></a>
 				</div>
 				<div class="comment_avatar">
-					<img src="{{ author.bigImgPath }}?size=small" width="32" alt="{{ author.displayName }}">
+					<img src="{{ author.smallImgPath }}" width="32" alt="{{ author.displayName }}">
 				</div>
 				<div class="comment_content">
 					<div class="comment_author" onclick="location.href='/user/{{ author.id }}';">{{ author.displayName }}</div>

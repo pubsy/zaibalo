@@ -197,4 +197,14 @@ public class User {
 	public boolean isUser() {
 		return role.equals(Role.ROLE_USER);
 	}
+
+	public String getSmallImgPath() {
+		int i = bigImgPath.lastIndexOf('.');
+		if (i > 0) {
+		    String extension = bigImgPath.substring(i+1);
+		    return bigImgPath.substring(0, i).concat(".thumbnail.").concat(extension);
+		}
+		return bigImgPath;
+	}
+
 }
