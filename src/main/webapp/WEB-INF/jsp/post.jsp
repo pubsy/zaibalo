@@ -1,4 +1,4 @@
-<c:set var="comments_count" value="${post.getComments().size()}" />
+<c:set var="comments_count" value="${fn:length(post.comments)}" />
 <c:set var="comments" value="${post.comments}" />
 
 <div id='post_${post.id}' class="post">

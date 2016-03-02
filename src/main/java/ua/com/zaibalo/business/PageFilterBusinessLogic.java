@@ -31,7 +31,7 @@ public class PageFilterBusinessLogic {
 	
 	public void prePage(HttpServletRequest request, User user) {
 		
-		ServletContext servletContext = request.getServletContext();
+		ServletContext servletContext = request.getSession().getServletContext();
 		if(servletContext.getAttribute("categories") == null) {
 			List<Category> catList = categoriesDAO.getMostPopularCategoriesList(10);
 			servletContext.setAttribute("categories", catList);
