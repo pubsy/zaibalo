@@ -1,3 +1,5 @@
+Production web site: http://zaibalo.com.ua
+
 In order to init an eclipse project run:
 mvn clean install -DskipTests eclipse:clean eclipse:eclipse
 
