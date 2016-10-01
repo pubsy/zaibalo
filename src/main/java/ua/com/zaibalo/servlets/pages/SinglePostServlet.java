@@ -22,7 +22,7 @@ public class SinglePostServlet {
 		Post post = postsDAO.getObjectById(postId);
 		
 		if(post == null){
-			throw new RuntimeException(StringHelper.getLocalString("post_not_found_colon", Integer.toString(postId)));
+            return new ModelAndView("redirect:/404");
 		}
 		
 		ModelAndView mav = new ModelAndView();
